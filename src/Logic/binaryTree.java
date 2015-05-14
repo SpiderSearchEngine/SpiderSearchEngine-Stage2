@@ -2,90 +2,134 @@
 package Logic;
 
 /**
- *
- * @author jairo
+ * Clase que crea el arbol binario busqueda
+ * @author Gerald M, Jairo O
  */
-public class binaryTree {
-    
-    private NodeTree _root;
-    
-    public binaryTree(NodeTree root){
+public class binaryTree <G>{
+    private nodeTree _root;
+    /**
+     * Constructor de la clase
+     * @param root 
+     */
+    public binaryTree(nodeTree root){
         this._root=root;
     }
-    
-    public NodeTree getRoot(){
+    /**
+     * Metodo para obtener la raiz del arbol
+     * @return _root
+     */
+    public nodeTree getRoot(){
         return this._root;
     }
-    
-    public void setRoot(NodeTree newRoot){
+    /**
+     * Metodo para modificar la raiz del arbol 
+     * @param newRoot 
+     */
+    public void setRoot(nodeTree newRoot){
         this._root=newRoot;
     }
-    
-    public void insert (int pdata){
+    /**
+     * Metodo para insertar datos al arbol
+     * @param pData 
+     */
+    public void insert (G pData){
         if (_root==null)
-            _root=new NodeTree(pdata, null, null);
+            _root=new nodeTree(pData, null, null, null, null);
         else
-            insertAux(_root, new NodeTree(pdata, null, null));
-    }    
-    private void insertAux(NodeTree pRoot, NodeTree pData){
-        if(pRoot.getData()>pData.getData()){
-            if(pRoot.getHijoIzq()==null)
-                pRoot.setHijoIzq(pData);
+            insertAux(_root, new nodeTree(pData, null, null, null, null));
+    }
+    /**
+     * Metodo auxiliar para insertar datos
+     * @param pPadre
+     * @param pData 
+     */
+    private void insertAux(nodeTree pPadre, nodeTree pData){
+        if((Integer)pPadre.getData()>(Integer)pData.getData()){
+            if(pPadre.getHijoIzq()==null)
+                pPadre.setHijoIzq(pData);
             else
-                insertAux(pRoot.getHijoIzq(), pData);
+                insertAux(pPadre.getHijoIzq(), pData);
         }
         else{
-            if(pRoot.getHijoDer()==null)
-                pRoot.setHijoDer(pData);
+            if(pPadre.getHijoDer()==null)
+                pPadre.setHijoDer(pData);
             else
-                insertAux(pRoot.getHijoDer(), pData);
+                insertAux(pPadre.getHijoDer(), pData);
         }
     }
-    
-    public boolean find(int Data){
+    /**
+     * Metodo para buscar si un dato esta en la estructura
+     * @param pData
+     * @return 
+     */
+    public boolean find(G pData){
         if(_root==null)
             return false;
         else
-            return findAux(Data, _root);
-    }    
-    private boolean findAux(int pData, NodeTree pNode){
-        if(pData!=pNode.getData() && pNode.getHijoDer()==null && pNode.getHijoIzq()==null)
+            return findAux(pData, _root);
+    }
+    /**
+     * Metodo auxiliar para buscar un dato en la estructura
+     * @param pData
+     * @param pNode
+     * @return 
+     */
+    private boolean findAux(G pData, nodeTree pNode){
+        if((Integer)pData!=(Integer)pNode.getData() && pNode.getHijoDer()==null && pNode.getHijoIzq()==null)
             return false;
-        else if(pNode.getData()==pData)
+        else if((Integer)pNode.getData()==(Integer)pData)
             return true;
-        else if (pData<pNode.getData())
+        else if ((Integer)pData<(Integer)pNode.getData())
             return findAux(pData, pNode.getHijoIzq());
         else
             return findAux(pData, pNode.getHijoDer());
     }
-    
-    public NodeTree delete (int Data){
+    /**
+     * Metodo para borrar un dato de la estructura
+     * @param pData
+     * @return nodo eliminado
+     */
+    public nodeTree delete (G pData){
         if (_root == null)
             return null;
-        else if (_root.getData()==Data && _root.getHijoDer()==null && _root.getHijoIzq()==null){
-            NodeTree tmp = _root;
+        else if ((Integer)_root.getData()==(Integer)pData && _root.getHijoDer()==null && _root.getHijoIzq()==null){
+            nodeTree tmp = _root;
             _root=null;
             return tmp;
         }
-        else if (_root.getData()!=Data && _root.getHijoDer()==null && _root.getHijoIzq()==null)
+        else if ((Integer)_root.getData()!=(Integer)pData && _root.getHijoDer()==null && _root.getHijoIzq()==null)
             return null;
-        else if (_root.getData()==Data)
+        else if ((Integer)_root.getData()==(Integer)pData)
             return deleteRoot(_root);
         else
-            return deleteAux(Data, _root, null);            
-    }    
-    private NodeTree deleteAux(int pData, NodeTree pNode, NodeTree parent){
-        if (pData==pNode.getData()){
+            return deleteAux(pData, _root, null);            
+    }
+    /**
+     * Metodo auxilar para eliminar el dato
+     * @param pData
+     * @param pNode
+     * @param parent
+     * @return nodo eliminado
+     */
+    private nodeTree deleteAux(G pData, nodeTree pNode, nodeTree parent){
+        if ((Integer)pData==(Integer)pNode.getData()){
             return deleteAux2(pData, pNode, parent);
         }
-        else if (pData<pNode.getData())
+        else if ((Integer)pData<(Integer)pNode.getData())
             return deleteAux(pData, pNode.getHijoIzq(),pNode);
         else
             return deleteAux(pData, pNode.getHijoDer(),pNode);
-    }    
-    private NodeTree deleteAux2(int pData, NodeTree pNode, NodeTree parent){
+    }
+    /**
+     * Metodo auxilar para eliminar el dato
+     * @param pData
+     * @param pNode
+     * @param parent
+     * @return nodo eliminado
+     */
+    private nodeTree deleteAux2(G pData, nodeTree pNode, nodeTree parent){
         if(pNode.getHijoDer()==null && pNode.getHijoIzq()==null){
-                if (pNode.getData()<parent.getData()){
+                if ((Integer)pNode.getData()<(Integer)parent.getData()){
                     parent.setHijoIzq(null);
                     return pNode;
                 }
@@ -95,7 +139,7 @@ public class binaryTree {
                 }
             }
             else if(pNode.getHijoIzq()==null){
-                if (pNode.getData()<parent.getData()){
+                if ((Integer)pNode.getData()<(Integer)parent.getData()){
                     parent.setHijoIzq(pNode.getHijoDer());
                     pNode.setHijoDer(null);
                     return pNode;
@@ -107,7 +151,7 @@ public class binaryTree {
                 }
             }
             else if(pNode.getHijoDer()==null){
-                if (pNode.getData()<parent.getData()){
+                if ((Integer)pNode.getData()<(Integer)parent.getData()){
                     parent.setHijoIzq(pNode.getHijoIzq());
                     pNode.setHijoIzq(null);
                     return pNode;
@@ -119,10 +163,10 @@ public class binaryTree {
                 }
             }
             else{
-                NodeTree aux = menorMayores(pNode.getHijoDer());
-                NodeTree aux2 = getParent(aux);
-                if (pNode.getData()<parent.getData()){
-                    if(aux.getData()<aux2.getData())
+                nodeTree aux = menorMayores(pNode.getHijoDer());
+                nodeTree aux2 = aux.getPadre();
+                if ((Integer)pNode.getData()<(Integer)parent.getData()){
+                    if((Integer)aux.getData()<(Integer)aux2.getData())
                         aux2.setHijoIzq(null);
                     else
                         aux2.setHijoDer(null);
@@ -134,7 +178,7 @@ public class binaryTree {
                     return aux2;
                 }
                 else{                    
-                    if(aux.getData()<aux2.getData())
+                    if((Integer)aux.getData()<(Integer)aux2.getData())
                         aux2.setHijoIzq(null);
                     else
                         aux2.setHijoDer(null);
@@ -147,7 +191,12 @@ public class binaryTree {
                 }
             }
     }
-    private NodeTree deleteRoot(NodeTree pNode){
+    /**
+     * Metodo auxiliar para eliminar la raiz
+     * @param pNode
+     * @return nodo eliminado
+     */
+    private nodeTree deleteRoot(nodeTree pNode){
         if(pNode.getHijoIzq()==null){
             _root=pNode.getHijoDer();
             return pNode;
@@ -157,8 +206,8 @@ public class binaryTree {
             return pNode;
         }
         else{
-            NodeTree aux=menorMayores(pNode.getHijoDer());
-            NodeTree aux2=getParent(aux);
+            nodeTree aux=menorMayores(pNode.getHijoDer());
+            nodeTree aux2=aux.getPadre();
             if(aux==pNode.getHijoDer()){
                 aux.setHijoIzq(pNode.getHijoIzq());
                 pNode.setHijoIzq(null);
@@ -183,68 +232,22 @@ public class binaryTree {
             return pNode;
         }
     }
-    
-    private NodeTree menorMayores(NodeTree pNode){
+    /**
+     * Metodo para obtener el nodo menor de los mayores
+     * @param pNode
+     * @return 
+     */
+    private nodeTree menorMayores(nodeTree pNode){
         if (pNode.getHijoIzq()==null)
             return pNode;
         else
             return menorMayores(pNode.getHijoIzq());        
     }
-    
-    private NodeTree getParent(NodeTree pNode){
-        if(_root.getData()==pNode.getData())
-            return null;
-        else
-            return getParentAux(pNode, _root, _root);
-    }
-    private NodeTree getParentAux(NodeTree pData, NodeTree pNode, NodeTree parent){
-        if (pData.getData()==pNode.getData())
-            return parent;
-        if(pNode.getData()<pData.getData())
-            return getParentAux(pData, pNode.getHijoDer(), pNode);
-        else
-            return getParentAux(pData, pNode.getHijoIzq(), pNode);
-    }
-    
-    public void print(){
-        if(_root==null)
-            System.out.println("Arbol es nulo");
-        else{
-            System.out.println("Raiz: "+_root.getData());
-            if (_root.getHijoDer()!=null && _root.getHijoIzq()!=null){
-                System.out.println(_root.getHijoDer().getData()+" es HD de: "+_root.getData());
-                printHijos(_root.getHijoDer());
-                System.out.println(_root.getHijoIzq().getData()+" es HI de: "+_root.getData());
-                printHijos(_root.getHijoIzq());
-            }
-            else if (_root.getHijoDer()==null && _root.getHijoIzq()!=null)
-                printHijos(_root.getHijoIzq());
-            else if (_root.getHijoIzq()==null && _root.getHijoDer()!=null)
-                printHijos(_root.getHijoDer());
-            else
-                return;
-        }
-    }
-    private void printHijos(NodeTree hijo){
-        if (hijo.getHijoDer()!=null && hijo.getHijoIzq()!=null){
-            System.out.println(hijo.getHijoDer().getData()+" es HD de: "+hijo.getData());
-            printHijos(hijo.getHijoDer());
-            System.out.println(hijo.getHijoIzq().getData()+" es HI de: "+hijo.getData());
-            printHijos(hijo.getHijoIzq());
-        }
-        else if (hijo.getHijoDer()==null && hijo.getHijoIzq()!=null){
-            System.out.println(hijo.getHijoIzq().getData()+" es HI de: "+hijo.getData());            
-            printHijos(hijo.getHijoIzq());
-        }
-        else if (hijo.getHijoIzq()==null && hijo.getHijoDer()!=null){
-            System.out.println(hijo.getHijoDer().getData()+" es HD de: "+hijo.getData());
-            printHijos(hijo.getHijoDer());
-        }
-        else
-            return;
-    }
-    
-    public void preOrden(NodeTree pNode){
+    /**
+     * Metodo para hacer el recorrido en preorden
+     * @param pNode 
+     */    
+    public void preOrden(nodeTree pNode){
         if(pNode.getHijoIzq()== null && pNode.getHijoDer()==null)
             System.out.println(pNode.getData());
         else if(pNode.getHijoDer()==null){
@@ -261,7 +264,11 @@ public class binaryTree {
             preOrden(pNode.getHijoDer());
         }
     }
-    public void postOrden(NodeTree pNode){
+    /**
+     * Metodo para hacer el recorrido en postOrden
+     * @param pNode 
+     */
+    public void postOrden(nodeTree pNode){
         if(pNode.getHijoIzq()== null && pNode.getHijoDer()==null)
             System.out.println(pNode.getData());
         else if(pNode.getHijoDer()==null){
@@ -278,7 +285,11 @@ public class binaryTree {
             System.out.println(pNode.getData());
         }            
     }
-    public void orden(NodeTree pNode){
+    /**
+     * Metodo para hacer el recorrido en orden
+     * @param pNode 
+     */
+    public void orden(nodeTree pNode){
         if(pNode.getHijoIzq()== null && pNode.getHijoDer()==null)
             System.out.println(pNode.getData());
         else if(pNode.getHijoDer()==null){
@@ -295,4 +306,4 @@ public class binaryTree {
             orden(pNode.getHijoDer());
         } 
     }
-}   
+}
