@@ -39,6 +39,11 @@ public class stackList <G>{
     public node top (){
         return _head;
     }
+    /**
+     * 
+     * Metodo para imprimir en pantalla los valores o datos almacenados en la pila.
+     * 
+     */
     public void print (){
         node tmp=_head;
         int i=0;

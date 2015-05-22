@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Logic;
 /**
  *Clase para manipular el arbol Splay , ademas de realizar operaciones como la insercion.
@@ -124,13 +120,6 @@ public class arbolSplay <G>{
         tmp2.setHizq(pH.getHder());
         tmp.setHder(tmp2);
         return tmp;
-    }
-    /**
-     * Metodo que solo realiza la lectura del datos que se encuentre adentro de un nodo
-     * @param pH, corresponde al nodo el cual se requiere investigar
-     */
-    public void print(nodoParaArbolSplay pH){
-        System.out.println(pH.getValor());
     }
     /**
      * Metodo para recorrer el arbol, primero hacia la izquierda y luego hacia la derecha.

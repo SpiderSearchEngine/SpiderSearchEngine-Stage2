@@ -1,13 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Logic;
 
 /**
- *
- * @author gerald
+ * Clase nodo exclusiva para ser utilizada con el arbol Heap
+ * @author Gerald M, Jairo O.
  */
 public class nodoParaArbolSplay <G>{
     private nodoParaArbolSplay raiz;
@@ -17,6 +13,10 @@ public class nodoParaArbolSplay <G>{
     private int indice;
     private int profundidad;
     private String valor;
+    /**
+     * Constructor de la clase
+     * @param indice, numero de indice en el array
+     */
     public nodoParaArbolSplay(int indice){
         this.raiz=null;
         this.padre=null;
@@ -28,6 +28,7 @@ public class nodoParaArbolSplay <G>{
     }
 
     /**
+     * Metodo para obtener el dato del nodo Padre.
      * @return the padre
      */
     public nodoParaArbolSplay getPadre() {
@@ -35,6 +36,7 @@ public class nodoParaArbolSplay <G>{
     }
 
     /**
+     * Metodo para setear el dato del nodo Padre.
      * @param padre the padre to set
      */
     public void setPadre(nodoParaArbolSplay padre) {
@@ -42,6 +44,7 @@ public class nodoParaArbolSplay <G>{
     }
 
     /**
+     * Metodo para obtener el dato del nodo Hijo derecho
      * @return the Hder
      */
     public nodoParaArbolSplay getHder() {
@@ -49,6 +52,7 @@ public class nodoParaArbolSplay <G>{
     }
 
     /**
+     * Metodo para setear el dato del nodo Hijo derecho
      * @param Hder the Hder to set
      */
     public void setHder(nodoParaArbolSplay Hder) {
@@ -56,6 +60,7 @@ public class nodoParaArbolSplay <G>{
     }
 
     /**
+     * Metodo para obtener el dato del nodo hijo izquierdo.
      * @return the Hizq
      */
     public nodoParaArbolSplay getHizq() {
@@ -63,6 +68,7 @@ public class nodoParaArbolSplay <G>{
     }
 
     /**
+     * Metodo para setear el dato del nodo hijo izquierdo.
      * @param Hizq the Hizq to set
      */
     public void setHizq(nodoParaArbolSplay Hizq) {
@@ -70,6 +76,7 @@ public class nodoParaArbolSplay <G>{
     }
 
     /**
+     * Metodo para obtener el dato del indice.
      * @return the indice
      */
     public int getIndice() {
@@ -77,6 +84,7 @@ public class nodoParaArbolSplay <G>{
     }
 
     /**
+     * Metodo para setear el dato del indice.
      * @param indice the indice to set
      */
     public void setIndice(int indice) {
@@ -84,6 +92,7 @@ public class nodoParaArbolSplay <G>{
     }
 
     /**
+     * Metodo para obtener el dato de valor.
      * @return the valor
      */
     public String getValor() {
@@ -91,6 +100,7 @@ public class nodoParaArbolSplay <G>{
     }
 
     /**
+     * Metodo para setear el dato de valor.
      * @param valor the valor to set
      */
     public void setValor(String valor) {
@@ -98,6 +108,7 @@ public class nodoParaArbolSplay <G>{
     }
 
     /**
+     * Metodo para obtener el dato de la profundidad.
      * @return the profundidad
      */
     public int getProfundidad() {
@@ -105,6 +116,7 @@ public class nodoParaArbolSplay <G>{
     }
 
     /**
+     *  Metodo para setear el dato de la profundidad.
      * @param profundidad the profundidad to set
      */
     public void setProfundidad(int profundidad) {

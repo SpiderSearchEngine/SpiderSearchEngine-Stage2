@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Logic;
 
 /**
@@ -19,6 +15,7 @@ public class nodeArray {
     }
 
     /**
+     * Metodo para obtener el dato de un elemento.
      * @return the _Data
      */
     public int getData() {
@@ -26,6 +23,7 @@ public class nodeArray {
     }
 
     /**
+     * Metodo para modificar el dato.
      * @param _Data the _Data to set
      */
     public void setData(int _Data) {

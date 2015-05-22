@@ -18,7 +18,7 @@ public class extraeTexto {
 
     public static String linkfinal;
     /**
-    * Funcion para extraer todo el texto de una pagina html.
+    * Metodo para extraer todo el texto de una pagina html.
     * @return
     * @throws MalformedURLException
     * @throws IOException 

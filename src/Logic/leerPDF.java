@@ -14,8 +14,8 @@ import org.apache.pdfbox.util.PDFTextStripper;
  *
  */
 public class leerPDF {
-		private PDFParser _parser;
-		private PDFTextStripper _pdfStripper;
+            private PDFParser _parser;
+            private PDFTextStripper _pdfStripper;
 	    private PDDocument _pdDoc ;
 	    private COSDocument _cosDoc ;
 	    private String _Text ;
