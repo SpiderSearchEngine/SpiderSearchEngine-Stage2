@@ -248,179 +248,9 @@ public class Splay {
         }
     }
 
-    /**
-     *
-     * @param n1
-     */
-    public void zigZigAndZagZag(nodoSplay n1) {
-        nodoSplay y;
-        nodoSplay z;
-        nodoSplay zParent;
-        nodoSplay R1;
-        nodoSplay R2;
-        nodoSplay R3;
-        nodoSplay R4;
-        y = n1.getPadre();
-        z = y.getPadre();
-        zParent = z.getPadre();
-        boolean padreComohijoIzquierdo = (y == z.getHijoIzquierdo());
-        boolean n1ComoHijoDerecho = (n1 == y.getHijoIzquierdo());
-        if (n1ComoHijoDerecho && padreComohijoIzquierdo) {
-            R1 = n1.getHijoIzquierdo();
-            R2 = n1.getHijoDerecho();
-            R3 = y.getHijoDerecho();
-            R4 = z.getHijoDerecho();
-            n1.setHijoIzquierdo(R1);
-            if (R1 != null) {
-                R1.setPadre(n1);
-            }
-            n1.setHijoDerecho(y);
-            y.setPadre(n1);
+   
 
-            y.setHijoIzquierdo(R2);
-            if (R2 != null) {
-                R2.setPadre(y);
-            }
-            y.setHijoDerecho(z);  ///////////////////
-            z.setPadre(y);
-            z.setHijoIzquierdo(R3);
-            if (R3 != null) {
-                R3.setPadre(z);
-            }
-            z.setHijoDerecho(R4);
-            if (R4 != null) {
-                R4.setPadre(z);
-            }
-        } else if (!n1ComoHijoDerecho && padreComohijoIzquierdo) {
-            R1 = y.getHijoIzquierdo();
-            R2 = n1.getHijoIzquierdo();
-            R3 = n1.getHijoDerecho();
-            R4 = z.getHijoDerecho();
-            n1.setHijoIzquierdo(y);
-            y.setPadre(n1);
-            n1.setHijoDerecho(z);
-            z.setPadre(n1);
-            y.setHijoIzquierdo(R1);
-            if (R1 != null) {
-                R1.setPadre(y);
-            }
-            y.setHijoDerecho(R2);
-            if (R2 != null) {
-                R2.setPadre(y);
-            }
-            z.setHijoIzquierdo(R3);
-            if (R3 != null) {
-                R3.setPadre(z);
-            }
-            z.setHijoDerecho(R4);
-            if (R4 != null) {
-                R4.setPadre(z);
-            }
-        } else if (n1ComoHijoDerecho && padreComohijoIzquierdo) {
-            R1 = z.getHijoIzquierdo();
-            R2 = n1.getHijoIzquierdo();
-            R3 = n1.getHijoDerecho();
-            R4 = y.getHijoDerecho();
-            n1.setHijoIzquierdo(z);
-            z.setPadre(n1);
-            n1.setHijoDerecho(y);
-            y.setPadre(n1);
-            y.setHijoIzquierdo(R3);
-            if (R3 != null) {
-                R3.setPadre(y);
-            }
-            y.setHijoDerecho(R4);
-            if (R4 != null) {
-                R4.setPadre(y);
-            }
-            z.setHijoIzquierdo(R1);
-            if (R1 != null) {
-                R1.setPadre(z);
-            }
-            z.setHijoDerecho(R2);
-            if (R2 != null) {
-                R2.setPadre(z);
-            }
-        } else {
-            R1 = z.getHijoIzquierdo();
-            R2 = y.getHijoIzquierdo();
-            R3 = n1.getHijoIzquierdo();
-            R4 = n1.getHijoDerecho();
-            n1.setHijoIzquierdo(y);
-            y.setPadre(n1);
-            n1.setHijoDerecho(R4);
-            if (R4 != null) {
-                R4.setPadre(n1);
-            }
-            y.setHijoIzquierdo(z);
-            z.setPadre(y);
-            y.setHijoDerecho(R3);
-            if (R3 != null) {
-                R3.setPadre(y);
-            }
-            z.setHijoIzquierdo(R1);
-            if (R1 != null) {
-                R1.setPadre(z);
-            }
-            z.setHijoDerecho(R2);
-            if (R2 != null) {
-                R2.setPadre(z);
-            }
-        }
-        if (_raiz == z) {
-            _raiz = n1;
-            n1.setPadre(null);
-        } else {
-            if (zParent.getHijoIzquierdo() == z) {
-                n1.setPadre(zParent);
-                zParent.setHijoIzquierdo(n1);
-            } else {
-                n1.setPadre(zParent);
-                zParent.setHijoDerecho(n1);
-            }
-        }
-    }
-
-    public void mostrar() {
-        System.out.println(_raiz.getPadre());
-        System.out.println("Raiz : " + _raiz.getPalabra());
-        System.out.println("");
-        if (_raiz.getHijoIzquierdo() != null) {
-            System.out.println("Padre Zurdo : " + _raiz.getHijoIzquierdo().getPalabra());
-            if (_raiz.getHijoIzquierdo().getHijoIzquierdo() != null) {
-                System.out.println("Nieto Zurdo : " + _raiz.getHijoIzquierdo().getHijoIzquierdo().getPalabra());
-            } else {
-                System.out.println("Nieto zurdo no tiene");
-            }
-            if (_raiz.getHijoIzquierdo().getHijoDerecho() != null) {
-                System.out.println("Nieto Derecho : " + _raiz.getHijoIzquierdo().getHijoDerecho().getPalabra());
-            } else {
-                System.out.println("Nieto Derecho no tiene");
-            }
-        } else {
-            System.out.println("Padre zurdo no tiene");
-        }
-
-        if (_raiz.getHijoDerecho() != null) {
-            System.out.println("Padre Diestro : " + _raiz.getHijoDerecho().getPalabra());
-            if (_raiz.getHijoDerecho().getHijoDerecho() != null) {
-                System.out.println("Nieto Diestro : " + _raiz.getHijoDerecho().getHijoDerecho().getPalabra());
-            } else {
-                System.out.println("Nieto Diestro no tiene");
-            }
-            if (_raiz.getHijoDerecho().getHijoIzquierdo() != null) {
-                System.out.println("Nieto Zurdo : " + _raiz.getHijoDerecho().getHijoIzquierdo().getPalabra());
-            } else {
-                System.out.println("Nieto Zurdo no tiene");
-            }
-        } else {
-            System.out.println("Padre Diestro no tiene");
-        }
-
-        System.out.println("");
-        System.out.println("");
-        System.out.println("");
-    }
+    
     
     /**
      * Metodo para eliminar elementos o elementos del arbol.
@@ -469,4 +299,44 @@ public class Splay {
        return;
 
    }
+  public void mostrar() {
+        System.out.println(_raiz.getPadre());
+        System.out.println("Raiz : " + _raiz.getPalabra());
+        System.out.println("");
+        if (_raiz.getHijoIzquierdo() != null) {
+            System.out.println("Padre Zurdo : " + _raiz.getHijoIzquierdo().getPalabra());
+            if (_raiz.getHijoIzquierdo().getHijoIzquierdo() != null) {
+                System.out.println("Nieto Zurdo : " + _raiz.getHijoIzquierdo().getHijoIzquierdo().getPalabra());
+            } else {
+                System.out.println("Nieto zurdo no tiene");
+            }
+            if (_raiz.getHijoIzquierdo().getHijoDerecho() != null) {
+                System.out.println("Nieto Derecho : " + _raiz.getHijoIzquierdo().getHijoDerecho().getPalabra());
+            } else {
+                System.out.println("Nieto Derecho no tiene");
+            }
+        } else {
+            System.out.println("Padre zurdo no tiene");
+        }
+
+        if (_raiz.getHijoDerecho() != null) {
+            System.out.println("Padre Diestro : " + _raiz.getHijoDerecho().getPalabra());
+            if (_raiz.getHijoDerecho().getHijoDerecho() != null) {
+                System.out.println("Nieto Diestro : " + _raiz.getHijoDerecho().getHijoDerecho().getPalabra());
+            } else {
+                System.out.println("Nieto Diestro no tiene");
+            }
+            if (_raiz.getHijoDerecho().getHijoIzquierdo() != null) {
+                System.out.println("Nieto Zurdo : " + _raiz.getHijoDerecho().getHijoIzquierdo().getPalabra());
+            } else {
+                System.out.println("Nieto Zurdo no tiene");
+            }
+        } else {
+            System.out.println("Padre Diestro no tiene");
+        }
+
+        System.out.println("");
+        System.out.println("");
+        System.out.println("");
+    }
 }
