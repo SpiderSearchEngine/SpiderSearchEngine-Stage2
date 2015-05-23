@@ -37,7 +37,7 @@ public class avlTree <G>{
     public void insert (G pData){
         if(_root==null){
             _root=new nodeTree(pData, null, null,null, null);
-            _root.setAltura(_cero);
+            _root.setAltura(_uno);
             _root.setFE(_cero);
         }
         else
@@ -53,7 +53,7 @@ public class avlTree <G>{
             if(padre.getHijoDer()==null){
                 padre.setHijoDer(pNode);
                 pNode.setPadre(padre);
-                verificarRotaciones(_root);
+                modificarAltura(_root);
             }
             else
                 insertAux(pNode,padre.getHijoDer());
@@ -61,8 +61,8 @@ public class avlTree <G>{
         else{
             if(padre.getHijoIzq()==null){
                 padre.setHijoIzq(pNode);
-                pNode.setPadre(padre);                
-                verificarRotaciones(_root);
+                pNode.setPadre(padre);
+                modificarAltura(_root);
             }
             else
                 insertAux(pNode, padre.getHijoIzq());
@@ -74,14 +74,37 @@ public class avlTree <G>{
      */
     public void RSD(nodeTree pNode){
         nodeTree tmp=pNode.getHijoIzq();
-        pNode.setHijoIzq(tmp.getHijoDer());
-        tmp.setHijoDer(pNode);
-        if(pNode==_root)
-            _root=tmp;
-        else if ((Integer)pNode.getData()>(Integer)pNode.getPadre().getData())
-            pNode.getPadre().setHijoDer(tmp);
-        else
-            pNode.getPadre().setHijoIzq(tmp);
+        if(tmp.getHijoDer()==null){
+            tmp.setHijoDer(pNode);
+            pNode.setHijoIzq(null);
+            if(pNode==_root){
+                _root=tmp;
+                tmp.setPadre(null);
+            }
+            else if ((Integer)pNode.getData()>(Integer)pNode.getPadre().getData()){
+                pNode.getPadre().setHijoDer(tmp);
+                tmp.setPadre(pNode.getPadre());
+            }
+            else{
+                pNode.getPadre().setHijoIzq(tmp);
+                tmp.setPadre(pNode.getPadre());
+            }
+            pNode.setPadre(tmp);
+            
+        }
+        else{
+            pNode.setHijoIzq(tmp.getHijoDer());
+            pNode.getHijoIzq().setPadre(pNode);
+            tmp.setHijoDer(pNode);
+            if(pNode==_root)
+                _root=tmp;
+            else if ((Integer)pNode.getData()>(Integer)pNode.getPadre().getData())
+                pNode.getPadre().setHijoDer(tmp);
+            else
+                pNode.getPadre().setHijoIzq(tmp);
+            pNode.setPadre(tmp);
+        }
+        modificarAltura(tmp);
     }
     /**
      * Metodo que realiza la rotacion simple a la izquierda
@@ -89,14 +112,40 @@ public class avlTree <G>{
      */
     public void RSI(nodeTree pNode){
         nodeTree tmp=pNode.getHijoDer();
-        pNode.setHijoDer(tmp.getHijoIzq());
-        tmp.setHijoIzq(pNode);
-        if(pNode==_root)
-            _root=tmp;
-        else if ((Integer)pNode.getData()>(Integer)pNode.getPadre().getData())
-            pNode.getPadre().setHijoDer(tmp);
-        else
-            pNode.getPadre().setHijoIzq(tmp);
+        if(tmp.getHijoIzq()==null){
+            tmp.setHijoIzq(pNode);
+            pNode.setHijoDer(null);
+            if(pNode==_root){
+                _root=tmp;
+                tmp.setPadre(null);
+            }
+            else if ((Integer)pNode.getData()>(Integer)pNode.getPadre().getData()){
+                pNode.getPadre().setHijoDer(tmp);
+                tmp.setPadre(pNode.getPadre());
+            }
+            else{
+                pNode.getPadre().setHijoIzq(tmp);
+                tmp.setPadre(pNode.getPadre());
+            }
+            pNode.setPadre(tmp);
+            
+        }
+        else{
+            pNode.setHijoDer(tmp.getHijoIzq());
+            pNode.getHijoDer().setPadre(pNode);
+            tmp.setHijoIzq(pNode);
+            if(pNode==_root){
+                _root=tmp;
+                tmp.setPadre(null);
+            }
+            else if ((Integer)pNode.getData()>(Integer)pNode.getPadre().getData())
+                pNode.getPadre().setHijoDer(tmp);
+            else
+                pNode.getPadre().setHijoIzq(tmp);
+            tmp.setPadre(pNode.getPadre());
+            pNode.setPadre(tmp);
+        }
+        modificarAltura(tmp);
     }
     /**
      * Metodo que realiza la rotacion doble a la derecha
@@ -105,17 +154,46 @@ public class avlTree <G>{
     public void RDD(nodeTree pNode){
         nodeTree tmp=pNode.getHijoIzq();
         nodeTree tmp2=tmp.getHijoDer();
-        tmp.setHijoDer(tmp2.getHijoIzq());
-        pNode.setHijoIzq(tmp2);
-        tmp2.setHijoIzq(tmp);
-        pNode.setHijoIzq(tmp2.getHijoDer());
-        tmp2.setHijoDer(pNode);
-        if(pNode==_root)
-            _root=tmp;
-        else if ((Integer)pNode.getData()>(Integer)pNode.getPadre().getData())
-            pNode.getPadre().setHijoDer(tmp2);
-        else
-            pNode.getPadre().setHijoIzq(tmp2);        
+        nodeTree tmp3=pNode.getPadre();
+        if(tmp2.getHijoIzq()!=null){
+            tmp.setHijoDer(tmp2.getHijoIzq());
+            tmp2.getHijoIzq().setPadre(tmp);
+            pNode.setHijoIzq(tmp2);
+            tmp2.setPadre(pNode);
+            tmp2.setHijoIzq(tmp);
+            tmp.setPadre(tmp2);
+        }
+        else{
+            pNode.setHijoIzq(tmp2);
+            tmp2.setPadre(pNode);
+            tmp2.setHijoIzq(tmp);
+            tmp.setPadre(tmp2);
+            tmp.setHijoDer(null);
+        }
+        if(tmp2.getHijoDer()==null){
+            tmp2.setHijoDer(pNode);
+            pNode.setHijoIzq(null);
+        }
+        else{
+            pNode.setHijoIzq(tmp2.getHijoDer());
+            tmp2.getHijoDer().setPadre(pNode);
+            tmp2.setHijoDer(pNode);
+        }
+        if(pNode==_root){
+            _root=tmp2;
+            pNode.setPadre(tmp2);
+        }
+        else if ((Integer)pNode.getData()>(Integer)pNode.getPadre().getData()){
+            tmp2.setPadre(tmp3);
+            tmp3.setHijoDer(tmp2);
+            pNode.setPadre(tmp2);
+        }
+        else{
+            tmp2.setPadre(tmp3);
+            tmp3.setHijoIzq(tmp2);
+            pNode.setPadre(tmp2);
+        }
+        modificarAltura(tmp2);
     }
     /**
      * Metodo que realiza la rotacion doble a la izquierda
@@ -124,17 +202,46 @@ public class avlTree <G>{
     public void RDI(nodeTree pNode){
         nodeTree tmp=pNode.getHijoDer();
         nodeTree tmp2=tmp.getHijoIzq();
-        tmp.setHijoIzq(tmp2.getHijoDer());
-        pNode.setHijoDer(tmp2);
-        tmp2.setHijoDer(tmp);
-        pNode.setHijoDer(tmp2.getHijoIzq());
-        tmp2.setHijoIzq(pNode);
-        if(pNode==_root)
-            _root=tmp;
-        else if ((Integer)pNode.getData()>(Integer)pNode.getPadre().getData())
-            pNode.getPadre().setHijoDer(tmp2);
-        else
-            pNode.getPadre().setHijoIzq(tmp2); 
+        nodeTree tmp3=pNode.getPadre();
+        if(tmp2.getHijoDer()!=null){
+            tmp.setHijoIzq(tmp2.getHijoDer());
+            tmp2.getHijoDer().setPadre(tmp);
+            pNode.setHijoDer(tmp2);
+            tmp2.setPadre(pNode);
+            tmp2.setHijoDer(tmp);
+            tmp.setPadre(tmp2);
+        }
+        else{
+            pNode.setHijoDer(tmp2);
+            tmp2.setPadre(pNode);
+            tmp2.setHijoDer(tmp);
+            tmp.setPadre(tmp2);
+            tmp.setHijoIzq(null);
+        }
+        if(tmp2.getHijoIzq()==null){
+            tmp2.setHijoIzq(pNode);
+            pNode.setHijoDer(null);
+        }
+        else{
+            pNode.setHijoDer(tmp2.getHijoIzq());
+            tmp2.getHijoIzq().setPadre(pNode);
+            tmp2.setHijoIzq(pNode);
+        }
+        if(pNode==_root){
+            _root=tmp2;
+            pNode.setPadre(tmp2);
+        }
+        else if ((Integer)pNode.getData()>(Integer)pNode.getPadre().getData()){
+            tmp2.setPadre(tmp3);
+            tmp3.setHijoIzq(tmp2);
+            pNode.setPadre(tmp2);
+        }
+        else{
+            tmp2.setPadre(tmp3);
+            tmp3.setHijoDer(tmp2);
+            pNode.setPadre(tmp2);
+        }
+        modificarAltura(tmp2);
     }
     /**
      * Metodo para buscar en el arbol
@@ -168,56 +275,47 @@ public class avlTree <G>{
      * @param pNode 
      */
     public void modificarAltura(nodeTree pNode){
-        if(pNode.getHijoIzq()== null && pNode.getHijoDer()==null)
-            pNode.setAltura(_cero);
+        if(pNode.getHijoIzq()== null && pNode.getHijoDer()==null){
+            pNode.setAltura(_uno);
+            modificarFactorEquilibrio(pNode);
+        }
         else if(pNode.getHijoDer()==null){
             modificarAltura(pNode.getHijoIzq());
             pNode.setAltura(pNode.getHijoIzq().getAltura()+1);
+            modificarFactorEquilibrio(pNode);
+            verificarRotaciones(pNode);
         }
         else if(pNode.getHijoIzq()==null){
             modificarAltura(pNode.getHijoDer());
             pNode.setAltura(pNode.getHijoDer().getAltura()+1);
+            modificarFactorEquilibrio(pNode);
+            verificarRotaciones(pNode);
         }
         else{
             modificarAltura(pNode.getHijoIzq());
             modificarAltura(pNode.getHijoDer());
-            if(pNode.getHijoIzq().getAltura()>pNode.getHijoDer().getAltura())
+            if(pNode.getHijoIzq().getAltura()>pNode.getHijoDer().getAltura()){
                 pNode.setAltura(pNode.getHijoIzq().getAltura()+1);
-            else
+                modificarFactorEquilibrio(pNode);
+                verificarRotaciones(pNode);
+            }
+            else{
                 pNode.setAltura(pNode.getHijoDer().getAltura()+1);
+                modificarFactorEquilibrio(pNode);
+                verificarRotaciones(pNode);
+            }
         }            
     }
     /**
      * Metodo para modificar el factor de equilibrio
      * @param pNode 
      */
-    public void modificarFactorEquilibrio(nodeTree pNode){
-        if(pNode.getHijoIzq()== null && pNode.getHijoDer()==null)
-            factorEquilibrioAux(pNode);
-        else if(pNode.getHijoDer()==null){
-            modificarFactorEquilibrio(pNode.getHijoIzq());
-            factorEquilibrioAux(pNode);
-        }
-        else if(pNode.getHijoIzq()==null){
-            modificarFactorEquilibrio(pNode.getHijoDer());
-            factorEquilibrioAux(pNode);
-        }
-        else{
-            modificarFactorEquilibrio(pNode.getHijoIzq());            
-            modificarFactorEquilibrio(pNode.getHijoDer());
-            factorEquilibrioAux(pNode);
-        }
-    }
-    /**
-     * Metodo auxiliar para modificar el factor de equilibrio
-     * @param pNode 
-     */
-    private void factorEquilibrioAux(nodeTree pNode){
+    private void modificarFactorEquilibrio (nodeTree pNode){
         if (pNode.getHijoDer()==null && pNode.getHijoIzq()==null)
-            pNode.setFE(_cero);
-        else if (pNode.getHijoDer()==null && pNode.getHijoIzq().getAltura()==_cero)
+            pNode.setFE(0);
+        else if (pNode.getHijoDer()==null && pNode.getHijoIzq().getAltura()==1)
             pNode.setFE(-_uno);
-        else if (pNode.getHijoIzq()==null && pNode.getHijoDer().getAltura()==_cero)
+        else if (pNode.getHijoIzq()==null && pNode.getHijoDer().getAltura()==1)
              pNode.setFE(_uno);
         else if(pNode.getHijoDer()==null)
             pNode.setFE(-pNode.getHijoIzq().getAltura());
@@ -226,58 +324,24 @@ public class avlTree <G>{
         else
             pNode.setFE(pNode.getHijoDer().getAltura()-pNode.getHijoIzq().getAltura());
     }
+    
     /**
      * Metodo que valida si hay que hacer rotaciones
      * @param pNode 
      */
-    public void verificarRotaciones(nodeTree pNode){
-        if(pNode.getHijoIzq()== null && pNode.getHijoDer()==null)
-            verificarRotacionesAux(pNode);
-        else if(pNode.getHijoDer()==null){
-            verificarRotaciones(pNode.getHijoIzq());            
-            verificarRotacionesAux(pNode);
-        }
-        else if(pNode.getHijoIzq()==null){ 
-            verificarRotaciones(pNode.getHijoDer());           
-            verificarRotacionesAux(pNode);
-        }
-        else{
-            verificarRotaciones(pNode.getHijoIzq());            
-            verificarRotaciones(pNode.getHijoDer());            
-            verificarRotacionesAux(pNode);
-        }            
-    }
-    /**
-     * Metodo auxiliar para verificar si hay que hacer rotaciones
-     * @param pNode 
-     */
-    private void verificarRotacionesAux(nodeTree pNode){
+    private void verificarRotaciones(nodeTree pNode){
         if(pNode.getFE()==-2 && (pNode.getHijoIzq().getFE()==-1
-                || pNode.getHijoIzq().getFE()==_cero || pNode.getHijoIzq()==null)){
+                || pNode.getHijoIzq().getFE()==0 || pNode.getHijoIzq()==null))
             RSD(pNode);
-            modificarAltura(this.getRoot());
-            modificarFactorEquilibrio(this.getRoot());
-            }
         else if (pNode.getFE()==2 && (pNode.getHijoDer().getFE()==1 
-                || pNode.getHijoDer().getFE()==_cero || pNode.getHijoDer()==null)){
+                || pNode.getHijoDer().getFE()==0 || pNode.getHijoDer()==null))
             RSI(pNode);
-            modificarAltura(this._root);
-            modificarFactorEquilibrio(this._root);
-        }
-        else if (pNode.getFE()==-2 && pNode.getHijoIzq().getFE()==1){
+        else if (pNode.getFE()==-2 && pNode.getHijoIzq().getFE()==1 )
             RDD(pNode);
-            modificarAltura(this._root);
-            modificarFactorEquilibrio(this._root);
-        }
-        else if (pNode.getFE()==2 && pNode.getHijoIzq().getFE()==-1){
+        else if (pNode.getFE()==2 && pNode.getHijoIzq().getFE()==-1)
             RDI(pNode);
-            modificarAltura(this.getRoot());
-            modificarFactorEquilibrio(this.getRoot());
-        }
-        else{
-            modificarAltura(this.getRoot());
-            modificarFactorEquilibrio(this.getRoot());
-        }
+        else
+            return;
     }
     /**
      * Metodo que realiza recorrido en postOrden
