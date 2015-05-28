@@ -8,15 +8,17 @@ package Logic;
 public class url {
     
     private int _numAsoc;
+    private int _pesoAsoc;
     private String _direccion;
     /**
      * Constructor de la clase
      * @param pnumAsoc, grado de recursividad
      * @param pdireccion, url a procesar
      */
-    public url (String pdireccion, int pnumAsoc){
+    public url (String pdireccion, int pnumAsoc, int pPesoAsoc){
         this._numAsoc=pnumAsoc;
         this._direccion=pdireccion;
+        this._pesoAsoc=pPesoAsoc;
     }/**
      * Metodo para modificar el numero asociado
      * @param pnumAsoc 
@@ -44,5 +46,12 @@ public class url {
      */
     public String getDireccion (){
         return _direccion;
+    }
+    
+    public void setPesoAsoc(int pPeso){
+        this._pesoAsoc=pPeso;        
+    }
+    public int getPesoAsoc(){
+        return this._pesoAsoc;
     }
 }

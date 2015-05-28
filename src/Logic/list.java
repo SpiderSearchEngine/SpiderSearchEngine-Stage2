@@ -76,32 +76,6 @@ public class list <G>{
         }
     }
     /**
-     * Metodo para insertar en orden en la lista.
-     * @param pData. Dato a insertar.
-     */
-    public void insertInOrder(G pData){
-        if (_head==null){
-            _head=new node(pData, _head, _tail);
-            _tail=_head;
-        }
-        else if ((Integer)pData<(Integer)_head.getData()){
-            _head=(new node(pData, _head,null));
-            _head.getNextNode().setPrevNode(_head);
-        }
-        else{
-            node tmp = _head;
-            while(tmp.getNextNode()!=null && ((Integer)tmp.getNextNode().getData()<(Integer)pData))
-                tmp=tmp.getNextNode();
-            if(tmp.getNextNode()==null){
-                tmp.setNextNode(new node(pData,null,tmp));
-                _tail=tmp.getNextNode();
-            }
-            else{
-                tmp.setNextNode(new node(pData, tmp.getNextNode(),tmp));
-                tmp.getNextNode().getNextNode().setPrevNode(tmp.getNextNode());
-            }
-        }
-    }/**
      * Metodo para eliminar un dato de la lista.
      * @param pData. Dato a eliminar.
      * @return nodo eliminado.

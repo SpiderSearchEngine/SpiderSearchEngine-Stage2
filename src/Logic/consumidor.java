@@ -22,11 +22,11 @@ public class consumidor extends Thread{
     /**
      * Metodo para correr el hilo
      */
-    public void run (){
+    /*public void run (){
         try {
             _spiderBot.obtenerDatos();
         } catch (IOException ex) {
             Logger.getLogger(consumidor.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+    }*/
 }

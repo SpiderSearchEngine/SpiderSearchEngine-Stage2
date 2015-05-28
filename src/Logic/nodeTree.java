@@ -13,6 +13,7 @@ public class nodeTree <G>{
     private int _altura;
     private int _FE;
     private String _color;
+    private int _alturaNegra;
     /**
      * Constructor de la clase
      * @param pData, dato del nodo
@@ -124,5 +125,13 @@ public class nodeTree <G>{
      */
     public void setColor(String pColor){
         this._color=pColor;
+    }
+    
+    public void setAltNeg(int newAlt){
+        this._alturaNegra=newAlt;
+    }
+    
+    public int getAltNeg(){
+        return this._alturaNegra;
     }
 }

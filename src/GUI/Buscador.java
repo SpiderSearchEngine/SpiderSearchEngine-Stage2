@@ -128,6 +128,9 @@ public class Buscador extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_TxtBuscadorActionPerformed
     private javax.swing.JLabel texto = new JLabel();
+    private javax.swing.JLabel texto1 = new JLabel();
+    private javax.swing.JLabel texto2= new JLabel();
+    
     private void BotonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonBuscarActionPerformed
         TxtBuscador.setLocation(160, 40);
         BotonBuscar.setLocation(590,43);
@@ -138,6 +141,8 @@ public class Buscador extends javax.swing.JFrame {
         jPanel1.setBackground(Color.DARK_GRAY);
         
         texto.setForeground(Color.WHITE);
+        texto1.setForeground(Color.WHITE);
+        texto2.setForeground(Color.WHITE);
         
         texto.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
@@ -146,10 +151,29 @@ public class Buscador extends javax.swing.JFrame {
             }
         });
         
+        texto1.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                textoMouseClicked(evt);
+            }
+        });
         
-        texto.setText("<html><a href='http://www.google.com/'>Resultados</a></html>");
+        texto2.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                textoMouseClicked(evt);
+            }
+        });
+        
+        texto.setText("<html><a href='http://www.google.com/'>Resultado 1</a></html>");
+        texto1.setText("<html><a href='http://www.google.com/'>Resultado 2</a></html>");
+        texto2.setText("<html><a href='http://www.google.com/'>Resultado 3</a></html>");
         texto.setBounds(0,0,150,150);
+        texto1.setBounds(0,0,300,300);
+        texto2.setBounds(0,0,450,450);
         jPanel1.add(texto);
+        jPanel1.add(texto1);
+        jPanel1.add(texto2);
         texto.setVisible(true);
         jPanel1.setVisible(true);
     }//GEN-LAST:event_BotonBuscarActionPerformed

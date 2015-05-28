@@ -71,11 +71,11 @@ public class extraerLinks {
                 String str ="";
                 int i=0;
                 str=dato.substring(i,dato.length());
-                sl.push(new url(str, pnumAsoc+1));
+                sl.push(new url(str, pnumAsoc+1,0));
                 ppila.pop();
             }
             else if (dato.length()>1 && dato.startsWith("/") ){
-                sl.push(new url(_url+dato, pnumAsoc+1));
+                sl.push(new url(_url+dato, pnumAsoc+1,0));
                 ppila.pop();
             }
             else{

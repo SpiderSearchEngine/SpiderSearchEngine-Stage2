@@ -6,30 +6,30 @@ package Logic;
  * @author Gerald M, Jairo O.
  */
 public class urlProcesado {
-    private int _referencia;
+    private int _cantPalabras;
     private String _direccion;
     /**
      * Constructor de la clase
      * @param pdireccion, url procesada
-     * @param preferencia, veces que se ha procesado 
+     * @param pcantPalabras, veces que se ha procesado 
      */
-    public urlProcesado (String pdireccion, int preferencia){
-        this._referencia=preferencia;
+    public urlProcesado (String pdireccion, int pcantPalabras){
+        this._cantPalabras=pcantPalabras;
         this._direccion=pdireccion;
     }
     /**
      * Metodo para modificar el numero asociado a un url.
      * @param pnumAsoc, numero de veces procesado el url.
      */
-    public void setReferencia (int pnumAsoc){
-        this._referencia=pnumAsoc;
+    public void setcantPalabras (int pnumAsoc){
+        this._cantPalabras=pnumAsoc;
     }
     /**
-     * Metodo para obtener la referencia del url.
-     * @return _referencia
+     * Metodo para obtener la cantPalabras del url.
+     * @return _cantPalabras
      */
-    public int getReferencia(){
-        return _referencia;
+    public int getcantPalabras(){
+        return _cantPalabras;
     }
     /**
      * Metodo para modificar la direccion

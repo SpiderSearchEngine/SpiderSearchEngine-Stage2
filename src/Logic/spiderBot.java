@@ -48,7 +48,7 @@ public class spiderBot {
         }
         leerxml lxml =new leerxml();
         for (int i=indice; i<=3; i+=2){
-            cola.enqueue(new url (lxml.leer(url, i), numAsoc));
+            cola.enqueue(new url (lxml.leer(url, i), numAsoc, 0));
         }
         permiso=true;
         notify();
@@ -57,7 +57,7 @@ public class spiderBot {
      * Metodo para obtener todos los datos del url
      * @throws IOException 
      */
-    public synchronized void obtenerDatos() throws IOException{
+    /*public synchronized void obtenerDatos() throws IOException{
         int cont=0;
         while(permiso==false){
             try{
@@ -127,21 +127,21 @@ public class spiderBot {
             }
             
         }
-    }
+    }*/
     /**
      * Metodo para generar los indices
      * @throws Exception 
      */
-    public void generarIndice() throws Exception{
+    /*public void generarIndice() throws Exception{
         hacerXmlIndice1(cl);
         hacerXmlIndice2(l);
-    }
+    }*/
     /**
      * Metodo para generar el indice1 (urls procesados)
      * @param urlList, lista circulas de urls
      * @throws Exception 
      */
-    private void hacerXmlIndice1(circularList urlList) throws Exception{
+    /*private void hacerXmlIndice1(circularList urlList) throws Exception{
         createXmlForUrlProcess cfup=new createXmlForUrlProcess();
         node tmp= urlList.getHead();
         ArrayList key = new ArrayList();
@@ -160,13 +160,13 @@ public class spiderBot {
             cfup.generate("indice1", key,UrlsProcesadas);
             
         }
-    }
+    }*/
     /**
      * Metodo para generar el indice2 (keywords procesados)
      * @param KeywordList, lista doble de keywords procesados
      * @throws Exception 
      */
-    private void hacerXmlIndice2(list KeywordList) throws Exception{
+    /*private void hacerXmlIndice2(list KeywordList) throws Exception{
         createXmlForKeywords cfkw=new createXmlForKeywords();
         node tmp= KeywordList.getHead();
         nodeKey tmp2= ((palabra)(KeywordList.getHead().getData())).getListaReferencia().getHead();
@@ -185,7 +185,7 @@ public class spiderBot {
             if(tmp3!=null)
                 tmp4=((palabra)tmp3.getData()).getListaReferencia().getHead();
         }
-    }
+    }*/
     /**
      * Metodo obtener la condicion de entrafa
      * @return condicion de entrada

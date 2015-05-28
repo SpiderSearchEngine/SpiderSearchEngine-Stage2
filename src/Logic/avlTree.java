@@ -6,28 +6,28 @@ package Logic;
  * @author Gerald M, Jairo O
  */
 public class avlTree <G>{
-    private nodeTree _root;
+    private nodeAvl _root;
     private int _uno=1;
     private int _cero=0;
     /**
      * Constructor de la clase
      * @param root. Elemento raiz
      */
-    public avlTree(nodeTree root){
-        this._root=root;
+    public avlTree(nodeAvl pRoot){
+        this._root=pRoot;
     }
     /**
      * Metodo para obtener la raiz
      * @return _root
      */
-    public nodeTree getRoot(){
+    public nodeAvl getRoot(){
         return this._root;
     }
     /**
      * Metodo para modificar la raiz
      * @param newRoot. Nueva raiz
      */
-    public void setRoot(nodeTree newRoot){
+    public void setRoot(nodeAvl newRoot){
         this._root=newRoot;
     }
     /**
@@ -36,44 +36,50 @@ public class avlTree <G>{
      */
     public void insert (G pData){
         if(_root==null){
-            _root=new nodeTree(pData, null, null,null, null);
+            _root=new nodeAvl(((palabra)pData).getApariciones(), null, null,null, new list(null,null));
+            _root.insertPalabra(pData);
             _root.setAltura(_uno);
             _root.setFE(_cero);
         }
         else
-            insertAux(new nodeTree (pData,null,null,null, null), _root);
+            insertAux(new nodeAvl(((palabra)pData).getApariciones(), null, null,null, new list(null,null)),
+                    _root, pData);
     }
     /**
      * Metodo auxiliar para insertar
      * @param pNode
      * @param padre 
      */
-    private void insertAux(nodeTree pNode, nodeTree padre){
-        if((Integer)pNode.getData()>(Integer)padre.getData()){
+    private void insertAux(nodeAvl pNode, nodeAvl padre,  G pData){
+        if (pNode.getNombre()==padre.getNombre())
+            pNode.insertPalabra(pData);
+        if(pNode.getNombre()>padre.getNombre()){
             if(padre.getHijoDer()==null){
                 padre.setHijoDer(pNode);
                 pNode.setPadre(padre);
+                pNode.insertPalabra(pData);
                 modificarAltura(_root);
             }
             else
-                insertAux(pNode,padre.getHijoDer());
+                insertAux(pNode,padre.getHijoDer(), pData);
         }
         else{
             if(padre.getHijoIzq()==null){
                 padre.setHijoIzq(pNode);
                 pNode.setPadre(padre);
+                pNode.insertPalabra(pData);
                 modificarAltura(_root);
             }
             else
-                insertAux(pNode, padre.getHijoIzq());
+                insertAux(pNode, padre.getHijoIzq(), pData);
         }
     }
     /**
      * Metodo que realiza la rotacion simple a la derecha
      * @param pNode 
      */
-    public void RSD(nodeTree pNode){
-        nodeTree tmp=pNode.getHijoIzq();
+    public void RSD(nodeAvl pNode){
+        nodeAvl tmp=pNode.getHijoIzq();
         if(tmp.getHijoDer()==null){
             tmp.setHijoDer(pNode);
             pNode.setHijoIzq(null);
@@ -110,8 +116,8 @@ public class avlTree <G>{
      * Metodo que realiza la rotacion simple a la izquierda
      * @param pNode 
      */
-    public void RSI(nodeTree pNode){
-        nodeTree tmp=pNode.getHijoDer();
+    public void RSI(nodeAvl pNode){
+        nodeAvl tmp=pNode.getHijoDer();
         if(tmp.getHijoIzq()==null){
             tmp.setHijoIzq(pNode);
             pNode.setHijoDer(null);
@@ -119,7 +125,7 @@ public class avlTree <G>{
                 _root=tmp;
                 tmp.setPadre(null);
             }
-            else if ((Integer)pNode.getData()>(Integer)pNode.getPadre().getData()){
+            else if (pNode.getNombre()>pNode.getPadre().getNombre()){
                 pNode.getPadre().setHijoDer(tmp);
                 tmp.setPadre(pNode.getPadre());
             }
@@ -138,7 +144,7 @@ public class avlTree <G>{
                 _root=tmp;
                 tmp.setPadre(null);
             }
-            else if ((Integer)pNode.getData()>(Integer)pNode.getPadre().getData())
+            else if (pNode.getNombre()>pNode.getPadre().getNombre())
                 pNode.getPadre().setHijoDer(tmp);
             else
                 pNode.getPadre().setHijoIzq(tmp);
@@ -151,10 +157,10 @@ public class avlTree <G>{
      * Metodo que realiza la rotacion doble a la derecha
      * @param pNode 
      */
-    public void RDD(nodeTree pNode){
-        nodeTree tmp=pNode.getHijoIzq();
-        nodeTree tmp2=tmp.getHijoDer();
-        nodeTree tmp3=pNode.getPadre();
+    public void RDD(nodeAvl pNode){
+        nodeAvl tmp=pNode.getHijoIzq();
+        nodeAvl tmp2=tmp.getHijoDer();
+        nodeAvl tmp3=pNode.getPadre();
         if(tmp2.getHijoIzq()!=null){
             tmp.setHijoDer(tmp2.getHijoIzq());
             tmp2.getHijoIzq().setPadre(tmp);
@@ -183,7 +189,7 @@ public class avlTree <G>{
             _root=tmp2;
             pNode.setPadre(tmp2);
         }
-        else if ((Integer)pNode.getData()>(Integer)pNode.getPadre().getData()){
+        else if (pNode.getNombre()>pNode.getPadre().getNombre()){
             tmp2.setPadre(tmp3);
             tmp3.setHijoDer(tmp2);
             pNode.setPadre(tmp2);
@@ -199,10 +205,10 @@ public class avlTree <G>{
      * Metodo que realiza la rotacion doble a la izquierda
      * @param pNode 
      */
-    public void RDI(nodeTree pNode){
-        nodeTree tmp=pNode.getHijoDer();
-        nodeTree tmp2=tmp.getHijoIzq();
-        nodeTree tmp3=pNode.getPadre();
+    public void RDI(nodeAvl pNode){
+        nodeAvl tmp=pNode.getHijoDer();
+        nodeAvl tmp2=tmp.getHijoIzq();
+        nodeAvl tmp3=pNode.getPadre();
         if(tmp2.getHijoDer()!=null){
             tmp.setHijoIzq(tmp2.getHijoDer());
             tmp2.getHijoDer().setPadre(tmp);
@@ -231,14 +237,14 @@ public class avlTree <G>{
             _root=tmp2;
             pNode.setPadre(tmp2);
         }
-        else if ((Integer)pNode.getData()>(Integer)pNode.getPadre().getData()){
+        else if (pNode.getNombre()>pNode.getPadre().getNombre()){
             tmp2.setPadre(tmp3);
             tmp3.setHijoIzq(tmp2);
             pNode.setPadre(tmp2);
         }
         else{
             tmp2.setPadre(tmp3);
-            tmp3.setHijoDer(tmp2);
+            tmp3.setHijoIzq(tmp2);
             pNode.setPadre(tmp2);
         }
         modificarAltura(tmp2);
@@ -248,19 +254,19 @@ public class avlTree <G>{
      * @param Data
      * @return 
      */
-    public boolean find(G pData){
+    /*public boolean find(G pData){
         if(_root==null)
             return false;
         else
             return findAux(pData, _root);
-    }
+    }*/
     /**
      * Metodo auxiliar para buscar en la estructura
      * @param pData
      * @param pNode
      * @return 
      */
-    private boolean findAux(G pData, nodeTree pNode){
+    /*private boolean findAux(G pData, nodeTree pNode){
         if((Integer)pData!=(Integer)pNode.getData() && pNode.getHijoDer()==null && pNode.getHijoIzq()==null)
             return false;
         else if((Integer)pNode.getData()==(Integer)pData)
@@ -269,12 +275,12 @@ public class avlTree <G>{
             return findAux(pData, pNode.getHijoIzq());
         else
             return findAux(pData, pNode.getHijoDer());
-    }
+    }*/
     /**
      * Metodo para modificar la altura
      * @param pNode 
      */
-    public void modificarAltura(nodeTree pNode){
+    public void modificarAltura(nodeAvl pNode){
         if(pNode.getHijoIzq()== null && pNode.getHijoDer()==null){
             pNode.setAltura(_uno);
             modificarFactorEquilibrio(pNode);
@@ -310,9 +316,9 @@ public class avlTree <G>{
      * Metodo para modificar el factor de equilibrio
      * @param pNode 
      */
-    private void modificarFactorEquilibrio (nodeTree pNode){
+    private void modificarFactorEquilibrio (nodeAvl pNode){
         if (pNode.getHijoDer()==null && pNode.getHijoIzq()==null)
-            pNode.setFE(0);
+            pNode.setFE(_cero);
         else if (pNode.getHijoDer()==null && pNode.getHijoIzq().getAltura()==1)
             pNode.setFE(-_uno);
         else if (pNode.getHijoIzq()==null && pNode.getHijoDer().getAltura()==1)
@@ -329,7 +335,7 @@ public class avlTree <G>{
      * Metodo que valida si hay que hacer rotaciones
      * @param pNode 
      */
-    private void verificarRotaciones(nodeTree pNode){
+    private void verificarRotaciones(nodeAvl pNode){
         if(pNode.getFE()==-2 && (pNode.getHijoIzq().getFE()==-1
                 || pNode.getHijoIzq().getFE()==0 || pNode.getHijoIzq()==null))
             RSD(pNode);
@@ -338,7 +344,7 @@ public class avlTree <G>{
             RSI(pNode);
         else if (pNode.getFE()==-2 && pNode.getHijoIzq().getFE()==1 )
             RDD(pNode);
-        else if (pNode.getFE()==2 && pNode.getHijoIzq().getFE()==-1)
+        else if (pNode.getFE()==2 && pNode.getHijoDer().getFE()==-1)
             RDI(pNode);
         else
             return;
@@ -347,7 +353,7 @@ public class avlTree <G>{
      * Metodo que realiza recorrido en postOrden
      * @param pNode 
      */
-    public void postOrden(nodeTree pNode){
+    public void postOrden(nodeAvl pNode){
         if(pNode.getHijoIzq()== null && pNode.getHijoDer()==null)
             System.out.println(pNode.getData());
         else if(pNode.getHijoDer()==null){
@@ -369,10 +375,10 @@ public class avlTree <G>{
      * @param Data
      * @return nodo eliminado
      */
-    public nodeTree delete (G pData){
+    /*public nodeTree delete (G pData){
         if (_root == null)
             return null;
-        else if ((Integer)_root.getData()==(Integer)pData && _root.getHijoDer()==null && _root.getHijoIzq()==null){
+        else if (_root.getNombre()==(Integer)pData && _root.getHijoDer()==null && _root.getHijoIzq()==null){
             nodeTree tmp = _root;
             _root=null;
             return tmp;
@@ -383,7 +389,7 @@ public class avlTree <G>{
             return deleteRoot(_root);
         else
             return deleteAux(pData, _root, null);            
-    }
+    }*/
     /**
      * Metodo auxiliar para eliminar un dato
      * @param pData
@@ -391,7 +397,7 @@ public class avlTree <G>{
      * @param parent
      * @return nodo eliminado
      */
-    private nodeTree deleteAux(G pData, nodeTree pNode, nodeTree parent){
+    /*private nodeTree deleteAux(G pData, nodeTree pNode, nodeTree parent){
         if ((Integer)pData==(Integer)pNode.getData()){
             return deleteAux2(pData, pNode, parent);
         }
@@ -399,7 +405,7 @@ public class avlTree <G>{
             return deleteAux(pData, pNode.getHijoIzq(),pNode);
         else
             return deleteAux(pData, pNode.getHijoDer(),pNode);
-    }
+    }*/
     /**
      * Metodo auxiliar para eliminar el dato
      * @param pData
@@ -407,16 +413,16 @@ public class avlTree <G>{
      * @param parent
      * @return nodo eliminado
      */
-    private nodeTree deleteAux2(G pData, nodeTree pNode, nodeTree parent){
+    /*private nodeTree deleteAux2(G pData, nodeTree pNode, nodeTree parent){
         if(pNode.getHijoDer()==null && pNode.getHijoIzq()==null){
                 if ((Integer)pNode.getData()<(Integer)parent.getData()){
                     parent.setHijoIzq(null);
-                    verificarRotaciones(_root);
+                    modificarAltura(_root);
                     return pNode;
                 }
                 else{
                     parent.setHijoDer(null);
-                    verificarRotaciones(_root);
+                    modificarAltura(_root);
                     return pNode;
                 }
             }
@@ -424,13 +430,13 @@ public class avlTree <G>{
                 if ((Integer)pNode.getData()<(Integer)parent.getData()){
                     parent.setHijoIzq(pNode.getHijoDer());
                     pNode.setHijoDer(null);
-                    verificarRotaciones(_root);
+                    modificarAltura(_root);
                     return pNode;
                 }
                 else{
                     parent.setHijoDer(pNode.getHijoDer());
                     pNode.setHijoDer(null);
-                    verificarRotaciones(_root);
+                    modificarAltura(_root);
                     return pNode;
                 }
             }
@@ -438,13 +444,13 @@ public class avlTree <G>{
                 if ((Integer)pNode.getData()<(Integer)parent.getData()){
                     parent.setHijoIzq(pNode.getHijoIzq());
                     pNode.setHijoIzq(null);
-                    verificarRotaciones(_root);
+                    modificarAltura(_root);
                     return pNode;
                 }
                 else{
                     parent.setHijoDer(pNode.getHijoIzq());
                     pNode.setHijoIzq(null);
-                    verificarRotaciones(_root);
+                    modificarAltura(_root);
                     return pNode;
                 }
             }
@@ -461,7 +467,7 @@ public class avlTree <G>{
                     parent.setHijoIzq(aux);
                     pNode.setHijoIzq(null);
                     pNode.setHijoDer(null);                    
-                    verificarRotaciones(_root);
+                    modificarAltura(_root);
                     return aux2;
                 }
                 else{                    
@@ -474,25 +480,25 @@ public class avlTree <G>{
                     parent.setHijoDer(aux);
                     pNode.setHijoIzq(null);
                     pNode.setHijoDer(null);
-                    verificarRotaciones(_root);
+                    modificarAltura(_root);
                     return pNode;
                 }
             }
-    }
+    }*/
     /**
      * Metodo auxiliar para borrar la raiz
      * @param pNode
      * @return nodo eliminado
      */
-    private nodeTree deleteRoot(nodeTree pNode){
+    /*private nodeTree deleteRoot(nodeTree pNode){
         if(pNode.getHijoIzq()==null){
             _root=pNode.getHijoDer();
-            verificarRotaciones(_root);
+            modificarAltura(_root);
             return pNode;
         }
         else if(pNode.getHijoDer()==null){
             _root=pNode.getHijoDer();
-            verificarRotaciones(_root);
+            modificarAltura(_root);
             return pNode;
         }
         else{
@@ -519,19 +525,43 @@ public class avlTree <G>{
                 pNode.setHijoIzq(null);
             }
             _root=aux;
-            verificarRotaciones(_root);
+            modificarAltura(_root);
             return pNode;
         }
-    }
+    }*/
     /**
      * Metodo que obtiene el menor de los mayores
      * @param pNode
      * @return 
      */
-    private nodeTree menorMayores(nodeTree pNode){
+    private nodeAvl menorMayores(nodeAvl pNode){
         if (pNode.getHijoIzq()==null)
             return pNode;
         else
             return menorMayores(pNode.getHijoIzq());        
     }
+    
+    /*public boolean find(nodeAvl pNode, G pData){
+        boolean cond=false;
+        if(pNode.getHijoIzq()== null && pNode.getHijoDer()==null)
+            if(((palabra)pNode.getData()).getListaReferencia().find(pData)==true)
+                cond=true;
+        else if(pNode.getHijoDer()==null){
+            find(pNode.getHijoIzq(), pData);
+            if(((palabra)pNode.getData()).getListaReferencia().find(pData)==true)
+                cond=true;
+        }
+        else if(pNode.getHijoIzq()==null){
+            find(pNode.getHijoDer(), pData);
+            if(((palabra)pNode.getData()).getListaReferencia().find(pData)==true)
+                cond=true;
+        }
+        else{
+            find(pNode.getHijoIzq(), pData);
+            find(pNode.getHijoDer(), pData);
+            if(((palabra)pNode.getData()).getListaReferencia().find(pData)==true)
+                cond=true;
+        }
+        return cond;
+    }*/
 }
