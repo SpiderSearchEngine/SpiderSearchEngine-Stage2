@@ -17,8 +17,8 @@ public class Graficos {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Buscador bs = new Buscador();
-        bs.setVisible(true);
+        //Buscador bs = new Buscador();
+        //bs.setVisible(true);
     }
     
 }
