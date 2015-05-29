@@ -44,7 +44,8 @@ public class binaryTree <G>{
      * @param pData 
      */
     private void insertAux(nodeTree pPadre, nodeTree pData){
-        if((Integer)pPadre.getData()>(Integer)pData.getData()){
+        if(((palabra)pPadre.getData()).getName().compareTo(((palabra)pData.getData()).getName())==1
+                || ((palabra)pPadre.getData()).getName().compareTo(((palabra)pData.getData()).getName())==0){
             if(pPadre.getHijoIzq()==null)
                 pPadre.setHijoIzq(pData);
             else
@@ -75,11 +76,11 @@ public class binaryTree <G>{
      * @return 
      */
     private boolean findAux(G pData, nodeTree pNode){
-        if((Integer)pData!=(Integer)pNode.getData() && pNode.getHijoDer()==null && pNode.getHijoIzq()==null)
+        if((palabra)pData!=(palabra)pNode.getData() && pNode.getHijoDer()==null && pNode.getHijoIzq()==null)
             return false;
-        else if((Integer)pNode.getData()==(Integer)pData)
+        else if((palabra)pNode.getData()==(palabra)pData)
             return true;
-        else if ((Integer)pData<(Integer)pNode.getData())
+        else if ((((palabra)pData).getName()).compareTo(((palabra)pNode.getData()).getName())==-1)
             return findAux(pData, pNode.getHijoIzq());
         else
             return findAux(pData, pNode.getHijoDer());
@@ -92,14 +93,14 @@ public class binaryTree <G>{
     public nodeTree delete (G pData){
         if (_root == null)
             return null;
-        else if ((Integer)_root.getData()==(Integer)pData && _root.getHijoDer()==null && _root.getHijoIzq()==null){
+        else if ((palabra)_root.getData()==(palabra)pData && _root.getHijoDer()==null && _root.getHijoIzq()==null){
             nodeTree tmp = _root;
             _root=null;
             return tmp;
         }
-        else if ((Integer)_root.getData()!=(Integer)pData && _root.getHijoDer()==null && _root.getHijoIzq()==null)
+        else if ((palabra)_root.getData()!=(palabra)pData && _root.getHijoDer()==null && _root.getHijoIzq()==null)
             return null;
-        else if ((Integer)_root.getData()==(Integer)pData)
+        else if ((palabra)_root.getData()==(palabra)pData)
             return deleteRoot(_root);
         else
             return deleteAux(pData, _root, null);            
@@ -112,10 +113,10 @@ public class binaryTree <G>{
      * @return nodo eliminado
      */
     private nodeTree deleteAux(G pData, nodeTree pNode, nodeTree parent){
-        if ((Integer)pData==(Integer)pNode.getData()){
+        if ((palabra)pData==(palabra)pNode.getData()){
             return deleteAux2(pData, pNode, parent);
         }
-        else if ((Integer)pData<(Integer)pNode.getData())
+        else if ((((palabra)pData).getName()) .compareTo(((palabra)pNode.getData()).getName())==-1)
             return deleteAux(pData, pNode.getHijoIzq(),pNode);
         else
             return deleteAux(pData, pNode.getHijoDer(),pNode);
@@ -129,7 +130,7 @@ public class binaryTree <G>{
      */
     private nodeTree deleteAux2(G pData, nodeTree pNode, nodeTree parent){
         if(pNode.getHijoDer()==null && pNode.getHijoIzq()==null){
-                if ((Integer)pNode.getData()<(Integer)parent.getData()){
+                if ((((palabra)pNode.getData()).getName()).compareTo(((palabra)parent.getData()).getName())==-1){
                     parent.setHijoIzq(null);
                     return pNode;
                 }
@@ -139,7 +140,7 @@ public class binaryTree <G>{
                 }
             }
             else if(pNode.getHijoIzq()==null){
-                if ((Integer)pNode.getData()<(Integer)parent.getData()){
+                if ((((palabra)pNode.getData()).getName()).compareTo(((palabra)parent.getData()).getName())==-1){
                     parent.setHijoIzq(pNode.getHijoDer());
                     pNode.setHijoDer(null);
                     return pNode;
@@ -151,7 +152,7 @@ public class binaryTree <G>{
                 }
             }
             else if(pNode.getHijoDer()==null){
-                if ((Integer)pNode.getData()<(Integer)parent.getData()){
+                if ((((palabra)pNode.getData()).getName()).compareTo(((palabra)parent.getData()).getName())==-1){
                     parent.setHijoIzq(pNode.getHijoIzq());
                     pNode.setHijoIzq(null);
                     return pNode;
@@ -165,8 +166,8 @@ public class binaryTree <G>{
             else{
                 nodeTree aux = menorMayores(pNode.getHijoDer());
                 nodeTree aux2 = aux.getPadre();
-                if ((Integer)pNode.getData()<(Integer)parent.getData()){
-                    if((Integer)aux.getData()<(Integer)aux2.getData())
+                if ((((palabra)pNode.getData()).getName()).compareTo(((palabra)parent.getData()).getName())==-1){
+                    if((((palabra)aux.getData()).getName()).compareTo(((palabra)aux2.getData()).getName())==-1)
                         aux2.setHijoIzq(null);
                     else
                         aux2.setHijoDer(null);
@@ -178,7 +179,7 @@ public class binaryTree <G>{
                     return aux2;
                 }
                 else{                    
-                    if((Integer)aux.getData()<(Integer)aux2.getData())
+                    if ((((palabra)aux.getData()).getName()).compareTo(((palabra)aux2.getData()).getName())==-1)
                         aux2.setHijoIzq(null);
                     else
                         aux2.setHijoDer(null);

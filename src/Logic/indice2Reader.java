@@ -50,22 +50,23 @@ public class indice2Reader {
             /**
              * Muestra un arreglo con palabras que estan adentro del archivo XML de indice 2
              */
-            List Keys = getAllWords(doc, xpath); 
-            System.out.println("Find All Words's are:" + Arrays.toString(Keys.toArray()));
+            //List Keys = getAllWords(doc, xpath); 
+            //System.out.println("Find All Words's are:" + Arrays.toString(Keys.toArray()));
             /**
              * Muestra un arreglo con todos los Uls que estan adentro del archivo XML de indice 2
              */
-            List Urls = getAllUrls(doc, xpath); 
-            System.out.println("Find All URL's are:" + Arrays.toString(Urls.toArray()));
+            //List Urls = getAllUrls(doc, xpath); 
+            //System.out.println("Find All URL's are:" + Arrays.toString(Urls.toArray()));
             //
             /**
              * Muestra un arreglo con todos los Uls relacionados con una de las 
              * Palbras especificamente, que estan adentro del archivo XML de indice 2
              */
-            String word="Gerald";
-            List WUrls = getAllUrls1(doc, xpath,word); 
-            System.out.println("Find All URL's for specific Word are:" + Arrays.toString(WUrls.toArray()));
+            //String word="Gerald";
+            //List WUrls = getAllUrls1(doc, xpath,word); 
+            //System.out.println("Find All URL's for specific Word are:" + Arrays.toString(WUrls.toArray()));
             //
+            impresionCompleta(doc, xpath);
             
         }catch (ParserConfigurationException e) { 
             e.printStackTrace(); 
@@ -83,9 +84,9 @@ public class indice2Reader {
     private List getAllWords(Document doc, XPath xpath) { 
         List list = new ArrayList<>();
         try {
-            XPathExpression expr2 = xpath.compile("/indice2/KeyWords/Keyword/Palabra/text()");
+            XPathExpression expr2 = xpath.compile("/indice2/KeyWords/KeyWord/Palabra/text()");
             NodeList nodes2 = (NodeList) expr2.evaluate(doc, XPathConstants.NODESET);
-            //System.out.println(nodes.item(0).getNodeValue());
+            System.out.println(nodes2.item(0).getNodeValue());
             for (int i = 0; i < nodes2.getLength(); i++){
                 System.out.println(nodes2.item(i).getNodeValue());
                 list.add(nodes2.item(i).getNodeValue());
@@ -107,7 +108,7 @@ public class indice2Reader {
     private List getAllUrls(Document doc, XPath xpath) { 
         List list = new ArrayList<>();
         try {
-            XPathExpression expr1 = xpath.compile("/indice2/KeyWords/Keyword/Link/text()");
+            XPathExpression expr1 = xpath.compile("/indice2/KeyWords/KeyWord/Link/text()");
             NodeList nodes1 = (NodeList) expr1.evaluate(doc, XPathConstants.NODESET);
             //System.out.println(nodes.item(0).getNodeValue());
             for (int i = 0; i < nodes1.getLength(); i++){
@@ -133,11 +134,43 @@ public class indice2Reader {
         //String simple="Jairo";
         try {
             //XPathExpression expr = xpath.compile("/indicegeneral/Keywords[palabra='"+simple+"']/URL/text()");
-            XPathExpression expr = xpath.compile("/indice2/KeyWords/Keyword[Palabra='"+word+"']/Link/text()");
+            XPathExpression expr = xpath.compile("/indice2/KeyWords/KeyWord[Palabra='"+word+"']/Link/text()");
             NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
             for (int i = 0; i < nodes.getLength(); i++){
                 System.out.println((String)nodes.item(i).getNodeValue());
                 list.add(nodes.item(i).getNodeValue());}
+        }
+        catch (XPathExpressionException e) { 
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    private List impresionCompleta(Document doc, XPath xpath) { 
+        List list = new ArrayList<>();
+        palabra palabron=new palabra(null, 0, null);
+        avlTree avl=new avlTree(null);
+        redBlackTree RyN= new redBlackTree(null);
+        try {
+            XPathExpression expra = xpath.compile("/indice2/KeyWords/KeyWord/Palabra/text()");
+            XPathExpression exprb = xpath.compile("/indice2/KeyWords/KeyWord/Link/text()");
+            XPathExpression exprc = xpath.compile("/indice2/KeyWords/KeyWord/Apariciones/text()");
+            NodeList nodesa = (NodeList) expra.evaluate(doc, XPathConstants.NODESET);
+            NodeList nodesb = (NodeList) exprb.evaluate(doc, XPathConstants.NODESET);
+            NodeList nodesc = (NodeList) exprc.evaluate(doc, XPathConstants.NODESET);
+            
+            for (int i = 0; i < nodesa.getLength(); i++){
+                RyN.findSpecial(nodesb.item(i).getNodeValue());
+                System.out.println("");
+                System.out.println(nodesa.item(i).getNodeValue());
+                System.out.println(nodesb.item(i).getNodeValue());
+                System.out.println(nodesc.item(i).getNodeValue());
+                System.out.println("");
+                palabron=new palabra(nodesa.item(i).getNodeValue(), Integer.parseInt(nodesc.item(i).getNodeValue()), new list(null, null));
+                palabron.getListaReferencia().insertHead(RyN.getUrlNode());
+                avl.insert(palabron);
+                
+            }
         }
         catch (XPathExpressionException e) { 
             e.printStackTrace();

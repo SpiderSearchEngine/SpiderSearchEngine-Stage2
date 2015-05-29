@@ -33,7 +33,7 @@ public class createXmlForKeywords<G> {
      * @param lpinks, links extraidos de la lista de URL's
      * @throws Exception 
      */
-    public void generate(String pname, ArrayList<String> ppalabras,ArrayList<String>plinks) throws Exception{
+    public void generate(String pname, ArrayList<String> ppalabras, ArrayList<String> plinks, ArrayList<String> pApariciones) throws Exception{
         if(ppalabras.isEmpty() ){
             System.out.println("ERROR empty ArrayList");
             return;
@@ -54,9 +54,13 @@ public class createXmlForKeywords<G> {
                 Element nodoLinks = document.createElement("Link"); 
                 Text valorDeLink = document.createTextNode(plinks.get(i));
                 nodoLinks.appendChild(valorDeLink); 
+                Element nodoApariciones = document.createElement("Apariciones"); 
+                Text valorDeApariciones = document.createTextNode(pApariciones.get(i));
+                nodoApariciones.appendChild(valorDeApariciones); 
                 etiquetaPrincipal.appendChild(etiquetaSegundaria);
                 etiquetaSegundaria.appendChild(nodoPalabra);
                 etiquetaSegundaria.appendChild(nodoLinks);
+                etiquetaSegundaria.appendChild(nodoApariciones);
             }                
             Source source = new DOMSource(document);
             Result result = new StreamResult(new java.io.File(pname+".xml")); 

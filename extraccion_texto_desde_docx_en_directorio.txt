@@ -1,0 +1,95 @@
+run:
+Apuntador: Gerald F Mora Mora
+2014064955
+CE-1103 
+GRAFOS
+Es una colección de Nodos o vértices.
+Cada nodo está conectado al menos por una arista.
+Por lo general cada Nodo tiene un nombre.
+
+Figura 1: Ejemplo de un Grafo común.
+
+La direccionalidad se especifica con flechas.
+
+
+Figura 2: Nodos del grafo que poseen flechas indicando las direcciones.
+
+
+Un nodo puede apuntarse hacia sí mismo.
+
+Figura 3: Nodo 4 se está apuntando hacia sí mismo.
+
+Si existen dos conexiones a la misma dirección, se dice que estas conexiones son paralelas.
+
+Figura 4: Conexiones paralelas entre nodo D y nodo C.
+
+Todo grafo tiene un orden y un grado:
+Orden: Cantidad de aristas que salen del Nodo.
+Grado: Cantidad de aristas que llegan al Nodo.
+
+Figura 5: Orden con respecto al Nodo E = 2 Y Grado con respecto al Nodo C = 4.
+
+Ciclos:
+ 	Cuando en un camino puedan aparecer más de un Nodo.
+Spanning-Tree Protocol (STP)1: Asegura que no hayan ciclos adentro de un grafo.
+
+
+Figura 6: Ciclos: Caminos donde se pueden repetir vértices y Aristas.
+
+Tipos de Grafos:
+Grafos dirigidos:
+Estos tienen una indicación de hacia adonde se dirige la conexión.
+Grafos no dirigidos:
+Estos no tienen indicación de hacia dónde se dirigen.
+
+Figura 7: Ejemplos de Grafos dirigidos y NO dirigidos, respectivamente.
+
+Grafo débilmente conectado:
+Si por lo menos desde un vértice no podemos llegar a los demás.
+
+Figura 8: Ejemplo de grafo débil, B no se puede llegar a ningún otro nodo
+
+Dos Nodos serán adyacentes si están unidos por una lista.
+Dos aristas serán adyacentes si están unidas por un mismo nodo.
+
+
+Figura 9: B y D son adyacentes, A y D también lo son.
+
+Grafo Nulo: Si no posee nodos ni aristas.
+Grafo Completo: Si existe conexión para todos los datos. Si en un nodo de estos, este también se apunta al mismo, este por regla general se descarta.
+Grafo Vacio: Grafo sin nodo.
+Grafo Trivial: Grafo solo con arista. 
+Se pueden poner etiquetas o también pesos (estos ayudan a tomar decisiones). 
+
+
+Figura 10: Grafos dirigidos y no dirigidos con etiquetas y sus respectivos pesos.
+
+Se pueden tener una cantidad de nodos y aristas infinitos, pero en el mundo computacional estos no sucede así. 
+
+Listas y matrices de adyacencia:
+Básicamente una lista de adyacencia tiene adentro un nodo de una lista que adentro tiene una lista la cual apunta otra lista. Cada nodo tiene adentro su peso. La lista de adyacencia realiza mayor consumo de CPU, por lo cual la alternativa es utilizar las matrices de adyacencia, las cuales realizan mayor consumo de memoria pero no de CPU.
+Para ver cómo funcionan estas representaciones se recomienda el siguiente link:
+(Teoría de grafos)2::http://mdunidad6.blogspot.com/2011/12/teoria-de-grafos.html
+Si no hubiera peso en alguna casilla de la matriz, queda a criterio del programador como definirlo para luego identificarlo. Por ejemplo puede utilizar un -1 en cada casilla donde no se haya colocado algún peso.
+
+
+
+
+
+
+
+
+
+
+
+
+Bibliografía y recursos:
+Spanning-Tree Protocol (STP)1:
+http://www.cisco.com/c/en/us/tech/lan-switching/spanning-tree-protocol/index.html
+Teoría de grafos2:
+http://mdunidad6.blogspot.com/2011/12/teoria-de-grafos.html
+Grafos:
+http://www.virtual.unal.edu.co/cursos/ingenieria/2001412/capitulos/cap7/71.html
+
+
+BUILD SUCCESSFUL (total time: 9 seconds)

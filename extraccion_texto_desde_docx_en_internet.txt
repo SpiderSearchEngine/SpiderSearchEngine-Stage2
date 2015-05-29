@@ -1,0 +1,147 @@
+run:
+
+
+BLOQUE “MESA DE AYUDA”
+
+
+Índice de contenido
+BLOQUE “MESA DE AYUDA”	1
+Objetivo del Bloque “Mesa de Ayuda” (Helpdesk)	2
+¿Cómo instalar el bloque?	2
+Sobre el uso del bloque	2
+El Bloque según el rol del usuario	2
+Opciones del Bloque	3
+Obtener Ayuda	3
+Listado de tickets	4
+Ver pendientes sin asignar	4
+Ver mis tickets	5
+Ver todos los tickets	5
+Respuesta de los tickets entre administrador y estudiante	5
+Para desarrolladores	6
+Permisos predefinidos	6
+Modificación del Código Fuente	7
+El archivo config.php	7
+La Base de Datos	7
+
+Objetivo del Bloque “Mesa de Ayuda” (Helpdesk)
+
+El objetivo del bloque “Mesa de Ayuda” es atenuar la cantidad de posibles consultas técnicas que puedan surgir de los estudiantes (calculados en 15.000). El modo de funcionamiento es simple: primero, se trata de segmentar según la problemática a resolver y, segundo, mediante un sistema de tickets que da soporte a las consultas realizadas (tickets abiertos) y resuelve de manera rápida y simple el flujo interno entre distintos responsables de la “mesa de ayuda”. 
+El sistema de tickets permite agregarle prioridad, modificar el estado (Ej: de ticket abierto pasar a ticket cerrado) y asignar personas “responsables” aprovechando la mensajería interna del Moodle enviando emails cuando sea necesario.
+El bloque “Mesa de Ayuda” fue desarrollado de modo tal que se adaptara a la etapa inicial del proyecto, dejando abierta la posibilidad de mejorarlo indefinidamente por programadores que tengan conocimiento del lenguaje de programación PHP y desarrollo de bloques para la plataforma Moodle gracias a la utilización de tecnologías de código abierto.
+El desarrollo del bloque se encuentra en un repositorio público, para que pueda ser accedido y descargado por cualquier persona, teniendo, ahi mismo, el manual y la documentación necesaria para realizar las modificaciones correspondientes.
+
+¿Cómo instalar el bloque?
+Primero debe ser descargado del repositorio: https://github.com/alevilar/Moodle-Helpdesk-Block y descomprimirlo en el directorio /blocks del Moodle.
+Acto seguido, se debe ingresar a la plataforma (si estás logueado, deberás desloguearte) y activar el bloque desde la página de inicio o desde el bloque “Ajustes” (Administración del Sitio → Extensiones → Bloques → Gestionar Bloques del Sitio).
+Luego se debe “activar la edición” en las páginas donde se quiera ver el bloque, por ejemplo en la página de inicio. Activando la edición nos permitirá agregar nuevos bloques y, en este caso, agregamos el bloque “Mesa de Ayuda” o “Helpdesk” si la configuración del Moodle está en Inglés.
+Sobre el uso del bloque
+El Bloque según el rol del usuario
+
+Como vemos en las imágenes de arriba, el primer bloque tiene menos opciones respecto del segundo. En el primer caso, el bloque es del estudiante, mientras que en el segundo, el bloque es de un administrador.
+
+Veremos a continuación cada una de las opciones (links) que ofrece el bloque...
+Opciones del Bloque
+Obtener Ayuda
+La página intenta dividir a la cantidad de personas que hagan consultas dependiendo del tipo de error que tienen o soporte técnico que están necesitando.
+Sólo mediante la última opción: “Problemas generales en el uso de la plataforma” serán derivados al sistema de tickets siempre que hagan click en el “click aquí”. Previa lectura de las Preguntas Frecuentes:
+
+Listado de tickets
+Muestra los tickets que YO haya creado.
+Ver pendientes sin asignar
+Muestra los tickets que no tienen responsables asignados
+Ver mis tickets
+Muestra los tickets que YO soy el responsable o designado
+
+Ver todos los tickets
+Muestra todos los tickets con un completo buscador.
+
+Listado de estados
+Desde ahí se listan todos los estados posibles pudiendo modificar el nombre de los ya existentes.
+También se pueden agregar nuevos estados, pero no se pueden eliminar, para evitar que se elimine un estado que esté en uso.
+Respuesta de los tickets entre administrador y estudiante
+Cuando se ingresa a ver el detalle de un ticket se muestran más o menos botones según el rol del usuario.
+
+Por ejemplo, el estudiante sólo puede responder:
+
+Mientras que los administradores tienen más opciones, modificar estado, modificar prioridad y asignar responsable:
+
+Para desarrolladores
+Permisos predefinidos
+Los permisos definidos en el archivo db/access.php son los siguientes:
+Lo que indica que, por defecto, los Administradores y Creadores de Cursos con y sin permisos de edición pueden administrar los tickets.
+
+'archetypes' => array( 
+'guest' => CAP_PREVENT,
+'student' => CAP_PREVENT,
+'teacher' => CAP_PREVENT,
+'editingteacher' => CAP_PREVENT,
+'coursecreator' => CAP_ALLOW,
+'manager' => CAP_ALLOW
+)
+Sin embargo es aconsejable modificar los permisos del bloque manualmente creando un rol del tipo “mesa de ayuda” para que, las personas que tengan ese rol, puedan ser asignadas como responsables de los tickets.
+Modificación del Código Fuente
+Para aprender sobre características del desarrollo del bloque es aconsejable leer la documentación de Moodle acerca de los bloques: http://docs.moodle.org/dev/Blocks
+El código está dentro de a carpeta /blocks/helpdesk en el servidor.
+El archivo config.php
+El archivo de configuración contiene variables estáticas cuyos valores coinciden con los ID's de la BBDD, por lo tanto, cada vez que se agreguen o modifiquen registros de las tablas “mdl_block_helpdesk_states” y “mdl_block_helpdesk_change_types” deberán retocarse dichos valores.
+La Base de Datos
+
+Lo más importante a destacar acá es:
+	La tabla “...tickets” tiene como campos:
+	stateid: es la FK de la tabla “...states”
+
+	ownerid: es el id de usuario “asignado” manualmente como responsable de ese ticket
+
+	authorid: es el id de usuario que creó el ticket
+
+	question: es el texto “pregunta” o “consulta”
+
+	priority: es un número que, cuanto más grande es, mayor es la prioridad.
+
+
+
+	La tabla “...changes” es la que guarda los cambios
+	ticketid: es la FF de la tabla “...tickets”
+
+	userid: es el usuario que provocó ese cambio
+
+	text: es la respuesta que, según el tipo de cambio, puede ser generada automáticamente
+
+	changetypeid: es la FK de la tabla “...change_types”
+
+
+
+	la tabla “...states” es la que tiene los distintos estado que puede adoptar un ticket
+
+
+		Abierto
+
+	Cerrado resuelto
+
+	Cerrado duplicado
+
+	Cerrado inválido
+
+
+
+
+	La tabla “...change_types” es la que indica el tipo de cambio realizado
+
+
+		Los cambios posibles son:
+	Se realizó respuesta
+
+	Se asignó responsable
+
+	Se modificó el estado
+
+	Se modificó la prioridad
+
+
+
+Las Id's de las prioridades están en el archivo de configuración dado que presuponemos que las prioridades se mantendrán iguales en el tiempo (alta, media y baja).
+Si se desea modificar algo relacionado con las prioridades deberá realizarse en el archivo config.php y buscar la variable $priorities.
+
+
+
+BUILD SUCCESSFUL (total time: 9 seconds)

@@ -16,7 +16,7 @@ import javax.swing.JLabel;
  * @author Gerald M, Jairo O
  */
 public class Buscador extends javax.swing.JFrame {
-    
+    private String _ingresadoPorUsuario;
     /**
      * Creates new form Buscador
      */
@@ -131,7 +131,16 @@ public class Buscador extends javax.swing.JFrame {
     private javax.swing.JLabel texto1 = new JLabel();
     private javax.swing.JLabel texto2= new JLabel();
     
+    public void obtenertexto(){
+        setIngresadoPorUsuario(TxtBuscador.getText());
+    }
+    
+    public String getTexto(){
+        return _ingresadoPorUsuario;
+    }
+    
     private void BotonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonBuscarActionPerformed
+        obtenertexto();
         TxtBuscador.setLocation(160, 40);
         BotonBuscar.setLocation(590,43);
         Fondo.setBounds(0,0,700, 100);
@@ -154,23 +163,22 @@ public class Buscador extends javax.swing.JFrame {
         texto1.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                textoMouseClicked(evt);
+                textoMouseClicked2(evt);
             }
         });
         
         texto2.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                textoMouseClicked(evt);
+                textoMouseClicked3(evt);
             }
         });
-        
-        texto.setText("<html><a href='http://www.google.com/'>Resultado 1</a></html>");
-        texto1.setText("<html><a href='http://www.google.com/'>Resultado 2</a></html>");
-        texto2.setText("<html><a href='http://www.google.com/'>Resultado 3</a></html>");
-        texto.setBounds(0,0,150,150);
-        texto1.setBounds(0,0,300,300);
-        texto2.setBounds(0,0,450,450);
+        texto.setText("<html><a href=''>Resultado 1</a></html>");
+        texto1.setText("<html><a>Resultado 2</a></html>");
+        texto2.setText("<html><a>Resultado 3</a></html>");
+        texto.setBounds(0,0,75,75);
+        texto1.setBounds(0,0,150,150);
+        texto2.setBounds(0,0,225,225);
         jPanel1.add(texto);
         jPanel1.add(texto1);
         jPanel1.add(texto2);
@@ -186,17 +194,43 @@ public class Buscador extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_FondoMouseClicked
     private void textoMouseClicked(java.awt.event.MouseEvent evt){
-        System.out.println("entro");
         try {
             if (Desktop.isDesktopSupported()) {
             Desktop desktop = Desktop.getDesktop();
-            if (desktop.isSupported(Desktop.Action.BROWSE)) {
-            desktop.browse(new URI("http://www.google.co.cr"));
+                System.out.println(Desktop.getDesktop());
+            if (desktop.isSupported(Desktop.Action.OPEN)) {
+            desktop.browse(new URI("smb://gerald-tec/carpeta/re.pdf"));
             }
         }
         } catch (Exception e) {
-e.printStackTrace();
-}
+        e.printStackTrace();
+        }
+    }
+    private void textoMouseClicked2(java.awt.event.MouseEvent evt){
+        try {
+            if (Desktop.isDesktopSupported()) {
+            Desktop desktop2 = Desktop.getDesktop();
+            System.out.println(Desktop.getDesktop());
+            if (desktop2.isSupported(Desktop.Action.BROWSE)) {
+            desktop2.browse(new URI("http://www.ncfireprotectiondistrict.org/pdf/holiday_winter/Holiday_Safety_espaniol.pdf"));
+            }
+        }
+        } catch (Exception e) {
+        e.printStackTrace();
+        }
+    }
+    private void textoMouseClicked3(java.awt.event.MouseEvent evt){
+        try {
+            if (Desktop.isDesktopSupported()) {
+            Desktop desktop = Desktop.getDesktop();
+            System.out.println(Desktop.getDesktop());
+            if (desktop.isSupported(Desktop.Action.OPEN)) {
+            desktop.browse(new URI("file:/home/gerald/Documentos/SearsZemanskyFisicaUniversitaria12va.Ed.Solucionario.pdf"));
+            }
+        }
+        } catch (Exception e) {
+        e.printStackTrace();
+        }
     }
     /**
      * @param args the command line arguments
@@ -245,4 +279,18 @@ e.printStackTrace();
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * @return the _ingresadoPorUsuario
+     */
+    public String getIngresadoPorUsuario() {
+        return _ingresadoPorUsuario;
+    }
+
+    /**
+     * @param _ingresadoPorUsuario the _ingresadoPorUsuario to set
+     */
+    public void setIngresadoPorUsuario(String _ingresadoPorUsuario) {
+        this._ingresadoPorUsuario = _ingresadoPorUsuario;
+    }
 }

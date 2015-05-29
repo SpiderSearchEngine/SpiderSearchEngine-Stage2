@@ -10,6 +10,7 @@ public class avlTree <G>{
     private int _uno=1;
     private int _cero=0;
     private boolean cond;
+    private nodeTree _nT;
     /**
      * Constructor de la clase
      * @param root. Elemento raiz
@@ -624,5 +625,53 @@ public class avlTree <G>{
                 if(((palabra)pNode.getData()).getListaReferencia().findRB(nodeRB)==false)
                     ((palabra)pNode.getData()).getListaReferencia().insertHead(nodeRB);
         }             
+    }
+    
+    /**
+     * Metodo para buscar en el arbol
+     * @param Data
+     * @return 
+     */
+    public void findResult(String pData){
+        _nT=null;
+        if(_root==null)
+            return;
+        else
+            findResultado(pData, _root);
+    }
+    /**
+     * Metodo auxiliar para buscar en la estructura
+     * @param pData
+     * @param pNode
+     * @return 
+     */
+    private void findResultado(String pData, nodeTree pNode){
+        if(pNode.getHijoIzq()== null && pNode.getHijoDer()==null){
+            if(((palabra)pNode.getData()).getName().equals(pData)){
+                _nT=pNode;
+            }
+        }
+        else if(pNode.getHijoDer()==null){
+            findResultado(pData, pNode.getHijoIzq());
+            if(((palabra)pNode.getData()).getName().equals(pData)){
+                _nT=pNode;
+            }
+        }
+        else if(pNode.getHijoIzq()==null){
+            findResultado(pData, pNode.getHijoDer());
+            if(((palabra)pNode.getData()).getName().equals(pData)){
+                _nT=pNode;
+            }
+        }
+        else{
+            findResultado(pData, pNode.getHijoIzq());
+            findResultado(pData, pNode.getHijoDer());
+            if(((palabra)pNode.getData()).getName().equals(pData)){
+                _nT=pNode;
+            }
+        } 
+    }
+    public nodeTree getResultado(){
+        return _nT;
     }
 }

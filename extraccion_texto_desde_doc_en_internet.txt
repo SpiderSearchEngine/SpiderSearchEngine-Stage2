@@ -1,0 +1,1166 @@
+run:
+Diseño y Análisis de Algoritmos con Java                                                Dr.Eric Jeltsch F. 
+
+
+Arboles AVL
+
+Objetivo: Lo substancial de este informe se centra en poder reconocer los árboles AVL, por otra parte superar el problema generado por la inserción en los árboles de Búsqueda Binaria que podían degenerar en una lista proporcional a los datos ingresados y por otra reforzar los conceptos adquiridos en Estructuras de Datos, como al mismo tiempo practicar su implementación con la ayuda del lenguaje de programación Java.
+
+Introducción: Una de las primeras estructuras de datos de árboles de búsqueda “equilibrados” que consideraremos son los árboles AVL ( que llevan el nombre de sus autores Adelson-Velskii-Landis), existen otros tipos de estructuras similares, tales como los árboles Red-Black y otros. En este informe se presenta la definición de los árboles AVL, con ejemplos. Se hace una estimación del número de nodos en el peor árbol AVL de altura h. Se revisa, en particular, el método de Insertar, con ejemplos. Además se muestra la implementación en Java de cada uno de los componentes, tales como Nodo, Arbol AVL y las Rotaciones, como el medio para lograr la implementación de Inserción en los árboles AVL. Finalmente, se hace una simulación de la implementación y se interpreta la salida, junto con mencionar algunas mejoras, u otras especificaciones que se le podrían realizar, como por ejemplo considerar que se ingresan string y no enteros, que son los datos en que se basa la presente implementación.
+
+Definición: Un árbol AVL es un árbol binario de búsqueda en el que las alturas de los subarboles izquierdos y derecho de cualquier nodo difieren a lo sumo en 1. Esta restricción impuesta sobre la altura de los subarboles de un árbol AVL se le conoce como “propiedad de los árboles AVL”, y debe ser cumplida por todos y cada uno de los nodos del árbol.
+
+Ejemplos:
+
+(1) Basado en que los árboles AVL son árboles binarios es que a partir de un árbol vacío se han insertado los datos originando el árbol de la Fig. 1, el cual deja de tener la propiedad AVL. Pues, aunque los nodos 2, 4, 10, la posean considerando sus respectivos subarboles, notamos que en este caso la raíz, es decir el nodo 8 no posee la propiedad de los árboles AVL pues la altura del subárbol izquierdo no difiere en a lo sumo 1 con el subárbol derecho, (en particular el subárbol izquierdo tiene altura 3, mientras que el subárbol derecho tiene altura 1. ( De allí la marca que se considera como –2 bajo el nodo 8 y –1 bajo el nodo 4. 
+
+
+                                                                    8
+
+
+
+                               4                                   -2                               10
+
+
+               2             -1           6
+
+
+
+        1        
+
+Fig.1
+
+Los valores –2 y –1 se conocen como "Balance" de los nodos 8 y 4 respectivamente. 
+ registra los valores de las alturas de los subárboles, los que deben ser  -1 (balance_izq), 0 (balanceado) y +1 (balance_der).
+
+(2) En este otro caso, todos los nodos satisfacen la condición de balance, de manera que es un árbol AVL.
+
+
+                                                                   4
+
+
+
+                               2                                                                     8
+
+
+
+               1                            3                                      6                                  10
+
+
+Fig. 2
+
+                                                                          5                 7
+
+Sea T(h) cualquier árbol AVL que contenga N(h) nodos, con h>=2. Como T(h) es un árbol AVL, y supongamos que tenga el menor número de nodos, entonces uno de los subárboles de la raíz debe tener altura h-1 y el otro deberá tener altura h-2, de manera que el número de nodos de un árbol AVL en el caso peor de altura h viene dado por: (Ver (2), para mayor información)
+
+                                   N(h) = 1 + N(h-1) + N(h-2).
+
+Si suponemos que N(h) = 0 cuando h <0, entonces los primeros valores de esta relación de recurrencia son: 1, 2, 4, 7, 12, 20, ...etc.  
+
+En general,  N(h) = F(h+3) – 1, donde F(i) es el i-ésimo número de Fibonacci.  (Ver (4) , pág.36-37).
+
+Tomando logaritmo en base (1 + (5)/2), se tiene que h = log (1 + (5)/2) N(h) –3. Como N(h) es el número de nodos en el peor árbol AVL de altura h, se desprende del análisi anteriorque la altura de cualquier árbol AVL de n-nodos es O(log(n)).
+
+Métodos de Consulta
+
+Al igual que como se hizo para los árboles de búsqueda binaria podemos realizar consultas en un árbol AVL. A saber, Insertar y Eliminar, y otros métodos que no resultan tan directos como en los árboles de búsqueda binaria, por el problema de balanceo que se genera.
+
+Ejemplos:
+
+Dado el siguiente árbol T de búsqueda binaria
+
+
+                                                                    8
+
+
+
+                               4                                                                    10
+
+
+
+               2                           6
+
+Fig 3.:
+
+1) En este árbol, son insertados los nodos con claves 9 y 11. Generándose el árbol T1 :
+
+
+                                                                    8
+
+
+
+                               4                                                                    10
+
+
+
+               2                            6                                       9                                11
+
+Fig. 4.: 
+
+2) Basado en T, son insertados los nodos con claves 1, 3, 5 y 7. Generándose el árbol T2:
+
+
+                                                                    8
+
+
+
+                               4                                   -2                               10
+
+
+               2             -1           6
+
+
+
+        1        
+
+Fig. 5:
+
+Ya al insertar la clave „1“ el árbol pierde la propiedad de AVL.. De aquí el aplicar una doble rotación.
+
+                                                                     
+
+                                                                     4
+
+
+
+                               2                                                                      8
+
+ 
+
+
+                1                                                                         6                     10
+
+Arbol obtenido luego de insertar las claves  3, 5 y 7.
+
+
+                                                                   4
+
+
+
+                               2                                                                     8
+
+
+
+               1                            3                                      6                                   10
+
+
+
+                                                                          5                 7
+
+Fig. 6: La inserción de las claves „3“, „5“ y „7“ no hacen perder la propiedad AVL.
+
+La propiedad de AVL se pierde si 
+ = +2 resp. -2. Esto se remedia mediante rotaciones. 
+
+Rotaciones
+
+a) Los árboles de Fig. 7 contienen los mismos elementos y son ambos árboles de búsqueda binaria. Primero, en ambos casos k1 < k2, segundo, todos los elementos en los subárboles X son menores que k1 en ambos árboles, tercero, todos los elementos en el subárbol Z son mayores que k2. Finalmente todos los elementos en el subárbol Y están entre k1 y k2. La conversión de uno de ellos al otro se conoce como „Rotación simple“, que significa en lo substancial cambiar la estructura del árbol. Las figuras muestran también las variantes simetricas.
+
+                                         k2                                                         k1
+
+
+                           k1                                                                                    k2
+
+                                                       Z
+
+
+                                      Y                                               X              Y                      Z
+
+              X
+
+
+                                       k1                                                           k2
+
+
+
+                                                     k2                               k1
+
+
+                            X
+
+                                          Y                                    X                   Y             Z
+
+                                                                 Z
+
+Fig. 7: Rotaciones Simples
+
+Representación en Java
+
+Un árbol AVL se representa de la misma manera que un árbol binario de búsqueda, esto es con nodos que contienen punteros a su padre y a sus hijos izquierdo y derecho, sin embargo, un nodo ahora debe almacenar un campo adicional que indica la altura o balance del nodo.
+
+// Descripción de un nodo para un árbol AVL
+
+class Nodo_Avl
+
+{ // Instancias
+
+ protected Nodo_Avl izq;        // hijo Izquierdo
+
+ protected Nodo_Avl der;        // hijo derecho
+
+ protected int  altura;        // altura
+
+ public Comparable datos;       // elementos
+
+// Constructores
+
+ public Nodo_Avl(Comparable datElem)
+
+ {
+
+  this(datElem, null, null );
+
+ }
+
+ public Nodo_Avl( Comparable datElem, Nodo_Avl ib, Nodo_Avl db )
+
+ {
+
+  datos  = datElem;
+
+  izq  = ib;
+
+  der = db;
+
+  balance  = 0;
+
+ }
+
+}
+
+/*
+Este método puede ser llamado solamente si k2 tiene un hijo      izquierdo, realizando una rotación entre el nodo k2, tal como lo muestra la figura 7. Además, actualiza la altura, asignando la nueva raíz a k2.
+
+*/
+
+  private static Nodo_Avl RotacionSimpleIzq(Nodo_Avl k2)
+
+  {
+
+   Nodo_Avl k1 = k2.izq;
+
+       k2.izq = k1.der;
+
+      k1.der = k2;
+
+       k2.altura = max( altura( k2.izq ), altura( k2.der ) ) + 1;
+
+       k1.altura = max( altura( k1.izq ), k2.altura ) + 1;
+
+   return k1;
+
+  }
+
+b) Existen situaciones en donde el desbalanceo es generado por un nodo que es insertado en el árbol que está contenido en el subárbol de el medio( es decir Y) y que al mismo tiempo como los otros arboles tienen idéntica altura. 
+
+El caso es fácil de chequear y la solución es llamada “Rotación Doble”, la cual es muy similar a la rotación simple salvo que ahora se ven involucrados 4 subárboles en vez de 3.
+
+
+                                                k3                                                                  k2
+
+
+
+                     k1                                                                              k1                                     k3
+
+
+                                                                    D
+
+                                 k2                      
+
+                                                                                                                 B                    C
+
+       A                                                                                  A                                                           D
+
+                          B           C
+
+Fig.8: Rotación Izq-Der, Rotación Doble.
+
+
+                                               K3                                                                   k2
+
+
+
+                                                               K1                                   k3                                   k1
+
+
+                             A                  k2
+
+
+                                                                           D                                     B                 C
+
+                                                                                             A                                                         D
+
+                                          B              C
+
+Fig.9: Rotación Der-Izq, Rotación Doble.
+
+/*
+
+  Rotación Doble, basada en Fig. 8: Este método solo puede ser usadosi k3 tiene hijo izquierdo y los hijos de k3 tienen hijo derecho. Esta rotación se conoce como rotación izq-der. Actualiza la altura, y su raíz.
+
+*/
+  private static Nodo_Avl DobleRotacionIzq_Der(Nodo_Avl k3)
+
+  {  /* Rotación entre k1 y k2*/
+   k3.izq = RotationSimpleIzq( k3.izq);
+
+   return RotationSimpleDer( k3 );
+
+  }
+
+Ejemplos: 
+
+
+                                                                   4
+
+
+
+                               2                                                                     6
+
+
+
+               1                            3                                      5                      k3   7
+
+                                                                                                                                                                                                                                                                  
+
+                                                                                                                     
+
+                                                                                                                      k1 15
+
+                                                                                                                                                                  
+
+                                                                                                          k2  14
+
+                                                                                                      Rotación der-Izq
+
+
+                                                                   4
+
+
+
+                               2                                                                     6
+
+
+
+               1                            3                                      5                      k2 14
+
+
+
+                                                                                                    k3  7          k1 15
+
+                                                                                                             Insertar 13
+
+
+                                                                   4
+
+
+
+                               2                                                              k3    6
+
+
+
+               1                            3                                      5                      k1 14
+
+
+
+                                                                                                    k2  7              15
+
+
+
+                                                                                                              13
+
+                                                                                                       Rotación der-Izq
+
+
+                                                                   4
+
+
+
+                               2                                                              k2    7
+
+
+
+               1                            3                               k3    6                     k1 14
+
+
+
+                                                                             5                           13              15
+
+Ud. podrá verificar que cualquier desbalanceo causado por una inserción en un árbol AVL puede ser realizada por una Rotación Doble o Simple, (Ver (1)). Ahora, respecto a la eficiencia de esta TDA mencionemos que almacenar la información de la altura, que en este caso son suficientes con +1, 0 y –1, es de gran utilidad
+
+/* Método para calcular la altura de un nodo en un árbol AVL.
+
+  */
+
+  private static int altura( Nodo_Avl b)
+
+  {
+
+   return b == null ? -1 : b.altura;
+
+  }
+
+Entonces recordemos que para Insertar un nodo con la clave „x“ en un árbol AVL, el valor „x“ se inserta recursivamente en el subarbol correspondiente, tal como en los árboles de búsqueda binario. En el caso que la altura del subárbol no cambie, la inserción concluye. En caso contrario es necesario utilizar según sea el caso, Rotación Simple o Rotación Doble.
+
+Implementación de la Inserción en los árboles AVL
+
+Archivo Nodo_Avl.java
+
+(Dr. Eric Jeltsch F.)
+
+// Declaracion de la clase Nodos para los elementos en los arboles AVL.
+
+class Nodo_Avl
+
+{
+
+ // Instancias 
+
+ protected Nodo_Avl izq;     // hijo izquierdo
+
+ protected Nodo_Avl der;     // hijo derecho
+
+ protected int  altura;      // altura
+
+ public Comparable datos;    // los datos como elementos del arbol avl
+
+ // Constructores
+
+ public Nodo_Avl(Comparable datElem)
+
+ {
+
+  this(datElem, null, null );
+
+ }
+
+ public Nodo_Avl( Comparable datElem, Nodo_Avl ib, Nodo_Avl db )
+
+ {
+
+  datos  = datElem;
+
+  izq  = ib;
+
+  der = db;
+
+  altura  = 0;
+
+ }
+
+}
+
+Archivo Arbol_Avl.java
+
+(Dr. Eric Jeltsch F.)
+
+// Métodos Típicos para los Arboles de Busqueda Binaria
+
+// Constructor: Inicializar la raíz con null
+
+//
+
+// *** algunos métodos usuales para los arboles***
+
+// void insertar( x )       --> inserta x 
+
+// void eliminar( x )       --> elimina x
+
+// Comparable hallar( x )   --> hallar un Elemento que corresponde a x
+
+// Comparable hallarMin( )  --> Entrega el Elemento más pequeño
+
+// Comparable hallarMax( )  --> Entrega el Elemento más grande
+
+// boolean esVacio( )       --> Return true si es vacio; else false
+
+// void hacerVacio( )       --> Eliminar todos
+
+// void printArbol( )   --> Salida de los datos en una sucesión ordenada
+
+// void salidaArbolBinario()  --> Salida de los datos girados en 90 grados.
+
+/*
+
+ * Comparaciones se basan en el método compareTo.(REPASAR)
+
+ */
+
+ public class Arbol_Avl
+
+ {
+
+  /* Raiz del Arbol */
+
+  private Nodo_Avl raiz;
+
+  /*
+
+   * Constructor por defecto
+
+  */
+
+  public Arbol_Avl( )
+
+  {
+
+   raiz = null;
+
+  }
+
+  /*
+
+   * Insertar: Duplicados son ignorados.
+
+   * x es el dato a ser insertado.
+
+  */
+
+  public void insertar(Comparable x )
+
+  {
+
+   raiz = insertar( x, raiz );
+
+  }
+
+  /*
+
+   * Eliminar un nodo del Arbol. Caso que x no este,
+
+   * nada ocurre.
+
+   * Si x esta, es eliminado.
+
+  */
+
+  //no esta la implementación......
+
+  /*
+
+   * Determinar el elemento más pequeño en el arbol..
+
+   * Devuelve: el dato más pequeño o null, 
+
+   * en el caso que el arbol este vacio.
+
+   * Analogamente se podría determinar el más grande elemento en el  arbol
+
+  */
+
+  //no esta implementado.....
+
+  /*
+
+   * Eliminar el arbol.
+
+  */
+
+  //no esta implementado....
+
+  /*
+
+   * Test, si el arbol esta vacio o no.
+
+   * devuelve true, caso de vacio; sino false.
+
+  */
+
+  public boolean esVacio( )
+
+  {
+
+   return raiz == null;
+
+  }
+
+  /*
+
+   * Entregar el contenido del árbol en una sucesion ordenada.
+
+  */
+
+  public void printArbol( )
+
+  {
+
+   if( esVacio( ) )
+
+    System.out.println( "Arbol vacio" );
+
+   else
+
+    printArbol( raiz );
+
+  }
+
+ /*
+
+  * Salida de los elementos del arbol binario rotados en 90 grados
+
+ */
+
+ public void salidaArbolBinario()
+
+ {
+
+  if( esVacio() )
+
+   System.out.println( "Arbol vacio" );
+
+  else
+
+   salidaArbolBinario(raiz,0);
+
+  }         
+
+  /*
+
+   * Metodo interno para tomar un nodo del arbol.
+
+   * Parametro b referencia al nodo del arbol.
+
+   * Devuelve los elementos o null,
+
+   * caso de b sea null.
+
+  */
+
+  private Comparable elementAt(Nodo_Avl b )
+
+  {
+
+   return b == null ? null : b.datos;
+
+  }
+
+  /*
+
+   * Metodo Interno para agregar o insertar un nodo en un subarbol.
+
+   * x es el elemento a agregar.
+
+   * b es el correspondiente nodo raiz.
+
+   * Devuelve la nueva raiz del respectivo subarbol.
+
+  */
+
+  private Nodo_Avl insertar(Comparable x, Nodo_Avl b)
+
+  {
+
+   if( b == null )
+
+    b = new Nodo_Avl(x, null, null);
+
+   else if (x.compareTo( b.datos) < 0 )
+
+        {
+
+         b.izq = insertar(x, b.izq );
+
+         if (altura( b.izq ) - altura( b.der ) == 2 )
+
+         if (x.compareTo( b.izq.datos ) < 0 )
+
+          b = RotacionSimpleIzq(b); 
+
+         else
+
+          b = RotacionDobleIzq_Der(b); 
+
+        }
+
+        else if (x.compareTo( b.datos ) > 0 )
+
+             {
+
+              b.der = insertar(x, b.der);
+
+              if( altura(b.der) - altura(b.izq) == 2)
+
+               if( x.compareTo(b.der.datos) > 0 )
+
+                 b = RotacionSimpleDer(b); 
+
+               else
+
+                 b = RotacionDobleDer_Izq(b);
+
+             }
+
+             else
+
+                ;  // Duplicados; no hace nada
+
+   b.altura = max( altura( b.izq ), altura( b.der ) ) + 1;
+
+   return b;
+
+  }
+
+  /*
+
+   * Metodo Interno para determinar el dato más pequeño.
+
+   * b es la raiz.
+
+   * Devuelve: Nodo con el elemento mas pequeño.
+
+  */
+
+  private Nodo_Avl hallarMin(Nodo_Avl b)
+
+  {
+
+   if (b == null)
+
+    return b;
+
+   while(b.izq != null )
+
+    b = b.izq;
+
+   return b;
+
+  }
+
+  /*
+
+   * Analogamente al anterior pero el más grande.
+
+  */
+
+  private Nodo_Avl hallarMax(Nodo_Avl b )
+
+  {
+
+   if (b == null)
+
+    return b;
+
+   while (b.der != null)
+
+    b = b.der;
+
+   return b;
+
+  }
+
+  /*
+
+   * Metodo interno para determinar un dato.
+
+   * x es el dato buscado
+
+   * b es la raiz
+
+   * Devuelve: Nodo con el correspondiente dato.
+
+  */
+
+  private Nodo_Avl hallar(Comparable x, Nodo_Avl b)
+
+  {
+
+   while( b != null )
+
+    if (x.compareTo( b.datos) < 0 )
+
+     b = b.izq;
+
+    else if( x.compareTo( b.datos ) > 0 )
+
+          b = b.der;
+
+         else
+
+          return b;    // paso
+
+    return null;       // no paso nada
+
+  }
+
+  /*
+
+   * Metodo Interno para devolver los datos de un subarbol en una sucesion ordenada.
+
+   * b es la raiz.
+
+  */
+
+  private void printArbol(Nodo_Avl b)
+
+  {
+
+    if( b != null )
+
+    {
+
+     printArbol( b.izq );
+
+     System.out.println( b.datos );
+
+     printArbol( b.der );
+
+    }
+
+  }
+
+  /*
+
+   * salida del arbol binario rotado en 90 Grados
+
+  */
+
+  private void salidaArbolBinario(Nodo_Avl b, int nivel)
+
+  {
+
+   if (b != null)
+
+   {
+
+    salidaArbolBinario(b.izq, nivel + 1);
+
+    for (int i = 0; i < nivel; i++)
+
+    {
+
+     System.out.print(' ');
+
+    }
+
+    System.out.println(b.datos);
+
+    salidaArbolBinario(b.der, nivel + 1);
+
+   }
+
+  }
+
+  /*
+
+   * Salida: altura de los nodos, o -1, en el caso null.
+
+  */
+
+  private static int altura(Nodo_Avl b)
+
+  {
+
+   return b == null ? -1 : b.altura;
+
+  }
+
+  /*
+
+   * Salida: Maximum entre lhs y rhs.
+
+  */
+
+  private static int max( int lhs, int rhs )
+
+  {
+
+   return lhs > rhs ? lhs : rhs;
+
+  }
+
+  /*
+
+   * Rotacion Simple Izquierda(simetrica a Rotacion Simple Derecha).
+
+   * Para los arboles AVL, esta es una de las simples rotaciones.
+
+   * Actualiza la altura, devuelve la nueva raiz.
+
+  */
+
+  private static Nodo_Avl RotacionSimpleIzq(Nodo_Avl k2)
+
+  {
+
+   Nodo_Avl k1 = k2.izq;
+
+       k2.izq = k1.der;
+
+      k1.der = k2;
+
+       k2.altura = max( altura( k2.izq ), altura( k2.der ) ) + 1;
+
+       k1.altura = max( altura( k1.izq ), k2.altura ) + 1;
+
+   return k1;
+
+  }
+
+  /*
+
+  * Rotación Simple Derecha.
+
+  */
+
+  private static Nodo_Avl RotacionSimpleDer(Nodo_Avl k1)
+
+  {
+
+   Nodo_Avl k2 = k1.der;
+
+      k1.der = k2.izq;
+
+      k2.izq = k1;
+
+      k1.altura = max( altura( k1.izq ), altura( k1.der ) ) + 1;
+
+      k2.altura = max( altura( k2.der ), k1.altura ) + 1;
+
+   return k2;
+
+  }
+
+  /*
+
+         * Rotacion doble: primero hijo izquierdo con su hijo derecho
+
+         * entonces nodo k3 con el nuevo hijo izquierdo.
+
+         * para los arboles AVL, esta es una doble rotación
+
+         * actualiza alturas, entrega nueva raiz.
+
+  */
+
+  private static Nodo_Avl RotacionDobleIzq_Der(Nodo_Avl k3)
+
+  {
+
+   k3.izq = RotacionSimpleDer( k3.izq );
+
+   return RotacionSimpleIzq( k3 );
+
+  }
+
+  /*
+
+         * rotacion doble: primero hijo derecho
+
+         * con su hijo izquierdo; luego nodo k1 con nuevo hijo derecho.
+
+         * Para los AVL, esta es una doble rotación.
+
+         * actualiza alturas, entrega nueva raiz.
+
+  */
+
+  private static Nodo_Avl RotacionDobleDer_Izq(Nodo_Avl k1)
+
+  {
+
+   k1.der = RotacionSimpleIzq(k1.der);
+
+   return RotacionSimpleDer(k1);
+
+  }
+
+}
+
+archivo Arbol_AvlTest.java
+
+(Dr. Eric Jeltsch F.)
+
+public class Arbol_AvlTest
+
+{
+
+ // Programa Test
+
+ public static void main(String [] args)
+
+ {
+
+  Arbol_Avl b1 = new Arbol_Avl();
+
+  Arbol_Avl b2 = new Arbol_Avl(); 
+
+  for (int i = 0; i < 7; i++) // 
+
+    {   
+
+   Integer r = new Integer(i);
+
+   b1.insertar(r);
+
+  }
+
+  System.out.println("Arbol girado en 90 grados");
+
+  b1.salidaArbolBinario();
+
+  for (int i = 0; i < 10; i++)
+
+    {
+
+     // Genera un número entre 0 y 100
+
+     Integer r = new Integer((int)(Math.random()*100));
+
+     b2.insertar(r);
+
+  }
+
+  System.out.println("Arbol girado en 90 grados");
+
+  b2.salidaArbolBinario();
+
+  System.out.println("Travesia en Inorden(Izq-Raiz-Der)");
+
+  b2.printArbol();
+
+ }
+
+}
+
+Salida que se genera:
+
+Arbol girado en 90 grados
+
+  0
+
+ 1
+
+  2
+
+3
+
+  4
+
+ 5
+
+  6
+
+Arbol girado en 90 grados
+
+  4
+
+   14
+
+ 35
+
+  39
+
+52
+
+  64
+
+ 74
+
+  75
+
+   77
+
+Travesia en Inorden(Izq-Raiz-Der)
+
+4
+
+14
+
+35
+
+39
+
+52
+
+64
+
+74
+
+75
+
+77
+
+Interpretación de la salida
+
+Arbol girado en 90 grados
+
+  0
+
+ 1
+
+  2
+
+3
+
+  4
+
+ 5
+
+  6
+
+La implementación de los árboles AVL, así como su salida están basados en los ejemplos y materiales entregados en (3).
+
+ 
+                                                                    3
+
+
+
+                               1                                                                      5
+
+
+
+               0                            2                                       4                                   6
+
+Propuestas: Una mejora factible de considerar en la implementación del método insertar es considerar que los elementos a ingresar son String o caracteres, además de considerar el factor de balance y la nueva raíz que se obtiene. Como se muestra en el ejemplo siguiente.
+
+caracter que desea insertar al arbol-AVL (Borrar: \n): a
+
+a insertado
+
+AVL con balanceo:
+
+a(0)
+
+Caracter que desea insertar al arbol-AVL (Borrar: \n): b
+
+b insertado
+
+AVL con balanceo:
+
+    b(0)
+
+a(1)
+
+c insertado
+
+AVL con balanceo:
+
+    c(0)
+
+b(0)
+
+    a(0)
+
+Bibliografía:
+
+(1) Mark Allen Weiss , "Data Structures and Algorithm Analysis (in Java)",          Addison_Wesley, 1999. 
+
+Gregory Heileman, “Estructuras de Datos, Algoritmos  y Programación Orientada a Objetos”,  Mc Graw Hill, 1997.
+
+Documentos “POO(2003)” y “apresto a UML”, en la dirección Web http://dns.uls.cl/~ej/java-2003/Labor2003/Praxis3Web/practica3.htm
+Cormen, Leiserson, Rivest, "Introduction to algorithms", McGraw-Hill, 1990.
+
+
+
+
+
+
+
+1
+____________________________________________________________________Area de Computación, Universidad de La Serena
+
+
+
+
+
+BUILD SUCCESSFUL (total time: 15 seconds)
