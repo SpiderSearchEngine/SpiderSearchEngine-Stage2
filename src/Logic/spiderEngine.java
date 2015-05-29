@@ -16,6 +16,9 @@ public class spiderEngine {
     private redBlackTree arbolDirecciones;
     
     public void optimizarEstructuras(){
+        indice1Reader i1R=new indice1Reader();
+        arbolDirecciones=i1R.lectura();
+        arbolDirecciones.postOrden(arbolDirecciones.getRoot());
         
     }
     

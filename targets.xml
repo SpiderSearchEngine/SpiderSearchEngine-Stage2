@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<targets>   
+    <URL>http://www.oracle.com</URL>
+    <URL>http://es.wikipedia.org/wiki/Deportivo_Saprissa</URL>
+    <URL>http://www.nacion.com</URL>
+    <URL>http://www.stackoverflow.com/</URL>
+    <URL>http://www.inci.gov.co</URL> 
+    <URL>http://www.ucr.ac.cr</URL>
+    <URL>http://www.utn.ac.cr</URL>
+    <URL>http://www.oceano.com</URL> 
+    <URL>http://www.lawebdelprogramador.com</URL>
+    <URL>http://www.linuxhispano.net</URL> 
+</targets>

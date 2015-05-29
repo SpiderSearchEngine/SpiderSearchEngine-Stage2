@@ -81,7 +81,7 @@ class TextExtractor {
    */
   public static void main(String args[]) throws Exception {  
     TextExtractor textExtractor = new TextExtractor();  
-    textExtractor.process("http://www.cec.uchile.cl/~luvasque/edo/java/manuales/Estructuras%20de%20Datos%20en%20Lenguaje%20Java%20%28CCG%29.pdf");  
+    textExtractor.process("http://www.utim.edu.mx/~svalero/docs/resumen4C.doc");  
     textExtractor.getString();  
     
     
