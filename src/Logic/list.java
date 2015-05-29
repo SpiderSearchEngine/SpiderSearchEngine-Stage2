@@ -140,11 +140,11 @@ public class list <G>{
      * @param pData
      * @return 
      */
-    public boolean findSpecial (G pData){
+    public boolean findRB (G pData){
         node tmp = _head;
         boolean condition = false;
         while(tmp!=null){
-            if (!(((String)((palabra)tmp.getData()).getName()).equals((String)pData)))
+            if (!(((String)((nodeTree)tmp.getData()).getData()).equals((String)pData)))
                 tmp=tmp.getNextNode();            
             else{
                 condition=true;

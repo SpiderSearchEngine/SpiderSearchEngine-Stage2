@@ -16,9 +16,10 @@ public class palabra <G>{
      * @param ppalabra, palabra
      * @param plistaReferencias, lista con los urls que la incluyen. 
      */
-    public palabra(String ppalabra, list plistaReferencias){
+    public palabra(String ppalabra, int pApariciones, list plistaReferencias){
        this._name=ppalabra;
        this._listaReferencia=plistaReferencias;
+       this._apariciones=pApariciones;
     }
     /**
      * Metodo para modificar nombre de la palabra.
