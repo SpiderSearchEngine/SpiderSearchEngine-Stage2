@@ -12,12 +12,14 @@ package Logic;
 public class nodeArray <G>{
     private int _peso;
     private String _documentos="";
+    private int _numAsoc;
     /**
      * Constructor de la clse
      */
-    public nodeArray(int ppeso,String pdocuments){
+    public nodeArray(int ppeso,String pdocuments,int pnumAsoc){
         this._peso=ppeso;
         this._documentos=pdocuments;
+        this._numAsoc=pnumAsoc;
     }
 
     /**
@@ -50,6 +52,20 @@ public class nodeArray <G>{
      */
     public void setDocumentos(String pdocumentos) {
         this._documentos = pdocumentos;
+    }
+
+    /**
+     * @return the _numAsoc
+     */
+    public int getNumAsoc() {
+        return _numAsoc;
+    }
+
+    /**
+     * @param _numAsoc the _numAsoc to set
+     */
+    public void setNumAsoc(int _numAsoc) {
+        this._numAsoc = _numAsoc;
     }
     
     

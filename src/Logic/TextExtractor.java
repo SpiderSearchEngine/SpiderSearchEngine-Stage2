@@ -68,22 +68,12 @@ class TextExtractor {
    * Este metodo sera el que tome el texto del documento y lo pasara a ser un String para 
    * asi poder ser manipulado.
    */ 
-  public void getString() {  
-    //Get the text into a String object  
-    _extractedText = _outputstream.toString();  
-    //Do whatever you want with this String object.  
-    System.out.println(_extractedText);  
-  }  
-  /**
-   * 
-   * @param args
-   * @throws Exception 
-   */
-  public static void main(String args[]) throws Exception {  
-    TextExtractor textExtractor = new TextExtractor();  
-    textExtractor.process("/home/gerald/Documentos/copia de Manual_de_laboratorio-Física_General_1-1ra_Edición.pdf");  
-    textExtractor.getString();  
-    
-    
+  public String getString() {  
+    _extractedText = _outputstream.toString();   
+    //System.out.println(_extractedText);  
+    return _extractedText;
   }
+    
+    
+  
 }

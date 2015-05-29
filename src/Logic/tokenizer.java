@@ -17,9 +17,8 @@ public class tokenizer <G>{
      * @param paProcesar, palabra a procesar
      * @param purl, url que se esta procesando 
      */
-    public tokenizer(String paProcesar, String purl){
+    public tokenizer(String paProcesar){
          this._dato=paProcesar;
-         this._url=purl;
     }
     /**
      * Metodo que genera la pila de las palabras validas
@@ -50,6 +49,7 @@ public class tokenizer <G>{
                     && _dato.compareTo("Tras")!=0 && _dato.compareTo("Que")!=0 
                     && _dato.compareTo("Del")!=0 && _dato.compareTo("Los")!=0
                     && _dato.compareTo("Las")!=0){
+                
                 pilaPalabras.push(_dato);
             }
         }

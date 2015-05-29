@@ -72,7 +72,7 @@ public class indiceprincipalReader1 {
             NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
             for (int i = 0; i < nodes.getLength(); i++){
                 //System.out.println(nodes.item(i).getNodeValue());
-                H.Insertar(nodes.item(i).getNodeValue(),45);
+                H.Insertar(nodes.item(i).getNodeValue(),45,1);
                 
             }
         }

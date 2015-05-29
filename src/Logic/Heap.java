@@ -20,7 +20,7 @@ public class Heap <G>{
         _TamañoDeArreglo=_arr.length;
         int indices=0;
         while (indices<_TamañoDeArreglo){
-            _arr[indices]=new nodeArray(-1,"");
+            _arr[indices]=new nodeArray(-1,"",0);
             indices+=1;
         }
         }
@@ -79,10 +79,13 @@ public class Heap <G>{
         public void swap(int pindice, int pmaximo){
             int tmp = _arr[pindice].getPeso();
             String tmp2=_arr[pindice].getDocumentos();
+            int tmp3=_arr[pindice].getNumAsoc();
             _arr[pindice].setPeso(_arr[pmaximo].getPeso()); 
             _arr[pindice].setDocumentos(_arr[pmaximo].getDocumentos());
+            _arr[pindice].setNumAsoc(_arr[pmaximo].getNumAsoc());
             _arr[pmaximo].setPeso(tmp); 
             _arr[pmaximo].setDocumentos(tmp2);
+            _arr[pmaximo].setNumAsoc(tmp3);
         }    
 
         /**
@@ -117,6 +120,7 @@ public class Heap <G>{
         _raiz=_arr[_arr.length-1];
         _arr[_arr.length-1].setPeso(-1);
         _arr[_arr.length-1].setDocumentos("");
+        _arr[_arr.length-1].setNumAsoc(0);
         Monticulo();
         }
         /**
@@ -147,10 +151,11 @@ public class Heap <G>{
          * @param Documento
          * @param peso 
          */
-        public void Insertar(String Documento,int peso){
+        public void Insertar(String Documento,int peso, int pnumAsoc){
             if (_Indice<_TamañoDeArreglo){
                 _arr[_Indice].setPeso(peso);
                 _arr[_Indice].setDocumentos(Documento);
+                _arr[_Indice].setNumAsoc(pnumAsoc);
                 _Indice+=1;
                 Monticulo();
             }

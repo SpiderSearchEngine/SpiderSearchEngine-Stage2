@@ -82,7 +82,7 @@ public class formatoTexto {
        for(int i=0; i<_expresiones.length;i++){
            _dato=_dato.replace(_expresiones[i], " ");
        }
-       tokenizer token=new tokenizer(_dato, pUrl);
+       tokenizer token=new tokenizer(_dato);
        return token.procesar();
     }       
 }
