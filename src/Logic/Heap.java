@@ -12,6 +12,7 @@ public class Heap <G>{
         private int _IndiceMaximo=1000;
         private nodeArray _arr[];
         private nodeArray _raiz;
+        private int contador=0;
         /**
          * Constructor de la clase
          */
@@ -111,6 +112,7 @@ public class Heap <G>{
           nodeArray root =_arr[0];
           _arr[0] = _arr[--top];
           shiftDown(0,top-1);
+          contador-=1;
           return root;
         }
         /**
@@ -157,6 +159,7 @@ public class Heap <G>{
                 _arr[_Indice].setDocumentos(Documento);
                 _arr[_Indice].setNumAsoc(pnumAsoc);
                 _Indice+=1;
+                contador+=1;
                 Monticulo();
             }
         }
@@ -170,6 +173,13 @@ public class Heap <G>{
                 }
             }
         }
+
+    /**
+     * @return the contador
+     */
+    public int getContador() {
+        return contador;
+    }
     
 }
 
