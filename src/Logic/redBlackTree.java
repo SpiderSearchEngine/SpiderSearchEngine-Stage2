@@ -34,7 +34,7 @@ public class redBlackTree <G> {
             insertAux(new nodeTree(pdata, null, null, null, "rojo"), _root);
     }
     private void insertAux(nodeTree pNode, nodeTree pPadre){
-        if((Integer)pNode.getData()>(Integer)pPadre.getData()){
+        if(((String)pNode.getData()).compareTo((String)pPadre.getData())==1){
             if(pPadre.getHijoDer()==null){
                 if(pPadre.getColor()=="negro"){
                     pPadre.setHijoDer(pNode);
@@ -86,31 +86,31 @@ public class redBlackTree <G> {
         else if(pNode.getColor()=="negro")
             return;
         else if (pNode.getPadre().getPadre()!=null){
-            if((Integer)pNode.getPadre().getData()<(Integer)pNode.getPadre().getPadre().getData() && 
+            if(((String)pNode.getPadre().getData()).compareTo((String)pNode.getPadre().getPadre().getData())==-1 && 
                     pNode.getPadre().getPadre().getHijoDer()!=null && 
                     pNode.getPadre().getPadre().getHijoDer().getColor()=="rojo"){
                 caso1Izq(pNode);}
-            else if ((Integer)pNode.getPadre().getData()>(Integer)pNode.getPadre().getPadre().getData() &&
+            else if (((String)pNode.getPadre().getData()).compareTo((String)pNode.getPadre().getPadre().getData())==1 &&
                     pNode.getPadre().getPadre().getHijoIzq()!=null && 
                     pNode.getPadre().getPadre().getHijoIzq().getColor()=="rojo"){
                 caso1Der(pNode);}
-            else if((Integer)pNode.getData()>(Integer)pNode.getPadre().getData() && 
-                    (Integer)pNode.getPadre().getData()<(Integer)pNode.getPadre().getPadre().getData()
+            else if(((String)pNode.getData()).compareTo((String)pNode.getPadre().getData())==1 && 
+                    ((String)pNode.getPadre().getData()).compareTo((String)pNode.getPadre().getPadre().getData())==-1
                     && (pNode.getPadre().getPadre().getHijoDer() == null || 
                     pNode.getPadre().getPadre().getHijoDer().getColor()=="negro"))
                 caso2Izq(pNode);
-            else if((Integer)pNode.getData()<(Integer)pNode.getPadre().getData() && 
-                    (Integer)pNode.getPadre().getData()>(Integer)pNode.getPadre().getPadre().getData()
+            else if(((String)pNode.getData()).compareTo((String)pNode.getPadre().getData())==-1 && 
+                    ((String)pNode.getPadre().getData()).compareTo((String)pNode.getPadre().getPadre().getData())==1
                     && (pNode.getPadre().getPadre().getHijoIzq() == null || 
-                    pNode.getPadre().getPadre().getHijoIzq().getColor()=="negro")){System.out.println("ffd");
-                caso2Der(pNode);}
-            else if ((Integer)pNode.getData()<(Integer)pNode.getPadre().getData() && 
-                    (Integer)pNode.getPadre().getData()<(Integer)pNode.getPadre().getPadre().getData()
+                    pNode.getPadre().getPadre().getHijoIzq().getColor()=="negro"))
+                caso2Der(pNode);
+            else if (((String)pNode.getData()).compareTo((String)pNode.getPadre().getData())==-1 && 
+                    ((String)pNode.getPadre().getData()).compareTo((String)pNode.getPadre().getPadre().getData())==-1
                     && (pNode.getPadre().getPadre().getHijoDer() == null || 
                     pNode.getPadre().getPadre().getHijoDer().getColor()=="negro"))
                 caso3Izq(pNode);
-            else if ((Integer)pNode.getData()>(Integer)pNode.getPadre().getData() && 
-                    (Integer)pNode.getPadre().getData()>(Integer)pNode.getPadre().getPadre().getData()
+            else if (((String)pNode.getData()).compareTo((String)pNode.getPadre().getData())==1 && 
+                    ((String)pNode.getPadre().getData()).compareTo((String)pNode.getPadre().getPadre().getData())==1
                     && (pNode.getPadre().getPadre().getHijoIzq() == null || 
                     pNode.getPadre().getPadre().getHijoIzq().getColor()=="negro"))
                 caso3Der(pNode);
@@ -189,7 +189,7 @@ public class redBlackTree <G> {
             tmp.getHijoDer().setPadre(tmp);
             tmp.getHijoDer().setColor("rojo");
         }
-        else if ((Integer)tmp.getPadre().getData()>(Integer)tmp.getPadre().getPadre().getData()){
+        else if (((String)tmp.getPadre().getData()).compareTo((String)tmp.getPadre().getPadre().getData())==1){
             tmp.setPadre(tmp.getPadre().getPadre());
             tmp.getHijoDer().setPadre(tmp);
             tmp.getPadre().setHijoDer(tmp);
@@ -222,7 +222,7 @@ public class redBlackTree <G> {
             tmp.getHijoIzq().setPadre(tmp);
             tmp.getHijoIzq().setColor("rojo");
         }
-        else if ((Integer)tmp.getPadre().getData()>(Integer)tmp.getPadre().getPadre().getData()){
+        else if (((String)tmp.getPadre().getData()).compareTo((String)tmp.getPadre().getPadre().getData())==1){
             tmp.setPadre(tmp.getPadre().getPadre());
             tmp.getHijoIzq().setPadre(tmp);
             tmp.getPadre().setHijoDer(tmp);
@@ -310,11 +310,11 @@ public class redBlackTree <G> {
             return findAux(Data, _root);
     }    
     private boolean findAux(G pData, nodeTree pNode){
-        if((Integer)pData!=(Integer)pNode.getData() && pNode.getHijoDer()==null && pNode.getHijoIzq()==null)
+        if((String)pData!=(String)pNode.getData() && pNode.getHijoDer()==null && pNode.getHijoIzq()==null)
             return false;
-        else if((Integer)pNode.getData()==(Integer)pData)
+        else if((String)pNode.getData()==(String)pData)
             return true;
-        else if ((Integer)pData<(Integer)pNode.getData())
+        else if (((String)pData).compareTo((String)pNode.getData())==-1)
             return findAux(pData, pNode.getHijoIzq());
         else
             return findAux(pData, pNode.getHijoDer());

@@ -16,7 +16,7 @@ import javax.swing.JLabel;
  * @author Gerald M, Jairo O
  */
 public class Buscador extends javax.swing.JFrame {
-//ds
+    
     /**
      * Creates new form Buscador
      */

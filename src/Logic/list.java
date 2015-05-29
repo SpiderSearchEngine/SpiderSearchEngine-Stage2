@@ -144,7 +144,7 @@ public class list <G>{
         node tmp = _head;
         boolean condition = false;
         while(tmp!=null){
-            if (!(((String)((nodeTree)tmp.getData()).getData()).equals((String)pData)))
+            if (!((((nodeTree)tmp.getData()).getData()).equals((String)pData)))
                 tmp=tmp.getNextNode();            
             else{
                 condition=true;
