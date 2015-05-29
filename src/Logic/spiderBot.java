@@ -14,9 +14,7 @@ import org.xml.sax.SAXException;
 public class spiderBot {
     
     private queueList cola = new queueList(null, null);
-    private listKey lk = new listKey(null, null);
     private list l = new list(null, null);
-    private circularList cl = new circularList(null);
     private boolean permiso = false;
     private boolean parar = true;
     private String _url; 
@@ -24,11 +22,14 @@ public class spiderBot {
     private int _maxprofundidad;
     private int _reindex;
     private Heap _heap;
+    private redBlackTree arbolDirecciones;
+    private avlTree arbolPalabras;
     
     /**
      * Constructor de la clase
      */
     public spiderBot(){
+        arbolDirecciones=new redBlackTree(null);
     }
     /**
      * Metodo para generar las colas
@@ -48,7 +49,7 @@ public class spiderBot {
             }
         }
         indiceprincipalReader1 leerxml =new indiceprincipalReader1();
-        _heap=leerxml.lectura();
+        _heap=leerxml.lectura(url);
         permiso=true;
         notify();
     }
@@ -56,7 +57,8 @@ public class spiderBot {
      * Metodo para obtener todos los datos del url
      * @throws IOException 
      */
-    /*public synchronized void obtenerDatos() throws IOException{
+    public synchronized void obtenerDatos() throws IOException, Exception{
+        System.out.println("1");
         int cont=0;
         while(permiso==false){
             try{
@@ -65,35 +67,54 @@ public class spiderBot {
             catch (InterruptedException e) {
             }
         }
-        permiso=false;
-        
-        stackList pilaUrl = new stackList (null);        
-        stackList pilaTexto = new stackList (null);        
+        permiso=false;                
+        stackList pilaTexto = new stackList (null);
+        stackList pilaUrl = new stackList (null);
         procesarURLS procUrl = new procesarURLS(); 
         formatoTexto ft = new formatoTexto();
-        url URL = ((url)(cola.dequeue().getData()));
-        if (URL.getNumAsoc()<1){
-            if (cl.getHead()!=null && cl.find((String)URL.getDireccion())==true){
-                node tmp=cl.getHead();
-                while(!((urlProcesado)(tmp.getData())).getDireccion().equals(URL.getDireccion()))
-                    tmp=tmp.getNextNode();
-                ((urlProcesado)(tmp.getData())).setReferencia(((urlProcesado)(tmp.getData())).getReferencia()+1);
-            }
-            else{
-                pilaUrl=procUrl.procesar(URL);
-                
-                while (pilaUrl.top()!=null)
-                    cola.enqueue((url)pilaUrl.pop().getData());
-                cl.insertHead(new urlProcesado(URL.getDireccion(), 0));
-                pilaTexto=ft.eliminarLinks(((urlProcesado)cl.getHead().getData()).getDireccion());
-                while(pilaTexto.top()!=null){
-                    String var=(String)pilaTexto.top().getData();
-                    pilaTexto.pop();
-                    procesarPalabras(var);
+        _heap.eliminar();
+        nodeArray tmp=_heap.getRaiz();
+        
+        System.out.println("2");
+        url URL=new url(tmp.getDocumentos(),tmp.getPeso(), tmp.getNumAsoc());
+        nodeTree nodeUrl;
+        if(tmp.getNumAsoc()<2){
+            
+            if(arbolDirecciones.getRoot()!=null){
+                if(arbolDirecciones.find(tmp.getDocumentos())==false){
+                    pilaUrl=procUrl.procesar(URL);
+                    arbolDirecciones.insert(new urlProcesado(tmp.getDocumentos(),1));
+                    arbolDirecciones.findSpecial(tmp.getDocumentos());
+                    nodeUrl=arbolDirecciones.getUrlNode();
+                }
+                else{
+                    arbolDirecciones.findSpecial(tmp.getDocumentos());
+                    nodeUrl=arbolDirecciones.getUrlNode();
                 }
             }
-            permiso=true;
-            notify();
+            else{
+                System.out.println("jairo");
+                arbolDirecciones.insert(new urlProcesado(tmp.getDocumentos(),1));
+                arbolDirecciones.findSpecial(tmp.getDocumentos());
+                nodeUrl=arbolDirecciones.getUrlNode();
+            }
+        
+            while(pilaUrl.top()!=null){
+                _heap.Insertar(((url)pilaUrl.top().getData()).getDireccion(), 
+                        ((url)pilaUrl.top().getData()).getPesoAsoc(), ((url)pilaUrl.top().getData()).getNumAsoc());
+                pilaUrl.pop();
+            }
+            if(tmp.getDocumentos().startsWith("http")&& (tmp.getDocumentos().endsWith(".pdf") || 
+                    tmp.getDocumentos().endsWith(".docx") || tmp.getDocumentos().endsWith(".doc")
+                    || tmp.getDocumentos().endsWith(".txt") || tmp.getDocumentos().endsWith(".odt")))
+                pilaTexto=ft.eliminarLinks(tmp.getDocumentos());
+            while(pilaTexto.top()!=null){
+                String var=(String)pilaTexto.top().getData();
+                pilaTexto.pop();
+                procesarPalabras(var);
+            }
+        permiso=true;
+        notify();
         }
         else{
             parar=false;
@@ -103,7 +124,7 @@ public class spiderBot {
     }
         
     private void procesarPalabras(String pal){
-        if (l.findSpecial(pal)==false){
+        /*if (l.findSpecial(pal)==false){
             l.insertHead(new palabra (pal, new listKey(null, null)));
             ((palabra)l.getHead().getData()).insertar(cl.getHead());
             ((palabra)(l.getHead().getData())).getListaReferencia().getHead()
@@ -126,8 +147,8 @@ public class spiderBot {
                     .setNumNode(new node(1, null, null));
             }
             
-        }
-    }*/
+        }*/
+    }
     /**
      * Metodo para generar los indices
      * @throws Exception 

@@ -27,51 +27,48 @@ import org.xml.sax.ContentHandler;
   * Clase que se encargara de tomar un documento PDF y tomar para extraer de el todo el texto
   * @author Gerald M, Jairo O
   */  
-class TextExtractor {  
-  private OutputStream _outputstream;  
-  private ParseContext _context;  
-  private Detector _detector;  
-  private Parser _parser;  
-  private Metadata _metadata;  
-  private String _extractedText;  
-  /**
-   * Constructor de la clase
-   */ 
-  public TextExtractor() {  
-    this._context = new ParseContext();  
-    this._detector = new DefaultDetector();  
-    this._parser = new AutoDetectParser(_detector);  
-    this._context.set(Parser.class, _parser);  
-    this._outputstream = new ByteArrayOutputStream();  
-    this._metadata = new Metadata();  
-  }  
-  /**
-   * Metodo que procesa el documento embebido en la direccion URL
-   * @param filename, Direccion Url del documento pdf en internet
-   * @throws Exception 
-   */ 
-  public void process(String pfilename) throws Exception {  
-    URL url;  
-    File file = new File(pfilename);  
-    if (file.isFile()) {  
-      url = file.toURI().toURL();  
-    } else {  
-      url = new URL(pfilename);  
-    }  
-    InputStream input = TikaInputStream.get(url, _metadata);  
-    ContentHandler handler = new BodyContentHandler(_outputstream);  
-    _parser.parse(input, handler, _metadata, _context);  
-    input.close();  
-  }  
-   
-  /**
-   * Este metodo sera el que tome el texto del documento y lo pasara a ser un String para 
-   * asi poder ser manipulado.
-   */ 
-  public String getString() {  
-    _extractedText = _outputstream.toString();   
-    //System.out.println(_extractedText);  
-    return _extractedText;
+class TextExtractor {
+    private OutputStream _outputstream;  
+    private ParseContext _context;  
+    private Detector _detector;  
+    private Parser _parser;  
+    private Metadata _metadata;  
+    private String _extractedText;
+    /**
+     * Constructor de la clase
+     */ 
+    public TextExtractor() {
+        this._context = new ParseContext();
+        this._detector = new DefaultDetector();  
+        this._parser = new AutoDetectParser(_detector);
+        this._context.set(Parser.class, _parser);  
+        this._outputstream = new ByteArrayOutputStream();  
+        this._metadata = new Metadata();
+    }
+    /**
+     * Metodo que procesa el documento embebido en la direccion URL
+     * @param filename, Direccion Url del documento pdf en internet
+     * @throws Exception 
+     */
+    public void process(String pfilename) throws Exception {
+        URL url;
+        File file = new File(pfilename);
+        if (file.isFile())
+            url = file.toURI().toURL();
+        else 
+            url = new URL(pfilename); 
+        InputStream input = TikaInputStream.get(url, _metadata);  
+        ContentHandler handler = new BodyContentHandler(_outputstream);  
+        _parser.parse(input, handler, _metadata, _context);  
+        input.close();  
+    }
+    /**
+     * Este metodo sera el que tome el texto del documento y lo pasara a ser un String para
+     * asi poder ser manipulado.
+     */ 
+    public String getString() {
+        _extractedText = _outputstream.toString();
+        return _extractedText;
   }
     
     

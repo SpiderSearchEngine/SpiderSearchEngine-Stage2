@@ -75,10 +75,10 @@ public class formatoTexto {
      * @return
      * @throws IOException 
      */
-    public stackList eliminarLinks(String pUrl) throws IOException{
-       extraeTexto extratorDeTexto=new extraeTexto();
-       _dato=extratorDeTexto.extraerTexto(pUrl);
-       _dato=_dato.replaceAll("\\<.*?>", " ");
+    public stackList eliminarLinks(String pUrl) throws IOException, Exception{
+       TextExtractor extractorDeTexto=new TextExtractor();
+       extractorDeTexto.process(pUrl);
+       _dato=extractorDeTexto.getString();
        for(int i=0; i<_expresiones.length;i++){
            _dato=_dato.replace(_expresiones[i], " ");
        }

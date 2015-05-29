@@ -310,11 +310,11 @@ public class redBlackTree <G> {
             return findAux(Data, _root);
     }    
     private boolean findAux(G pData, nodeTree pNode){
-        if((String)pData!=(String)pNode.getData() && pNode.getHijoDer()==null && pNode.getHijoIzq()==null)
+        if((String)pData!=((urlProcesado)pNode.getData()).getDireccion() && pNode.getHijoDer()==null && pNode.getHijoIzq()==null)
             return false;
-        else if((String)pNode.getData()==(String)pData)
+        else if(((urlProcesado)pNode.getData()).getDireccion() ==(String)pData)
             return true;
-        else if (((String)pData).compareTo((String)pNode.getData())==-_uno)
+        else if (((String)pData).compareTo(((urlProcesado)pNode.getData()).getDireccion() )==-_uno)
             return findAux(pData, pNode.getHijoIzq());
         else
             return findAux(pData, pNode.getHijoDer());

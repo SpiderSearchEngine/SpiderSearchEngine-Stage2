@@ -31,7 +31,7 @@ import org.xml.sax.SAXException;
  */
 public class indiceprincipalReader1 {
     XPath xpath;
-    public Heap lectura(){
+    public Heap lectura(String pDireccion){
         DocumentBuilderFactory factory=DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
         DocumentBuilder builder;
@@ -39,7 +39,7 @@ public class indiceprincipalReader1 {
         try{
             builder = factory.newDocumentBuilder(); 
             try {
-                doc = builder.parse("indiceprincipal.xml");
+                doc = builder.parse(pDireccion);
             } catch (SAXException ex) {
                 Logger.getLogger(indiceprincipalReader1.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {

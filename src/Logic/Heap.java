@@ -21,7 +21,7 @@ public class Heap <G>{
         _TamañoDeArreglo=_arr.length;
         int indices=0;
         while (indices<_TamañoDeArreglo){
-            _arr[indices]=new nodeArray(-1,"",0);
+            _arr[indices]=new nodeArray(-1,"",2);
             indices+=1;
         }
         }
@@ -179,6 +179,13 @@ public class Heap <G>{
      */
     public int getContador() {
         return contador;
+    }
+
+    /**
+     * @return the _raiz
+     */
+    public nodeArray getRaiz() {
+        return _raiz;
     }
     
 }
