@@ -16,7 +16,7 @@ public class redBlackTree <G> {
     private int _cero=0;
     private int _uno=1;
     private int _dos=2;
-    
+    private nodeTree _urlNode;
     public redBlackTree(nodeTree pRoot){
         this._root=pRoot;
     }
@@ -28,13 +28,13 @@ public class redBlackTree <G> {
     public void insert (G pdata){
         if (_root==null){
             _root=new nodeTree(pdata, null, null, null , "negro");
-            _root.setAltNeg(1);
+            _root.setAltNeg(_uno);
         }        
         else
             insertAux(new nodeTree(pdata, null, null, null, "rojo"), _root);
     }
     private void insertAux(nodeTree pNode, nodeTree pPadre){
-        if(((String)pNode.getData()).compareTo((String)pPadre.getData())==1){
+        if(((String)pNode.getData()).compareTo((String)pPadre.getData())==_uno){
             if(pPadre.getHijoDer()==null){
                 if(pPadre.getColor()=="negro"){
                     pPadre.setHijoDer(pNode);
@@ -86,31 +86,31 @@ public class redBlackTree <G> {
         else if(pNode.getColor()=="negro")
             return;
         else if (pNode.getPadre().getPadre()!=null){
-            if(((String)pNode.getPadre().getData()).compareTo((String)pNode.getPadre().getPadre().getData())==-1 && 
+            if(((String)pNode.getPadre().getData()).compareTo((String)pNode.getPadre().getPadre().getData())==-_uno && 
                     pNode.getPadre().getPadre().getHijoDer()!=null && 
                     pNode.getPadre().getPadre().getHijoDer().getColor()=="rojo"){
                 caso1Izq(pNode);}
-            else if (((String)pNode.getPadre().getData()).compareTo((String)pNode.getPadre().getPadre().getData())==1 &&
+            else if (((String)pNode.getPadre().getData()).compareTo((String)pNode.getPadre().getPadre().getData())==_uno &&
                     pNode.getPadre().getPadre().getHijoIzq()!=null && 
                     pNode.getPadre().getPadre().getHijoIzq().getColor()=="rojo"){
                 caso1Der(pNode);}
-            else if(((String)pNode.getData()).compareTo((String)pNode.getPadre().getData())==1 && 
-                    ((String)pNode.getPadre().getData()).compareTo((String)pNode.getPadre().getPadre().getData())==-1
+            else if(((String)pNode.getData()).compareTo((String)pNode.getPadre().getData())==_uno && 
+                    ((String)pNode.getPadre().getData()).compareTo((String)pNode.getPadre().getPadre().getData())==-_uno
                     && (pNode.getPadre().getPadre().getHijoDer() == null || 
                     pNode.getPadre().getPadre().getHijoDer().getColor()=="negro"))
                 caso2Izq(pNode);
-            else if(((String)pNode.getData()).compareTo((String)pNode.getPadre().getData())==-1 && 
-                    ((String)pNode.getPadre().getData()).compareTo((String)pNode.getPadre().getPadre().getData())==1
+            else if(((String)pNode.getData()).compareTo((String)pNode.getPadre().getData())==-_uno && 
+                    ((String)pNode.getPadre().getData()).compareTo((String)pNode.getPadre().getPadre().getData())==_uno
                     && (pNode.getPadre().getPadre().getHijoIzq() == null || 
                     pNode.getPadre().getPadre().getHijoIzq().getColor()=="negro"))
                 caso2Der(pNode);
-            else if (((String)pNode.getData()).compareTo((String)pNode.getPadre().getData())==-1 && 
-                    ((String)pNode.getPadre().getData()).compareTo((String)pNode.getPadre().getPadre().getData())==-1
+            else if (((String)pNode.getData()).compareTo((String)pNode.getPadre().getData())==-_uno && 
+                    ((String)pNode.getPadre().getData()).compareTo((String)pNode.getPadre().getPadre().getData())==-_uno
                     && (pNode.getPadre().getPadre().getHijoDer() == null || 
                     pNode.getPadre().getPadre().getHijoDer().getColor()=="negro"))
                 caso3Izq(pNode);
-            else if (((String)pNode.getData()).compareTo((String)pNode.getPadre().getData())==1 && 
-                    ((String)pNode.getPadre().getData()).compareTo((String)pNode.getPadre().getPadre().getData())==1
+            else if (((String)pNode.getData()).compareTo((String)pNode.getPadre().getData())==_uno && 
+                    ((String)pNode.getPadre().getData()).compareTo((String)pNode.getPadre().getPadre().getData())==_uno
                     && (pNode.getPadre().getPadre().getHijoIzq() == null || 
                     pNode.getPadre().getPadre().getHijoIzq().getColor()=="negro"))
                 caso3Der(pNode);
@@ -189,7 +189,7 @@ public class redBlackTree <G> {
             tmp.getHijoDer().setPadre(tmp);
             tmp.getHijoDer().setColor("rojo");
         }
-        else if (((String)tmp.getPadre().getData()).compareTo((String)tmp.getPadre().getPadre().getData())==1){
+        else if (((String)tmp.getPadre().getData()).compareTo((String)tmp.getPadre().getPadre().getData())==_uno){
             tmp.setPadre(tmp.getPadre().getPadre());
             tmp.getHijoDer().setPadre(tmp);
             tmp.getPadre().setHijoDer(tmp);
@@ -222,7 +222,7 @@ public class redBlackTree <G> {
             tmp.getHijoIzq().setPadre(tmp);
             tmp.getHijoIzq().setColor("rojo");
         }
-        else if (((String)tmp.getPadre().getData()).compareTo((String)tmp.getPadre().getPadre().getData())==1){
+        else if (((String)tmp.getPadre().getData()).compareTo((String)tmp.getPadre().getPadre().getData())==_uno){
             tmp.setPadre(tmp.getPadre().getPadre());
             tmp.getHijoIzq().setPadre(tmp);
             tmp.getPadre().setHijoDer(tmp);
@@ -248,14 +248,14 @@ public class redBlackTree <G> {
         else if(pNode.getHijoDer()==null){
             calcularAlturaNegra(pNode.getHijoIzq());
             if(pNode.getColor().equals("negro"))
-                pNode.setAltNeg(pNode.getHijoIzq().getAltNeg()+1);
+                pNode.setAltNeg(pNode.getHijoIzq().getAltNeg()+_uno);
             else
                 pNode.setAltNeg(pNode.getAltNeg());
         }
         else if(pNode.getHijoIzq()==null){
             calcularAlturaNegra(pNode.getHijoDer());
             if(pNode.getColor().equals("negro"))
-                pNode.setAltNeg(pNode.getHijoDer().getAltNeg()+1);
+                pNode.setAltNeg(pNode.getHijoDer().getAltNeg()+_uno);
             else
                 pNode.setAltNeg(pNode.getAltNeg());
         }
@@ -264,7 +264,7 @@ public class redBlackTree <G> {
             calcularAlturaNegra(pNode.getHijoDer());
             if(pNode.getColor().equals("negro")){
                 if(pNode.getHijoDer().getAltNeg()>pNode.getHijoIzq().getAltNeg())
-                    pNode.setAltNeg(pNode.getHijoDer().getAltNeg()+1);
+                    pNode.setAltNeg(pNode.getHijoDer().getAltNeg()+_uno);
                 else
                     pNode.setAltNeg(pNode.getHijoIzq().getAltNeg());
             }
@@ -314,9 +314,50 @@ public class redBlackTree <G> {
             return false;
         else if((String)pNode.getData()==(String)pData)
             return true;
-        else if (((String)pData).compareTo((String)pNode.getData())==-1)
+        else if (((String)pData).compareTo((String)pNode.getData())==-_uno)
             return findAux(pData, pNode.getHijoIzq());
         else
             return findAux(pData, pNode.getHijoDer());
     }
+    
+    public void findSpecial(String pData){
+        _urlNode=null;
+        if(_root==null)
+            return;
+        else
+            findSpecialAux(pData, _root);
+    }
+    /**
+     * Metodo auxiliar para buscar en la estructura
+     * @param pData
+     * @param pNode
+     * @return 
+     */
+    private void findSpecialAux(String pData, nodeTree pNode){
+        if(pNode.getHijoIzq()== null && pNode.getHijoDer()==null){
+            if(((urlProcesado)pNode.getData()).getDireccion().equals(pData))
+                _urlNode=pNode;
+        }
+        else if(pNode.getHijoDer()==null){
+            findSpecialAux(pData, pNode.getHijoIzq());
+            if(((urlProcesado)pNode.getData()).getDireccion().equals(pData))
+                _urlNode=pNode;
+        }
+        else if(pNode.getHijoIzq()==null){
+            findSpecialAux(pData, pNode.getHijoDer());
+            if(((urlProcesado)pNode.getData()).getDireccion().equals(pData))
+                _urlNode=pNode;
+        }
+        else{
+            findSpecialAux(pData, pNode.getHijoIzq());
+            findSpecialAux (pData, pNode.getHijoDer());
+            if(((urlProcesado)pNode.getData()).getDireccion().equals(pData))
+                _urlNode=pNode;
+        } 
+    }
+    
+    public nodeTree getUrlNode(){
+        return _urlNode;
+    }
+    
 }

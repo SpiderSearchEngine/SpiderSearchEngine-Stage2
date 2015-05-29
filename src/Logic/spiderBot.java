@@ -23,6 +23,7 @@ public class spiderBot {
     private int _maxthreads;
     private int _maxprofundidad;
     private int _reindex;
+    private Heap _heap;
     
     /**
      * Constructor de la clase
@@ -38,7 +39,7 @@ public class spiderBot {
      * @throws SAXException
      * @throws IOException 
      */
-    public synchronized void generarCola (String url, int indice, int numAsoc) throws ParserConfigurationException, SAXException, IOException{
+    public synchronized void generarHeap (String url) throws ParserConfigurationException, SAXException, IOException{
         while(permiso==true){
             try{
                 wait();
@@ -46,10 +47,8 @@ public class spiderBot {
             catch (InterruptedException e) {
             }
         }
-        leerxml lxml =new leerxml();
-        for (int i=indice; i<=3; i+=2){
-            cola.enqueue(new url (lxml.leer(url, i), numAsoc, 0));
-        }
+        indiceprincipalReader1 leerxml =new indiceprincipalReader1();
+        _heap=leerxml.lectura();
         permiso=true;
         notify();
     }
@@ -67,6 +66,7 @@ public class spiderBot {
             }
         }
         permiso=false;
+        
         stackList pilaUrl = new stackList (null);        
         stackList pilaTexto = new stackList (null);        
         procesarURLS procUrl = new procesarURLS(); 

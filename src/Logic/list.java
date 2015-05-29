@@ -143,9 +143,6 @@ public class list <G>{
     public boolean findRB (G pData){
         node tmp = _head;
         boolean condition = false;
-        System.out.println("-----");
-        System.out.println(((String)((nodeTree)tmp.getData()).getData()));
-        System.out.println("-----");
         while(tmp!=null){
             if (!(((String)((nodeTree)tmp.getData()).getData()).equals((String)pData)))
                 tmp=tmp.getNextNode();            

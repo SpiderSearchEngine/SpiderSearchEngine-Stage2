@@ -595,4 +595,31 @@ public class avlTree <G>{
         else
             return menorMayores(pNode.getHijoIzq());        
     }
+    
+    public void insertardireccion(String pData, nodeTree pNode, nodeTree nodeRB){
+        if(pNode.getHijoIzq()== null && pNode.getHijoDer()==null){
+            if(((palabra)pNode.getData()).getName()==pData)
+                if(((palabra)pNode.getData()).getListaReferencia().findRB(nodeRB)==false)
+                    ((palabra)pNode.getData()).getListaReferencia().insertHead(nodeRB);
+        }
+        else if(pNode.getHijoDer()==null){
+            postOrden(pNode.getHijoIzq());
+            if(((palabra)pNode.getData()).getName()==pData)
+                if(((palabra)pNode.getData()).getListaReferencia().findRB(nodeRB)==false)
+                    ((palabra)pNode.getData()).getListaReferencia().insertHead(nodeRB);
+        }
+        else if(pNode.getHijoIzq()==null){
+            postOrden(pNode.getHijoDer());
+            if(((palabra)pNode.getData()).getName()==pData)
+                if(((palabra)pNode.getData()).getListaReferencia().findRB(nodeRB)==false)
+                    ((palabra)pNode.getData()).getListaReferencia().insertHead(nodeRB);
+        }
+        else{
+            postOrden(pNode.getHijoIzq());
+            postOrden(pNode.getHijoDer());
+            if(((palabra)pNode.getData()).getName()==pData)
+                if(((palabra)pNode.getData()).getListaReferencia().findRB(nodeRB)==false)
+                    ((palabra)pNode.getData()).getListaReferencia().insertHead(nodeRB);
+        }             
+    }
 }
