@@ -24,7 +24,7 @@ public class Main {
         ((palabra)a.getRoot().getData()).getListaReferencia().insertHead("www");
         ((palabra)a.getRoot().getData()).getListaReferencia().insertHead("xxx");
         //System.out.println("****"+((palabra)a.getRoot().getData()).getListaReferencia().getHead().getData());
-        System.out.println(((palabra)a.getRoot().getData()).getListaReferencia().findRB("zzz"));
+        //System.out.println(((palabra)a.getRoot().getData()).getListaReferencia().findRB("zzz"));
         /*a.postOrden(a.getRoot());
         
         System.out.println("-----------");
