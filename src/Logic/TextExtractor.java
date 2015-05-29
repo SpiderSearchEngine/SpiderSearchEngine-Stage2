@@ -81,7 +81,7 @@ class TextExtractor {
    */
   public static void main(String args[]) throws Exception {  
     TextExtractor textExtractor = new TextExtractor();  
-    textExtractor.process("http://www.utim.edu.mx/~svalero/docs/resumen4C.doc");  
+    textExtractor.process("/home/gerald/Documentos/copia de Manual_de_laboratorio-Física_General_1-1ra_Edición.pdf");  
     textExtractor.getString();  
     
     

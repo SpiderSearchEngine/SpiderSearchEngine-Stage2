@@ -37,6 +37,7 @@ public class Main {
         a.postOrden(a.getRoot());*/
         spiderEngine sE= new spiderEngine();
         sE.optimizarEstructuras();
+        spiderBot sB=new spiderBot();
         
     }
     
