@@ -58,7 +58,6 @@ public class spiderBot {
      * @throws IOException 
      */
     public synchronized void obtenerDatos() throws IOException, Exception{
-        System.out.println("1");
         int cont=0;
         while(permiso==false){
             try{
@@ -74,52 +73,68 @@ public class spiderBot {
         formatoTexto ft = new formatoTexto();
         _heap.eliminar();
         nodeArray tmp=_heap.getRaiz();
-        
-        System.out.println("2");
         url URL=new url(tmp.getDocumentos(),tmp.getPeso(), tmp.getNumAsoc());
         nodeTree nodeUrl;
-        if(tmp.getNumAsoc()<2){
-            
+        if(URL.getNumAsoc()<2 && URL.getDireccion().startsWith("/")){
             if(arbolDirecciones.getRoot()!=null){
                 if(arbolDirecciones.find(tmp.getDocumentos())==false){
                     pilaUrl=procUrl.procesar(URL);
-                    arbolDirecciones.insert(new urlProcesado(tmp.getDocumentos(),1));
-                    arbolDirecciones.findSpecial(tmp.getDocumentos());
+                    arbolDirecciones.insert(new urlProcesado(URL.getDireccion(),1));
+                    arbolDirecciones.findSpecial(URL.getDireccion());
                     nodeUrl=arbolDirecciones.getUrlNode();
+                System.out.println("----1----");
+                System.out.println(((urlProcesado)nodeUrl.getData()).getDireccion());
                 }
                 else{
-                    arbolDirecciones.findSpecial(tmp.getDocumentos());
+                    arbolDirecciones.findSpecial(URL.getDireccion());
                     nodeUrl=arbolDirecciones.getUrlNode();
+                System.out.println("----2----");
+                System.out.println(((urlProcesado)nodeUrl.getData()).getDireccion());
                 }
             }
             else{
-                System.out.println("jairo");
-                arbolDirecciones.insert(new urlProcesado(tmp.getDocumentos(),1));
-                arbolDirecciones.findSpecial(tmp.getDocumentos());
+                pilaUrl=procUrl.procesar(URL);
+                arbolDirecciones.insert(new urlProcesado(URL.getDireccion(),1));
+                arbolDirecciones.findSpecial(URL.getDireccion());
                 nodeUrl=arbolDirecciones.getUrlNode();
+                System.out.println("----3----");
+                System.out.println(((urlProcesado)nodeUrl.getData()).getDireccion());
             }
-        
             while(pilaUrl.top()!=null){
                 _heap.Insertar(((url)pilaUrl.top().getData()).getDireccion(), 
                         ((url)pilaUrl.top().getData()).getPesoAsoc(), ((url)pilaUrl.top().getData()).getNumAsoc());
                 pilaUrl.pop();
             }
-            if(tmp.getDocumentos().startsWith("http")&& (tmp.getDocumentos().endsWith(".pdf") || 
-                    tmp.getDocumentos().endsWith(".docx") || tmp.getDocumentos().endsWith(".doc")
-                    || tmp.getDocumentos().endsWith(".txt") || tmp.getDocumentos().endsWith(".odt")))
-                pilaTexto=ft.eliminarLinks(tmp.getDocumentos());
-            while(pilaTexto.top()!=null){
-                String var=(String)pilaTexto.top().getData();
-                pilaTexto.pop();
-                procesarPalabras(var);
-            }
-        permiso=true;
-        notify();
+            permiso=true;
+            notify();
         }
-        else{
+        else if(URL.getNumAsoc()<2 && URL.getDireccion().startsWith("http")){
+            if((tmp.getDocumentos().endsWith(".pdf") || 
+                    tmp.getDocumentos().endsWith(".docx") || tmp.getDocumentos().endsWith(".doc")
+                    || tmp.getDocumentos().endsWith(".txt") || tmp.getDocumentos().endsWith(".odt"))){
+                pilaTexto=ft.eliminarLinks(tmp.getDocumentos());
+                while(pilaTexto.top()!=null){
+                    String var=(String)pilaTexto.top().getData();
+                    pilaTexto.pop();
+                    procesarPalabras(var);
+                }
+            }
+            arbolDirecciones.insert(new urlProcesado(URL.getDireccion(),1));
+            arbolDirecciones.findSpecial(URL.getDireccion());
+            nodeUrl=arbolDirecciones.getUrlNode();
+                System.out.println("----4----");
+                System.out.println(((urlProcesado)nodeUrl.getData()).getDireccion());
+            permiso=true;
+            notify();
+        }
+        else if (URL.getNumAsoc()>=2){
             parar=false;
             permiso=true;
             notify();
+        }
+        else{
+            permiso=true;
+            notify();            
         }
     }
         

@@ -34,7 +34,7 @@ public class redBlackTree <G> {
             insertAux(new nodeTree(pdata, null, null, null, "rojo"), _root);
     }
     private void insertAux(nodeTree pNode, nodeTree pPadre){
-        if(((String)pNode.getData()).compareTo((String)pPadre.getData())==_uno){
+        if(((urlProcesado)pNode.getData()).getDireccion().compareTo(((urlProcesado)pPadre.getData()).getDireccion())==_uno){
             if(pPadre.getHijoDer()==null){
                 if(pPadre.getColor()=="negro"){
                     pPadre.setHijoDer(pNode);
@@ -86,31 +86,31 @@ public class redBlackTree <G> {
         else if(pNode.getColor()=="negro")
             return;
         else if (pNode.getPadre().getPadre()!=null){
-            if(((String)pNode.getPadre().getData()).compareTo((String)pNode.getPadre().getPadre().getData())==-_uno && 
+            if(((urlProcesado)pNode.getPadre().getData()).getDireccion().compareTo(((urlProcesado)pNode.getPadre().getPadre().getData()).getDireccion())==-_uno && 
                     pNode.getPadre().getPadre().getHijoDer()!=null && 
                     pNode.getPadre().getPadre().getHijoDer().getColor()=="rojo"){
                 caso1Izq(pNode);}
-            else if (((String)pNode.getPadre().getData()).compareTo((String)pNode.getPadre().getPadre().getData())==_uno &&
+            else if (((urlProcesado)pNode.getPadre().getData()).getDireccion().compareTo(((urlProcesado)pNode.getPadre().getPadre().getData()).getDireccion())==_uno &&
                     pNode.getPadre().getPadre().getHijoIzq()!=null && 
                     pNode.getPadre().getPadre().getHijoIzq().getColor()=="rojo"){
                 caso1Der(pNode);}
-            else if(((String)pNode.getData()).compareTo((String)pNode.getPadre().getData())==_uno && 
-                    ((String)pNode.getPadre().getData()).compareTo((String)pNode.getPadre().getPadre().getData())==-_uno
+            else if(((urlProcesado)pNode.getData()).getDireccion().compareTo(((urlProcesado)pNode.getPadre().getData()).getDireccion())==_uno && 
+                    ((urlProcesado)pNode.getPadre().getData()).getDireccion().compareTo(((urlProcesado)pNode.getPadre().getPadre().getData()).getDireccion())==-_uno
                     && (pNode.getPadre().getPadre().getHijoDer() == null || 
                     pNode.getPadre().getPadre().getHijoDer().getColor()=="negro"))
                 caso2Izq(pNode);
-            else if(((String)pNode.getData()).compareTo((String)pNode.getPadre().getData())==-_uno && 
-                    ((String)pNode.getPadre().getData()).compareTo((String)pNode.getPadre().getPadre().getData())==_uno
+            else if(((urlProcesado)pNode.getData()).getDireccion().compareTo(((urlProcesado)pNode.getPadre().getData()).getDireccion())==-_uno && 
+                    ((urlProcesado)pNode.getPadre().getData()).getDireccion().compareTo(((urlProcesado)pNode.getPadre().getPadre().getData()).getDireccion())==_uno
                     && (pNode.getPadre().getPadre().getHijoIzq() == null || 
                     pNode.getPadre().getPadre().getHijoIzq().getColor()=="negro"))
                 caso2Der(pNode);
-            else if (((String)pNode.getData()).compareTo((String)pNode.getPadre().getData())==-_uno && 
-                    ((String)pNode.getPadre().getData()).compareTo((String)pNode.getPadre().getPadre().getData())==-_uno
+            else if (((urlProcesado)pNode.getData()).getDireccion().compareTo(((urlProcesado)pNode.getPadre().getData()).getDireccion())==-_uno && 
+                    ((urlProcesado)pNode.getPadre().getData()).getDireccion().compareTo(((urlProcesado)pNode.getPadre().getPadre().getData()).getDireccion())==-_uno
                     && (pNode.getPadre().getPadre().getHijoDer() == null || 
                     pNode.getPadre().getPadre().getHijoDer().getColor()=="negro"))
                 caso3Izq(pNode);
-            else if (((String)pNode.getData()).compareTo((String)pNode.getPadre().getData())==_uno && 
-                    ((String)pNode.getPadre().getData()).compareTo((String)pNode.getPadre().getPadre().getData())==_uno
+            else if (((urlProcesado)pNode.getData()).getDireccion().compareTo(((urlProcesado)pNode.getPadre().getData()).getDireccion())==_uno && 
+                    ((urlProcesado)pNode.getPadre().getData()).getDireccion().compareTo(((urlProcesado)pNode.getPadre().getPadre().getData()).getDireccion())==_uno
                     && (pNode.getPadre().getPadre().getHijoIzq() == null || 
                     pNode.getPadre().getPadre().getHijoIzq().getColor()=="negro"))
                 caso3Der(pNode);
@@ -189,7 +189,7 @@ public class redBlackTree <G> {
             tmp.getHijoDer().setPadre(tmp);
             tmp.getHijoDer().setColor("rojo");
         }
-        else if (((String)tmp.getPadre().getData()).compareTo((String)tmp.getPadre().getPadre().getData())==_uno){
+        else if ((((urlProcesado)tmp.getPadre().getData()).getDireccion()).compareTo(((urlProcesado)tmp.getPadre().getPadre().getData()).getDireccion())==_uno){
             tmp.setPadre(tmp.getPadre().getPadre());
             tmp.getHijoDer().setPadre(tmp);
             tmp.getPadre().setHijoDer(tmp);
@@ -222,7 +222,7 @@ public class redBlackTree <G> {
             tmp.getHijoIzq().setPadre(tmp);
             tmp.getHijoIzq().setColor("rojo");
         }
-        else if (((String)tmp.getPadre().getData()).compareTo((String)tmp.getPadre().getPadre().getData())==_uno){
+        else if ((((urlProcesado)tmp.getPadre().getData()).getDireccion()).compareTo(((urlProcesado)tmp.getPadre().getPadre().getData()).getDireccion())==_uno){
             tmp.setPadre(tmp.getPadre().getPadre());
             tmp.getHijoIzq().setPadre(tmp);
             tmp.getPadre().setHijoDer(tmp);
@@ -335,23 +335,23 @@ public class redBlackTree <G> {
      */
     private void findSpecialAux(String pData, nodeTree pNode){
         if(pNode.getHijoIzq()== null && pNode.getHijoDer()==null){
-            if(((urlProcesado)pNode.getData()).getDireccion().equals(pData))
+            if(((urlProcesado)pNode.getData()).getDireccion().compareTo((pData))==0)
                 _urlNode=pNode;
         }
         else if(pNode.getHijoDer()==null){
             findSpecialAux(pData, pNode.getHijoIzq());
-            if(((urlProcesado)pNode.getData()).getDireccion().equals(pData))
+            if(((urlProcesado)pNode.getData()).getDireccion().compareTo((pData))==0)
                 _urlNode=pNode;
         }
         else if(pNode.getHijoIzq()==null){
             findSpecialAux(pData, pNode.getHijoDer());
-            if(((urlProcesado)pNode.getData()).getDireccion().equals(pData))
+            if(((urlProcesado)pNode.getData()).getDireccion().compareTo((pData))==0)
                 _urlNode=pNode;
         }
         else{
             findSpecialAux(pData, pNode.getHijoIzq());
             findSpecialAux (pData, pNode.getHijoDer());
-            if(((urlProcesado)pNode.getData()).getDireccion().equals(pData))
+            if(((urlProcesado)pNode.getData()).getDireccion().compareTo((pData))==0)
                 _urlNode=pNode;
         } 
     }
