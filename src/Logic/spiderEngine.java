@@ -1,25 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package Logic;
 
 /**
- *
- * @author jairo
+ * Clase para crear el spiderEngine
+ * @author Gerald M, Jairo o
  */
-import GUI.*;
-import sun.net.www.content.image.png;
+
 public class spiderEngine {
     
     private avlTree arbolPalabras;
     private redBlackTree arbolDirecciones;
     private binaryTree arbolResultados;
-    private Buscador Ingreso=new Buscador();
     private nodeTree _nT;
-    
+    /**
+     * Clase para optimizar las estructuras
+     */
     public void optimizarEstructuras(){
         indice1Reader i1R=new indice1Reader();
         arbolDirecciones=i1R.lectura();
@@ -28,10 +23,19 @@ public class spiderEngine {
         i2R.lectura();
         
     }
+    /**
+     * Metodo para buscar en el arbol avl
+     * @param ingresado 
+     */
     public void buscarAVL(String ingresado){
         buscarAvlAux(ingresado, arbolPalabras.getRoot());
         arbolPalabras.findSpecial(ingresado);
     }
+    /**
+     * Metodo auxiliar en el arbol avl
+     * @param pData
+     * @param pNode 
+     */
     private void buscarAvlAux(String pData, nodeTree pNode){
         if(pNode.getHijoIzq()== null && pNode.getHijoDer()==null){
             if(((palabra)pNode.getData()).getName().equals(pData)){
@@ -58,8 +62,11 @@ public class spiderEngine {
             }
         } 
     }
+    /**
+     * Metodo para obtener la direccion asociada a la palabra
+     * @return direccion de la palabra
+     */
     public String getNT(){
-        System.out.println("222222234567892345678902345678 "+((urlProcesado)_nT.getData()).getDireccion());
         return ((urlProcesado)_nT.getData()).getDireccion();
     }
     

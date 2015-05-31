@@ -126,11 +126,17 @@ public class nodeTree <G>{
     public void setColor(String pColor){
         this._color=pColor;
     }
-    
+    /**
+     * Metodo para modificar la altura negra
+     * @param newAlt 
+     */
     public void setAltNeg(int newAlt){
         this._alturaNegra=newAlt;
     }
-    
+    /**
+     * Metodo para obtener la altura
+     * @return altura negra
+     */
     public int getAltNeg(){
         return this._alturaNegra;
     }

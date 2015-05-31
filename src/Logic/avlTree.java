@@ -599,7 +599,12 @@ public class avlTree <G>{
         else
             return menorMayores(pNode.getHijoIzq());        
     }
-    
+    /**
+     * Metodo para insertar la direccion url de la palabra
+     * @param pData, palabra
+     * @param pNode, nodo del avl
+     * @param nodeRB, nodo de las direcciones
+     */
     public void insertardireccion(String pData, nodeTree pNode, nodeTree nodeRB){
         if(pNode.getHijoIzq()== null && pNode.getHijoDer()==null){
             if(((palabra)pNode.getData()).getName().equals(pData))
@@ -625,53 +630,5 @@ public class avlTree <G>{
                 if(((palabra)pNode.getData()).getListaReferencia().findRB(nodeRB)==false)
                     ((palabra)pNode.getData()).getListaReferencia().insertHead(nodeRB);
         }             
-    }
-    
-    /**
-     * Metodo para buscar en el arbol
-     * @param Data
-     * @return 
-     */
-    public void findResult(String pData){
-        _nT=null;
-        if(_root==null)
-            return;
-        else
-            findResultado(pData, _root);
-    }
-    /**
-     * Metodo auxiliar para buscar en la estructura
-     * @param pData
-     * @param pNode
-     * @return 
-     */
-    private void findResultado(String pData, nodeTree pNode){
-        if(pNode.getHijoIzq()== null && pNode.getHijoDer()==null){
-            if(((palabra)pNode.getData()).getName().equals(pData)){
-                _nT=pNode;
-            }
-        }
-        else if(pNode.getHijoDer()==null){
-            findResultado(pData, pNode.getHijoIzq());
-            if(((palabra)pNode.getData()).getName().equals(pData)){
-                _nT=pNode;
-            }
-        }
-        else if(pNode.getHijoIzq()==null){
-            findResultado(pData, pNode.getHijoDer());
-            if(((palabra)pNode.getData()).getName().equals(pData)){
-                _nT=pNode;
-            }
-        }
-        else{
-            findResultado(pData, pNode.getHijoIzq());
-            findResultado(pData, pNode.getHijoDer());
-            if(((palabra)pNode.getData()).getName().equals(pData)){
-                _nT=pNode;
-            }
-        } 
-    }
-    public nodeTree getResultado(){
-        return _nT;
-    }    
+    }   
 }

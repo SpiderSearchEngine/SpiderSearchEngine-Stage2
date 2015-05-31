@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Logic;
 
 import java.io.File;
@@ -13,6 +9,11 @@ import java.io.File;
  */
 public class extraerUrlsDirectorio {
     
+    /**
+     * Clase para buscar los archivos que estan en un directorio
+     * @param pDireccion
+     * @return pila con las direcciones encontradas en los directorios
+     */
     public stackList busquedaArchivos(String pDireccion) {
         stackList pila = new stackList(null);
         File directorio = new File(pDireccion);

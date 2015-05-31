@@ -147,7 +147,4 @@ public class indice2Reader {
             e.printStackTrace();
         }return list;
     }
-    
-    
-    
 }

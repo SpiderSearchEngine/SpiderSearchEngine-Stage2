@@ -12,8 +12,6 @@ import org.xml.sax.SAXException;
  * @author Gerald M, Jairo O.
  */
 public class spiderBot {
-    
-    private queueList cola = new queueList(null, null);
     private list l = new list(null, null);
     private boolean permiso = false;
     private boolean parar = true;
@@ -138,7 +136,11 @@ public class spiderBot {
             notify();            
         }
     }
-        
+    /**
+     * Metodo para procesar las palabras
+     * @param pal
+     * @param pNodeUrl 
+     */    
     private void procesarPalabras(String pal, nodeTree pNodeUrl){
         if(arbolPalabras.getRoot()!=null){
             arbolPalabras.findSpecial(pal);
@@ -162,11 +164,11 @@ public class spiderBot {
      */
     public void generarIndice() throws Exception{
         hacerXmlIndice1(arbolDirecciones);
-        //hacerXmlIndice2(arbolPalabras);
+        hacerXmlIndice2(arbolPalabras);
     }
     /**
      * Metodo para generar el indice1 (urls procesados)
-     * @param urlList, lista circulas de urls
+     * @param arbol, arbol rojinegro de las urls
      * @throws Exception 
      */
     private void hacerXmlIndice1(redBlackTree arbol) throws Exception{
@@ -180,6 +182,14 @@ public class spiderBot {
             hacerXmlIndice1Aux(tmp, cfup, key, UrlsProcesadas);
         }
     }
+    /**
+     * Metodo auxiliar para generar el indice uno
+     * @param pNode
+     * @param cfup
+     * @param key
+     * @param UrlsProcesadas
+     * @throws Exception 
+     */
     private void hacerXmlIndice1Aux(nodeTree pNode, createXmlForUrlProcess cfup,
             ArrayList key, ArrayList UrlsProcesadas) throws Exception{
         
@@ -210,7 +220,7 @@ public class spiderBot {
     }
     /**
      * Metodo para generar el indice2 (keywords procesados)
-     * @param KeywordList, lista doble de keywords procesados
+     * @param arbol, arbol avl con las palabras
      * @throws Exception 
      */
     private void hacerXmlIndice2(avlTree arbol) throws Exception{
@@ -226,6 +236,16 @@ public class spiderBot {
             hacerXmlIndice2Aux(tmp, tmp2, cfkw, links, palabras, apariciones);
         }
     }
+    /**
+     * Metodo auxiliar para crear el indice 2
+     * @param tmp
+     * @param tmp2
+     * @param cfkw
+     * @param links
+     * @param palabras
+     * @param apariciones
+     * @throws Exception 
+     */
     private void hacerXmlIndice2Aux(nodeTree tmp,nodeTree tmp2,createXmlForKeywords cfkw,
             ArrayList links, ArrayList palabras, ArrayList apariciones) throws Exception{
         if(tmp.getHijoDer()==null && tmp.getHijoIzq()==null){
@@ -233,8 +253,9 @@ public class spiderBot {
             links.add(((urlProcesado)tmp2.getData()).getDireccion());
             apariciones.add(String.valueOf(((palabra)tmp.getData()).getApariciones()));
             cfkw.generate("indice2",palabras,links, apariciones);
+            
         }
-        if(tmp.getHijoDer()==null){
+        else if(tmp.getHijoDer()==null){
             hacerXmlIndice2Aux(tmp.getHijoIzq(),(nodeTree)((palabra)tmp.getHijoIzq().getData()).getListaReferencia().getHead().getData(),
                     cfkw, links, palabras, apariciones);
             palabras.add(((palabra)tmp.getData()).getName());
@@ -242,7 +263,7 @@ public class spiderBot {
             apariciones.add(String.valueOf(((palabra)tmp.getData()).getApariciones()));
             cfkw.generate("indice2",palabras,links, apariciones);
         }
-        if(tmp.getHijoIzq()==null){
+        else if(tmp.getHijoIzq()==null){
             hacerXmlIndice2Aux(tmp.getHijoDer(),(nodeTree)((palabra)tmp.getHijoDer().getData()).getListaReferencia().getHead().getData(),
                     cfkw, links, palabras, apariciones);
             palabras.add(((palabra)tmp.getData()).getName());
@@ -262,7 +283,7 @@ public class spiderBot {
         }
     }
     /**
-     * Metodo obtener la condicion de entrafa
+     * Metodo obtener la condicion de entrada
      * @return condicion de entrada
      */
     public boolean getParar(){

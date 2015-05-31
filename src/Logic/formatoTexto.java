@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Logic;
 
 import java.io.IOException;
@@ -72,7 +68,7 @@ public class formatoTexto {
     /**
      * Metodo que aplica la expresion regular al texto extraido
      * @param pUrl, Url de la pagina a la cual se le va a extraer el texto.
-     * @return
+     * @return pila con las palabras
      * @throws IOException 
      */
     public stackList formato(String pUrl) throws IOException, Exception{

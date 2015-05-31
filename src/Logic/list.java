@@ -138,7 +138,7 @@ public class list <G>{
     /**
      * Este metodo encuentra las palabras en la lista de keywords
      * @param pData
-     * @return 
+     * @return nodorojinegro con la direccion deseada
      */
     public boolean findRB (G pData){
         node tmp = _head;

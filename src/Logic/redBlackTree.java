@@ -1,32 +1,35 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package Logic;
 
 /**
- *
- * @author jairo
+ * Clase para la creacion del arbol rojinegro
+ * @author Gerald M, Jairo O.
  */
 public class redBlackTree <G> {
-    
     private nodeTree _root;
     private int _cero=0;
     private int _uno=1;
     private int _dos=2;
     private nodeTree _urlNode;
     private boolean cond;
-    
+    /**
+     * Constructor de la clase
+     * @param pRoot, elemento raiz 
+     */
     public redBlackTree(nodeTree pRoot){
         this._root=pRoot;
     }
-    
+    /**
+     * Metodo para obtener la raiz
+     * @return raiz
+     */
     public nodeTree getRoot(){
         return this._root;
     }
-    
+    /**
+     * Metodo para insertar en el arbol rojinegro
+     * @param pdata 
+     */
     public void insert (G pdata){
         if (_root==null){
             _root=new nodeTree(pdata, null, null, null , "negro");
@@ -35,6 +38,11 @@ public class redBlackTree <G> {
         else
             insertAux(new nodeTree(pdata, null, null, null, "rojo"), _root);
     }
+    /**
+     * Metod auxiliar para insetar en el arbol
+     * @param pNode
+     * @param pPadre 
+     */
     private void insertAux(nodeTree pNode, nodeTree pPadre){
         if(((urlProcesado)pNode.getData()).getDireccion().compareTo(((urlProcesado)pPadre.getData()).getDireccion())==_uno){
             if(pPadre.getHijoDer()==null){
@@ -71,7 +79,10 @@ public class redBlackTree <G> {
                 insertAux(pNode, pPadre.getHijoIzq());
         }
     }
-    
+    /**
+     * Metodo que verifica la validez del arbol rojinegro (colores)
+     * @param pNode 
+     */
     private void verificaValidez(nodeTree pNode){
         if(_root==pNode){
             if(pNode.getColor()=="negro")
@@ -119,20 +130,30 @@ public class redBlackTree <G> {
         }
         else return;        
     }
-    
+    /**
+     * Metodo para corregir el caso 1 por la izquierda
+     * @param pNode 
+     */
     public void caso1Izq (nodeTree pNode){
         pNode.getPadre().setColor("negro");
         pNode.getPadre().getPadre().setColor("rojo");
         pNode.getPadre().getPadre().getHijoDer().setColor("negro");
         verificaValidez(pNode.getPadre().getPadre());
     }
+    /**
+     * Metodo para corregir el caso 1 por la derecha
+     * @param pNode 
+     */
     public void caso1Der (nodeTree pNode){
         pNode.getPadre().setColor("negro");
         pNode.getPadre().getPadre().setColor("rojo");
         pNode.getPadre().getPadre().getHijoIzq().setColor("negro");
         verificaValidez(pNode.getPadre().getPadre());
     }
-    
+    /**
+     * Metodo para corregir el caso 2 por la izquierda
+     * @param pNode 
+     */
     public void caso2Izq (nodeTree pNode){
         nodeTree tmp=pNode.getPadre();
         if(pNode.getHijoIzq()==null){
@@ -153,6 +174,10 @@ public class redBlackTree <G> {
             caso3Izq(tmp);
         }        
     }
+    /**
+     * Metodo para corregir el caso 2 por la derecha
+     * @param pNode 
+     */
     public void caso2Der (nodeTree pNode){
         nodeTree tmp=pNode.getPadre();
         if(pNode.getHijoDer()==null){
@@ -173,7 +198,10 @@ public class redBlackTree <G> {
             caso3Der(tmp);
         }        
     }
-    
+    /**
+     * Metodo para corregir el caso 3 por la izquierda
+     * @param pNode 
+     */
     public void caso3Izq (nodeTree pNode){
         nodeTree tmp=pNode.getPadre();
         if(tmp.getHijoDer()!=null){
@@ -206,7 +234,10 @@ public class redBlackTree <G> {
         tmp.setColor("negro");
         verificaValidez(tmp);
     }
-    
+    /**
+     * Metodo para corregir el caso 3 por la derecha
+     * @param pNode 
+     */
     public void caso3Der (nodeTree pNode){
         nodeTree tmp=pNode.getPadre();
         if(tmp.getHijoIzq()!=null){
@@ -239,7 +270,10 @@ public class redBlackTree <G> {
         tmp.setColor("negro");
         verificaValidez(tmp);
     }
-    
+    /**
+     * Metodo para calcular la altura negra
+     * @param pNode 
+     */
     public void calcularAlturaNegra (nodeTree pNode) {
         if(pNode.getHijoIzq()== null && pNode.getHijoDer()==null){
             if(pNode.getColor().equals("negro"))
@@ -279,14 +313,21 @@ public class redBlackTree <G> {
             }
         }        
     }
-    
+    /**
+     * Metodo que obtiene el menor de los mayores
+     * @param pNode
+     * @return 
+     */
     private nodeTree menorMayores(nodeTree pNode){
         if (pNode.getHijoIzq()==null)
             return pNode;
         else
             return menorMayores(pNode.getHijoIzq());        
     }
-    
+    /**
+     * Metodo para hacer el recorrido en postOrden
+     * @param pNode 
+     */
     public void postOrden(nodeTree pNode){
         if(pNode.getHijoIzq()== null && pNode.getHijoDer()==null)
             System.out.println(((urlProcesado)pNode.getData()).getDireccion()+"++++" +pNode.getColor());
@@ -304,14 +345,22 @@ public class redBlackTree <G> {
             System.out.println(((urlProcesado)pNode.getData()).getDireccion()+"++++" +pNode.getColor());
         }            
     }
-    
+    /**
+     * Metodo para buscar en la estructura
+     * @param Data 
+     */
     public void find(G Data){
         cond=false;
         if(_root==null)
             return;
         else
             findAux(Data, _root);
-    }    
+    }
+    /**
+     * Metodo auxiliar para buscar en la estructura
+     * @param pData
+     * @param pNode 
+     */    
     private void findAux(G pData, nodeTree pNode){
         if(pNode.getHijoDer()==null && pNode.getHijoIzq()==null){
             if(((urlProcesado)pNode.getData()).getDireccion().equals((String)pData))
@@ -334,7 +383,10 @@ public class redBlackTree <G> {
                 cond=true;
         }
     }
-    
+    /**
+     * Metodo para buscar un url en la estructura
+     * @param pData 
+     */
     public void findSpecial(String pData){
         _urlNode=null;
         if(_root==null)
@@ -343,7 +395,7 @@ public class redBlackTree <G> {
             findSpecialAux(pData, _root);
     }
     /**
-     * Metodo auxiliar para buscar en la estructura
+     * Metodo auxiliar para buscar un url en la estructura
      * @param pData
      * @param pNode
      * @return 
@@ -370,10 +422,17 @@ public class redBlackTree <G> {
                 _urlNode=pNode;
         } 
     }
-    
+    /**
+     * Metodo para obtener el nodo de la direccion buscada
+     * @return 
+     */
     public nodeTree getUrlNode(){
         return _urlNode;
     }
+    /**
+     * Metodo para obtener la condicion si un dato se encuentra en la estructura
+     * @return 
+     */
     public boolean getCondicion(){
         return this.cond;
     }

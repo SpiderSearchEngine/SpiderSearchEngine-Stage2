@@ -42,11 +42,17 @@ public class palabra <G>{
     public list getListaReferencia(){
         return _listaReferencia;
     }
-    
+    /**
+     * Metodo para modificar  el numero de apariciones
+     * @param pApariciones 
+     */
     public void setApariciones(int pApariciones){
         this._apariciones=pApariciones;
     }
-    
+    /**
+     * Metodo para obtener el numero de apariciones de la palabra
+     * @return numero de apariciones
+     */
     public int getApariciones(){
         return _apariciones;
     }

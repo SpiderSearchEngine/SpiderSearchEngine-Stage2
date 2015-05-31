@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Logic;
 
 import java.io.IOException;
@@ -27,7 +23,7 @@ import org.xml.sax.SAXException;
  * 
  * Clase que hara la lectura y todos los procesos que haya que hacerle al indice1
  *
- * @author gerald
+ * @author Gerald M, Jairo O.
  */
 public class indice1Reader {
     XPath xpath;
@@ -47,13 +43,8 @@ public class indice1Reader {
             }
             XPathFactory xpathFactory = XPathFactory.newInstance();
             xpath = xpathFactory.newXPath();
-          
-            /**
-             * Muestra un arreglo con los Uls que estan adentro del archivo XML de indice 1
-             */
-            //
-            
-        }catch (ParserConfigurationException e) { 
+        }
+        catch (ParserConfigurationException e) { 
             e.printStackTrace(); 
         }
         return getAllUrls(doc, xpath);
@@ -70,11 +61,8 @@ public class indice1Reader {
         try {
             XPathExpression expr = xpath.compile("/indice1/UrlsProcesadas/URL/text()");
             NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-            for (int i = 0; i < nodes.getLength(); i++){
-                //System.out.println(nodes.item(i).getNodeValue());
-                //RyN.insert(nodes.item(i).getNodeValue());
+            for (int i = 0; i < nodes.getLength(); i++)
                 RyN.insert(new urlProcesado((nodes.item(i).getNodeValue()),654));
-            }
         }
         catch (XPathExpressionException e) { 
             e.printStackTrace();

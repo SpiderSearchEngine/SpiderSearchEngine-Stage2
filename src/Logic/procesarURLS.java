@@ -35,6 +35,11 @@ public class procesarURLS {
         }
         return pilaUrls;
     }
+    /**
+     * Metodo que valida si la direccion es valida
+     * @param direccion
+     * @return valor booleano (true si la direccion es valida)
+     */
     private boolean validar(String direccion){
         boolean cond=true;
         int ind=0;

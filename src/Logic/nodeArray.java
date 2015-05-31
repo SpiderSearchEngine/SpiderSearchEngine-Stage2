@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Logic;
 
 /**
@@ -67,6 +63,4 @@ public class nodeArray <G>{
     public void setNumAsoc(int _numAsoc) {
         this._numAsoc = _numAsoc;
     }
-    
-    
 }
