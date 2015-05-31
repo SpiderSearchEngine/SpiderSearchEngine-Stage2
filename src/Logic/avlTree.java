@@ -128,7 +128,8 @@ public class avlTree <G>{
                 _root=tmp;
                 tmp.setPadre(null);
             }
-            else if (((palabra)pNode.getData()).getApariciones()>=((palabra)pNode.getPadre().getData()).getApariciones()){
+            else if (((palabra)pNode.getData()).getApariciones()>=
+                    ((palabra)pNode.getPadre().getData()).getApariciones()){
                 pNode.getPadre().setHijoDer(tmp);
                 tmp.setPadre(pNode.getPadre());
             }
@@ -145,7 +146,8 @@ public class avlTree <G>{
             tmp.setHijoDer(pNode);
             if(pNode==_root)
                 _root=tmp;
-            else if (((palabra)pNode.getData()).getApariciones()>=((palabra)pNode.getPadre().getData()).getApariciones())
+            else if (((palabra)pNode.getData()).getApariciones()>=
+                    ((palabra)pNode.getPadre().getData()).getApariciones())
                 pNode.getPadre().setHijoDer(tmp);
             else
                 pNode.getPadre().setHijoIzq(tmp);
@@ -166,7 +168,8 @@ public class avlTree <G>{
                 _root=tmp;
                 tmp.setPadre(null);
             }
-            else if (((palabra)pNode.getData()).getApariciones()>=((palabra)pNode.getPadre().getData()).getApariciones()){
+            else if (((palabra)pNode.getData()).getApariciones()>=
+                    ((palabra)pNode.getPadre().getData()).getApariciones()){
                 pNode.getPadre().setHijoDer(tmp);
                 tmp.setPadre(pNode.getPadre());
             }
@@ -185,7 +188,8 @@ public class avlTree <G>{
                 _root=tmp;
                 tmp.setPadre(null);
             }
-            else if (((palabra)pNode.getData()).getApariciones()>=((palabra)pNode.getPadre().getData()).getApariciones())
+            else if (((palabra)pNode.getData()).getApariciones()>=
+                    ((palabra)pNode.getPadre().getData()).getApariciones())
                 pNode.getPadre().setHijoDer(tmp);
             else
                 pNode.getPadre().setHijoIzq(tmp);
@@ -230,7 +234,8 @@ public class avlTree <G>{
             _root=tmp2;
             pNode.setPadre(tmp2);
         }
-        else if (((palabra)pNode.getData()).getApariciones()>=((palabra)pNode.getPadre().getData()).getApariciones()){
+        else if (((palabra)pNode.getData()).getApariciones()>=
+                ((palabra)pNode.getPadre().getData()).getApariciones()){
             tmp2.setPadre(tmp3);
             tmp3.setHijoDer(tmp2);
             pNode.setPadre(tmp2);
@@ -278,7 +283,8 @@ public class avlTree <G>{
             _root=tmp2;
             pNode.setPadre(tmp2);
         }
-        else if (((palabra)pNode.getData()).getApariciones()>=((palabra)pNode.getPadre().getData()).getApariciones()){
+        else if (((palabra)pNode.getData()).getApariciones()>=
+                ((palabra)pNode.getPadre().getData()).getApariciones()){
             tmp2.setPadre(tmp3);
             tmp3.setHijoIzq(tmp2);
             pNode.setPadre(tmp2);

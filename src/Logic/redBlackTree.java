@@ -44,7 +44,8 @@ public class redBlackTree <G> {
      * @param pPadre 
      */
     private void insertAux(nodeTree pNode, nodeTree pPadre){
-        if(((urlProcesado)pNode.getData()).getDireccion().compareTo(((urlProcesado)pPadre.getData()).getDireccion())==_uno){
+        if(((urlProcesado)pNode.getData()).getDireccion().
+                compareTo(((urlProcesado)pPadre.getData()).getDireccion())==_uno){
             if(pPadre.getHijoDer()==null){
                 if(pPadre.getColor()=="negro"){
                     pPadre.setHijoDer(pNode);
@@ -219,7 +220,8 @@ public class redBlackTree <G> {
             tmp.getHijoDer().setPadre(tmp);
             tmp.getHijoDer().setColor("rojo");
         }
-        else if ((((urlProcesado)tmp.getPadre().getData()).getDireccion()).compareTo(((urlProcesado)tmp.getPadre().getPadre().getData()).getDireccion())==_uno){
+        else if ((((urlProcesado)tmp.getPadre().getData()).getDireccion()).
+                compareTo(((urlProcesado)tmp.getPadre().getPadre().getData()).getDireccion())==_uno){
             tmp.setPadre(tmp.getPadre().getPadre());
             tmp.getHijoDer().setPadre(tmp);
             tmp.getPadre().setHijoDer(tmp);
