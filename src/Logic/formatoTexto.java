@@ -75,7 +75,7 @@ public class formatoTexto {
      * @return
      * @throws IOException 
      */
-    public stackList eliminarLinks(String pUrl) throws IOException, Exception{
+    public stackList formato(String pUrl) throws IOException, Exception{
        TextExtractor extractorDeTexto=new TextExtractor();
        extractorDeTexto.process(pUrl);
        _dato=extractorDeTexto.getString();

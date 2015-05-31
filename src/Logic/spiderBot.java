@@ -71,59 +71,58 @@ public class spiderBot {
         stackList pilaUrl = new stackList (null);
         procesarURLS procUrl = new procesarURLS(); 
         formatoTexto ft = new formatoTexto();
+        System.out.println("-----------");
+        _heap.demostrar();
+        System.out.println("-----------");
         _heap.eliminar();
         nodeArray tmp=_heap.getRaiz();
         url URL=new url(tmp.getDocumentos(),tmp.getPeso(), tmp.getNumAsoc());
         nodeTree nodeUrl;
         if(URL.getNumAsoc()<2 && URL.getDireccion().startsWith("/")){
-            if(arbolDirecciones.getRoot()!=null){
-                if(arbolDirecciones.find(tmp.getDocumentos())==false){
-                    pilaUrl=procUrl.procesar(URL);
+            if(arbolDirecciones.find(URL.getDireccion())==false){
+                if((URL.getDireccion().endsWith(".pdf") || URL.getDireccion().endsWith(".docx")
+                        || URL.getDireccion().endsWith(".doc") || URL.getDireccion().endsWith(".txt") 
+                        || URL.getDireccion().endsWith(".odt"))){
                     arbolDirecciones.insert(new urlProcesado(URL.getDireccion(),1));
                     arbolDirecciones.findSpecial(URL.getDireccion());
                     nodeUrl=arbolDirecciones.getUrlNode();
-                System.out.println("----1----");
-                System.out.println(((urlProcesado)nodeUrl.getData()).getDireccion());
+                    TextExtractor text=new TextExtractor();
+                    text.process(URL.getDireccion());
+                    String texto= text.getString();
+                    tokenizer token=new tokenizer(texto);
+                    pilaTexto=token.procesar();
+                    while(pilaTexto.top()!=null){
+                        String var=(String)pilaTexto.top().getData();
+                        pilaTexto.pop();
+                        procesarPalabras(var, nodeUrl);
+                    }
                 }
                 else{
-                    arbolDirecciones.findSpecial(URL.getDireccion());
-                    nodeUrl=arbolDirecciones.getUrlNode();
-                System.out.println("----2----");
-                System.out.println(((urlProcesado)nodeUrl.getData()).getDireccion());
+                    pilaUrl=procUrl.procesar(URL);
+                    while(pilaUrl.top()!=null){
+                        _heap.Insertar(((url)pilaUrl.top().getData()).getDireccion(),
+                                ((url)pilaUrl.top().getData()).getPesoAsoc(), ((url)pilaUrl.top().getData()).getNumAsoc());
+                        pilaUrl.pop();
+                    }
                 }
-            }
-            else{
-                pilaUrl=procUrl.procesar(URL);
-                arbolDirecciones.insert(new urlProcesado(URL.getDireccion(),1));
-                arbolDirecciones.findSpecial(URL.getDireccion());
-                nodeUrl=arbolDirecciones.getUrlNode();
-                System.out.println("----3----");
-                System.out.println(((urlProcesado)nodeUrl.getData()).getDireccion());
-            }
-            while(pilaUrl.top()!=null){
-                _heap.Insertar(((url)pilaUrl.top().getData()).getDireccion(), 
-                        ((url)pilaUrl.top().getData()).getPesoAsoc(), ((url)pilaUrl.top().getData()).getNumAsoc());
-                pilaUrl.pop();
             }
             permiso=true;
             notify();
         }
         else if(URL.getNumAsoc()<2 && URL.getDireccion().startsWith("http")){
-            if((tmp.getDocumentos().endsWith(".pdf") || 
-                    tmp.getDocumentos().endsWith(".docx") || tmp.getDocumentos().endsWith(".doc")
-                    || tmp.getDocumentos().endsWith(".txt") || tmp.getDocumentos().endsWith(".odt"))){
-                pilaTexto=ft.eliminarLinks(tmp.getDocumentos());
+            if((URL.getDireccion().endsWith(".pdf") || URL.getDireccion().endsWith(".docx")
+                    || URL.getDireccion().endsWith(".doc") || URL.getDireccion().endsWith(".txt") 
+                    || URL.getDireccion().endsWith(".odt"))){
+                arbolDirecciones.insert(new urlProcesado(URL.getDireccion(),1));
+                arbolDirecciones.findSpecial(URL.getDireccion());
+                nodeUrl=arbolDirecciones.getUrlNode();
+                pilaTexto=ft.formato(URL.getDireccion());
                 while(pilaTexto.top()!=null){
                     String var=(String)pilaTexto.top().getData();
                     pilaTexto.pop();
-                    procesarPalabras(var);
+                    procesarPalabras(var, nodeUrl);
                 }
             }
-            arbolDirecciones.insert(new urlProcesado(URL.getDireccion(),1));
-            arbolDirecciones.findSpecial(URL.getDireccion());
-            nodeUrl=arbolDirecciones.getUrlNode();
-                System.out.println("----4----");
-                System.out.println(((urlProcesado)nodeUrl.getData()).getDireccion());
             permiso=true;
             notify();
         }
@@ -138,7 +137,8 @@ public class spiderBot {
         }
     }
         
-    private void procesarPalabras(String pal){
+    private void procesarPalabras(String pal, nodeTree pNodeUrl){
+        
         /*if (l.findSpecial(pal)==false){
             l.insertHead(new palabra (pal, new listKey(null, null)));
             ((palabra)l.getHead().getData()).insertar(cl.getHead());

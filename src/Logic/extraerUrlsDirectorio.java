@@ -21,7 +21,7 @@ public class extraerUrlsDirectorio {
             System.out.println("No hay ficheros en este directorio");
         else {
             for (int x=0;x<ficheros.length;x++){
-                pila.push(new url(pDireccion+ficheros[x]+"/", 50, 2));
+                pila.push(new url(pDireccion+ficheros[x]+"/", 43, 2));
             }
         }
         return pila;
