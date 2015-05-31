@@ -12,7 +12,7 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, Exception {
         
         spiderBot sb = new spiderBot();
         productor p = new productor (sb, "indicePrincipal.xml");
@@ -34,6 +34,7 @@ public class Main {
             
             
         }
+        //sb.generarIndice();
     }
     
 }

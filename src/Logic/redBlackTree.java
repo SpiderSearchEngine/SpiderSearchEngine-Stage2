@@ -17,6 +17,8 @@ public class redBlackTree <G> {
     private int _uno=1;
     private int _dos=2;
     private nodeTree _urlNode;
+    private boolean cond;
+    
     public redBlackTree(nodeTree pRoot){
         this._root=pRoot;
     }
@@ -287,37 +289,50 @@ public class redBlackTree <G> {
     
     public void postOrden(nodeTree pNode){
         if(pNode.getHijoIzq()== null && pNode.getHijoDer()==null)
-            System.out.println(pNode.getData()+"++++" +pNode.getColor());
+            System.out.println(((urlProcesado)pNode.getData()).getDireccion()+"++++" +pNode.getColor());
         else if(pNode.getHijoDer()==null){
             postOrden(pNode.getHijoIzq());
-            System.out.println(pNode.getData()+"++++" +pNode.getColor());
+            System.out.println(((urlProcesado)pNode.getData()).getDireccion()+"++++" +pNode.getColor());
         }
         else if(pNode.getHijoIzq()==null){
             postOrden(pNode.getHijoDer());
-            System.out.println(pNode.getData()+"++++" +pNode.getColor());
+            System.out.println(((urlProcesado)pNode.getData()).getDireccion()+"++++" +pNode.getColor());
         }
         else{
             postOrden(pNode.getHijoIzq());
             postOrden(pNode.getHijoDer());
-            System.out.println(pNode.getData()+"++++" +pNode.getColor());
+            System.out.println(((urlProcesado)pNode.getData()).getDireccion()+"++++" +pNode.getColor());
         }            
     }
     
-    public boolean find(G Data){
+    public void find(G Data){
+        cond=false;
         if(_root==null)
-            return false;
+            return;
         else
-            return findAux(Data, _root);
+            findAux(Data, _root);
     }    
-    private boolean findAux(G pData, nodeTree pNode){
-        if((String)pData!=((urlProcesado)pNode.getData()).getDireccion() && pNode.getHijoDer()==null && pNode.getHijoIzq()==null)
-            return false;
-        else if(((urlProcesado)pNode.getData()).getDireccion() ==(String)pData)
-            return true;
-        else if (((String)pData).compareTo(((urlProcesado)pNode.getData()).getDireccion() )==-_uno)
-            return findAux(pData, pNode.getHijoIzq());
-        else
-            return findAux(pData, pNode.getHijoDer());
+    private void findAux(G pData, nodeTree pNode){
+        if(pNode.getHijoDer()==null && pNode.getHijoIzq()==null){
+            if(((urlProcesado)pNode.getData()).getDireccion().equals((String)pData))
+                cond=true;
+        }         
+        else if(pNode.getHijoDer()==null){
+            findAux(pData, pNode.getHijoIzq());
+            if(((urlProcesado)pNode.getData()).getDireccion().equals((String)pData))
+                cond=true;
+        }
+        else if(pNode.getHijoIzq()==null){
+            findAux(pData, pNode.getHijoDer());
+            if(((urlProcesado)pNode.getData()).getDireccion().equals((String)pData))
+                cond=true;
+        }
+        else{
+            findAux(pData, pNode.getHijoIzq());
+            findAux (pData, pNode.getHijoDer());
+            if(((urlProcesado)pNode.getData()).getDireccion().equals((String)pData))
+                cond=true;
+        }
     }
     
     public void findSpecial(String pData){
@@ -359,5 +374,7 @@ public class redBlackTree <G> {
     public nodeTree getUrlNode(){
         return _urlNode;
     }
-    
+    public boolean getCondicion(){
+        return this.cond;
+    }
 }

@@ -30,6 +30,7 @@ public class spiderBot {
      */
     public spiderBot(){
         arbolDirecciones=new redBlackTree(null);
+        arbolPalabras= new avlTree(null);
     }
     /**
      * Metodo para generar las colas
@@ -71,15 +72,13 @@ public class spiderBot {
         stackList pilaUrl = new stackList (null);
         procesarURLS procUrl = new procesarURLS(); 
         formatoTexto ft = new formatoTexto();
-        System.out.println("-----------");
-        _heap.demostrar();
-        System.out.println("-----------");
         _heap.eliminar();
         nodeArray tmp=_heap.getRaiz();
         url URL=new url(tmp.getDocumentos(),tmp.getPeso(), tmp.getNumAsoc());
         nodeTree nodeUrl;
-        if(URL.getNumAsoc()<2 && URL.getDireccion().startsWith("/")){
-            if(arbolDirecciones.find(URL.getDireccion())==false){
+        if(URL.getNumAsoc()<2 && URL.getNumAsoc()!=-1 && URL.getDireccion().startsWith("/")){
+            arbolDirecciones.find(URL.getDireccion());
+            if(arbolDirecciones.getCondicion()==false){
                 if((URL.getDireccion().endsWith(".pdf") || URL.getDireccion().endsWith(".docx")
                         || URL.getDireccion().endsWith(".doc") || URL.getDireccion().endsWith(".txt") 
                         || URL.getDireccion().endsWith(".odt"))){
@@ -109,18 +108,21 @@ public class spiderBot {
             permiso=true;
             notify();
         }
-        else if(URL.getNumAsoc()<2 && URL.getDireccion().startsWith("http")){
-            if((URL.getDireccion().endsWith(".pdf") || URL.getDireccion().endsWith(".docx")
-                    || URL.getDireccion().endsWith(".doc") || URL.getDireccion().endsWith(".txt") 
-                    || URL.getDireccion().endsWith(".odt"))){
-                arbolDirecciones.insert(new urlProcesado(URL.getDireccion(),1));
-                arbolDirecciones.findSpecial(URL.getDireccion());
-                nodeUrl=arbolDirecciones.getUrlNode();
-                pilaTexto=ft.formato(URL.getDireccion());
-                while(pilaTexto.top()!=null){
-                    String var=(String)pilaTexto.top().getData();
-                    pilaTexto.pop();
-                    procesarPalabras(var, nodeUrl);
+        else if(URL.getNumAsoc()<2 && URL.getNumAsoc()!=-1 && URL.getDireccion().startsWith("http")){
+            arbolDirecciones.find(URL.getDireccion());
+            if(arbolDirecciones.getCondicion()==false){
+                if((URL.getDireccion().endsWith(".pdf") || URL.getDireccion().endsWith(".docx")
+                        || URL.getDireccion().endsWith(".doc") || URL.getDireccion().endsWith(".txt")
+                        || URL.getDireccion().endsWith(".odt"))){
+                    arbolDirecciones.insert(new urlProcesado(URL.getDireccion(),1));
+                    arbolDirecciones.findSpecial(URL.getDireccion());
+                    nodeUrl=arbolDirecciones.getUrlNode();
+                    pilaTexto=ft.formato(URL.getDireccion());
+                    while(pilaTexto.top()!=null){
+                        String var=(String)pilaTexto.top().getData();
+                        pilaTexto.pop();
+                        procesarPalabras(var, nodeUrl);
+                    }
                 }
             }
             permiso=true;
@@ -139,39 +141,34 @@ public class spiderBot {
         
     private void procesarPalabras(String pal, nodeTree pNodeUrl){
         
-        /*if (l.findSpecial(pal)==false){
-            l.insertHead(new palabra (pal, new listKey(null, null)));
-            ((palabra)l.getHead().getData()).insertar(cl.getHead());
-            ((palabra)(l.getHead().getData())).getListaReferencia().getHead()
-                    .setNumNode(new node(1, null, null));
-        }
-        else{
-            node tmp= l.getHead();
-            while(((palabra)tmp.getData()).getName().compareTo(pal)!=0)
-                tmp=tmp.getNextNode();
-            if (((palabra)tmp.getData()).getListaReferencia().find(((urlProcesado)(cl.getHead().getData())).getDireccion())==true){
-                nodeKey tmp2 = ((palabra)tmp.getData()).getListaReferencia().getHead();
-                while (((((urlProcesado)((node)tmp2.getData()).getData()).getDireccion()).compareTo(((urlProcesado)(cl.getHead().getData())).getDireccion()))!=0)
-                    tmp2=tmp2.getNextNode();
-                tmp2.getNumNode().setData((Integer)tmp2.getNumNode().getData()+1);
-                
+        if(arbolPalabras.getRoot()!=null){
+            arbolPalabras.findSpecial(pal);
+            if(arbolPalabras.getCondicion()==false){
+                arbolPalabras.insert(new nodeTree(new palabra(pal, 1, new list(null, null)),null,null,null,null));
+                arbolPalabras.insertardireccion(pal, arbolPalabras.getRoot(), pNodeUrl);
             }
             else{
-                ((palabra)tmp.getData()).insertar(cl.getHead());
-                ((palabra)(tmp.getData())).getListaReferencia().getHead()
-                    .setNumNode(new node(1, null, null));
+                arbolPalabras.actualizarArbol(arbolPalabras.getRoot(), pal);
             }
             
-        }*/
+        }
+        else{
+            arbolPalabras.insert(new nodeTree(new palabra(pal, 1, new list(null, null)),null,null,null,null));
+            arbolPalabras.insertardireccion(pal, arbolPalabras.getRoot(), pNodeUrl);
+        }
     }
     /**
      * Metodo para generar los indices
      * @throws Exception 
      */
-    /*public void generarIndice() throws Exception{
-        hacerXmlIndice1(cl);
-        hacerXmlIndice2(l);
-    }*/
+    public void generarIndice() throws Exception{
+      
+      arbolDirecciones.postOrden(arbolDirecciones.getRoot());
+      System.out.println("-----------------------------------------------------");
+      arbolPalabras.postOrden(arbolPalabras.getRoot());
+        //hacerXmlIndice1(cl);
+        //hacerXmlIndice2(l);
+    }
     /**
      * Metodo para generar el indice1 (urls procesados)
      * @param urlList, lista circulas de urls

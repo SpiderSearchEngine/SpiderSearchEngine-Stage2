@@ -71,42 +71,46 @@ public class avlTree <G>{
     }
     
     public void actualizarArbol(nodeTree pNode, String pPalabra){
-        if(pNode.getHijoIzq()== null && pNode.getHijoDer()==null)
-            if(((palabra)pNode.getData()).getName()==pPalabra){
+        if(pNode.getHijoIzq()== null && pNode.getHijoDer()==null){
+            if(((palabra)pNode.getData()).getName().equals(pPalabra)){
+                delete(pNode);
+                System.out.println(((palabra)pNode.getData()).getName()+"  "+((palabra)pNode.getData()).getApariciones());
                 ((palabra)pNode.getData()).setApariciones(((palabra)pNode.getData()).getApariciones()+1);
-                
-                insert(delete(pNode));
+                System.out.println(((palabra)pNode.getData()).getName()+"  "+((palabra)pNode.getData()).getApariciones());
+                insert(pNode);
             }
-            else
-                return;
+        }
         else if(pNode.getHijoDer()==null){
             actualizarArbol(pNode.getHijoIzq(), pPalabra);
-            if(((palabra)pNode.getData()).getName()==pPalabra){
+            if(((palabra)pNode.getData()).getName().equals(pPalabra)){
+                delete(pNode);
+                System.out.println(((palabra)pNode.getData()).getName()+"  "+((palabra)pNode.getData()).getApariciones());
                 ((palabra)pNode.getData()).setApariciones(((palabra)pNode.getData()).getApariciones()+1);
-                
-                insert(delete(pNode));
+                System.out.println(((palabra)pNode.getData()).getName()+"  "+((palabra)pNode.getData()).getApariciones());
+                insert(pNode);
             }
-            else
-                return;
+            
         }
         else if(pNode.getHijoIzq()==null){
             actualizarArbol(pNode.getHijoDer(), pPalabra);
-            if(((palabra)pNode.getData()).getName()==pPalabra){
+            if(((palabra)pNode.getData()).getName().equals(pPalabra)){
+                delete(pNode);
+                System.out.println(((palabra)pNode.getData()).getName()+"  "+((palabra)pNode.getData()).getApariciones());
                 ((palabra)pNode.getData()).setApariciones(((palabra)pNode.getData()).getApariciones()+1);
-                insert(delete(pNode));
+                System.out.println(((palabra)pNode.getData()).getName()+"  "+((palabra)pNode.getData()).getApariciones());
+                insert(pNode);
             }
-            else
-                return;
         }
         else{
             actualizarArbol(pNode.getHijoIzq(), pPalabra);
             actualizarArbol(pNode.getHijoDer(), pPalabra);
-            if(((palabra)pNode.getData()).getName()==pPalabra){
+            if(((palabra)pNode.getData()).getName().equals(pPalabra)){
+                delete(pNode);
+                System.out.println(((palabra)pNode.getData()).getName()+"  "+((palabra)pNode.getData()).getApariciones());
                 ((palabra)pNode.getData()).setApariciones(((palabra)pNode.getData()).getApariciones()+1);
-                insert(delete(pNode));
+                System.out.println(((palabra)pNode.getData()).getName()+"  "+((palabra)pNode.getData()).getApariciones());
+                insert(pNode);
             }
-            else
-                return;
         }  
     }
     
@@ -295,7 +299,7 @@ public class avlTree <G>{
         if(_root==null)
             return;
         else
-            findAux(pData, _root);
+            findSpecialAux(pData, _root);
     }
     /**
      * Metodo auxiliar para buscar en la estructura
@@ -303,24 +307,24 @@ public class avlTree <G>{
      * @param pNode
      * @return 
      */
-    private void findAux(String pData, nodeTree pNode){
+    private void findSpecialAux(String pData, nodeTree pNode){
         if(pNode.getHijoIzq()== null && pNode.getHijoDer()==null){
             if(((palabra)pNode.getData()).getName().equals(pData))
                 cond=true;
         }
         else if(pNode.getHijoDer()==null){
-            findAux(pData, pNode.getHijoIzq());
+            findSpecialAux(pData, pNode.getHijoIzq());
             if(((palabra)pNode.getData()).getName().equals(pData))
                 cond=true;
         }
         else if(pNode.getHijoIzq()==null){
-            findAux(pData, pNode.getHijoDer());
+            findSpecialAux(pData, pNode.getHijoDer());
             if(((palabra)pNode.getData()).getName().equals(pData))
                 cond=true;
         }
         else{
-            findAux(pData, pNode.getHijoIzq());
-            findAux (pData, pNode.getHijoDer());
+            findSpecialAux(pData, pNode.getHijoIzq());
+            findSpecialAux (pData, pNode.getHijoDer());
             if(((palabra)pNode.getData()).getName().equals(pData))
                 cond=true;
         } 
@@ -431,16 +435,16 @@ public class avlTree <G>{
     public nodeTree delete (nodeTree pData){
         if (_root == null)
             return null;
-        else if (((palabra)_root.getData()).equals((palabra)pData.getData()) &&
+        else if (((palabra)_root.getData()).getName().equals(((palabra)pData.getData()).getName()) &&
                 _root.getHijoDer()==null && _root.getHijoIzq()==null){
             nodeTree tmp = _root;
             _root=null;
             return tmp;
         }
-        else if (!(((palabra)_root.getData()).equals((palabra)pData.getData())) &&
+        else if (!(((palabra)_root.getData()).getName().equals(((palabra)pData.getData()).getName())) &&
                 _root.getHijoDer()==null && _root.getHijoIzq()==null)
             return null;
-        else if (((palabra)_root.getData()).equals((palabra)pData.getData()))
+        else if (((palabra)_root.getData()).getName().equals(((palabra)pData.getData()).getName()))
             return deleteRoot(_root);
         else
             return deleteAux(pData, _root, null);            
@@ -453,9 +457,8 @@ public class avlTree <G>{
      * @return nodo eliminado
      */
     private nodeTree deleteAux(nodeTree pData, nodeTree pNode, nodeTree parent){
-        if ((((palabra)pNode.getData()).equals((palabra)pData.getData()))){
+        if ((((palabra)pNode.getData()).equals((palabra)pData.getData())))
             return deleteAux2(pData, pNode, parent);
-        }
         else if (((palabra)pData.getData()).getApariciones()<((palabra)pNode.getData()).getApariciones())
             return deleteAux(pData, pNode.getHijoIzq(),pNode);
         else
@@ -598,26 +601,26 @@ public class avlTree <G>{
     
     public void insertardireccion(String pData, nodeTree pNode, nodeTree nodeRB){
         if(pNode.getHijoIzq()== null && pNode.getHijoDer()==null){
-            if(((palabra)pNode.getData()).getName()==pData)
+            if(((palabra)pNode.getData()).getName().equals(pData))
                 if(((palabra)pNode.getData()).getListaReferencia().findRB(nodeRB)==false)
                     ((palabra)pNode.getData()).getListaReferencia().insertHead(nodeRB);
         }
         else if(pNode.getHijoDer()==null){
-            postOrden(pNode.getHijoIzq());
-            if(((palabra)pNode.getData()).getName()==pData)
+            insertardireccion(pData, pNode.getHijoIzq(), nodeRB);
+            if(((palabra)pNode.getData()).getName().equals(pData))
                 if(((palabra)pNode.getData()).getListaReferencia().findRB(nodeRB)==false)
                     ((palabra)pNode.getData()).getListaReferencia().insertHead(nodeRB);
         }
         else if(pNode.getHijoIzq()==null){
-            postOrden(pNode.getHijoDer());
-            if(((palabra)pNode.getData()).getName()==pData)
+            insertardireccion(pData, pNode.getHijoDer(), nodeRB);
+            if(((palabra)pNode.getData()).getName().equals(pData))
                 if(((palabra)pNode.getData()).getListaReferencia().findRB(nodeRB)==false)
                     ((palabra)pNode.getData()).getListaReferencia().insertHead(nodeRB);
         }
         else{
-            postOrden(pNode.getHijoIzq());
-            postOrden(pNode.getHijoDer());
-            if(((palabra)pNode.getData()).getName()==pData)
+            insertardireccion(pData, pNode.getHijoIzq(), nodeRB);
+            insertardireccion(pData, pNode.getHijoDer(), nodeRB);
+            if(((palabra)pNode.getData()).getName().equals(pData))
                 if(((palabra)pNode.getData()).getListaReferencia().findRB(nodeRB)==false)
                     ((palabra)pNode.getData()).getListaReferencia().insertHead(nodeRB);
         }             
