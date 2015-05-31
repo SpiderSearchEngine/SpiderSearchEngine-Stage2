@@ -161,10 +161,7 @@ public class spiderBot {
      * @throws Exception 
      */
     public void generarIndice() throws Exception{
-        arbolDirecciones.postOrden(arbolDirecciones.getRoot());
-        System.out.println("-----------------------------------------------------");
-        arbolPalabras.postOrden(arbolPalabras.getRoot());
-        //hacerXmlIndice1(arbolDirecciones);
+        hacerXmlIndice1(arbolDirecciones);
         //hacerXmlIndice2(arbolPalabras);
     }
     /**
@@ -172,51 +169,98 @@ public class spiderBot {
      * @param urlList, lista circulas de urls
      * @throws Exception 
      */
-    /*private void hacerXmlIndice1(redBlackTree arbol) throws Exception{
+    private void hacerXmlIndice1(redBlackTree arbol) throws Exception{
         createXmlForUrlProcess cfup=new createXmlForUrlProcess();
-        node tmp= urlList.getHead();
         ArrayList key = new ArrayList();
         ArrayList UrlsProcesadas = new ArrayList();
-        if (urlList.getHead()==null)
+        nodeTree tmp= arbol.getRoot();
+        if (arbol.getRoot()==null)
             return;
         else{
-            while(tmp.getNextNode()!=urlList.getHead()){
-                key.add(" ");
-                UrlsProcesadas.add(((String)(((urlProcesado)tmp.getData()).getDireccion()))+" "+(((urlProcesado)tmp.getData())).getReferencia());
-                cfup.generate("indice1", key,UrlsProcesadas);                
-                tmp=tmp.getNextNode();
-            }
-            key.add(" ");
-            UrlsProcesadas.add(((String)(((urlProcesado)tmp.getData()).getDireccion()))+" "+(((urlProcesado)tmp.getData())).getReferencia());
-            cfup.generate("indice1", key,UrlsProcesadas);
-            
+            hacerXmlIndice1Aux(tmp, cfup, key, UrlsProcesadas);
         }
-    }*/
+    }
+    private void hacerXmlIndice1Aux(nodeTree pNode, createXmlForUrlProcess cfup,
+            ArrayList key, ArrayList UrlsProcesadas) throws Exception{
+        
+        if(pNode.getHijoDer()==null && pNode.getHijoIzq()==null){
+            key.add(" ");
+            UrlsProcesadas.add(((urlProcesado)pNode.getData()).getDireccion());
+            cfup.generate("indice1", key,UrlsProcesadas);
+        }
+        else if(pNode.getHijoDer()==null){
+                hacerXmlIndice1Aux(pNode.getHijoIzq(), cfup, key, UrlsProcesadas);
+                key.add(" ");
+                UrlsProcesadas.add(((urlProcesado)pNode.getData()).getDireccion());
+                cfup.generate("indice1", key,UrlsProcesadas);
+        }
+        else if(pNode.getHijoIzq()==null){
+                hacerXmlIndice1Aux(pNode.getHijoDer(), cfup, key, UrlsProcesadas);
+                key.add(" ");
+                UrlsProcesadas.add(((urlProcesado)pNode.getData()).getDireccion());
+                cfup.generate("indice1", key,UrlsProcesadas);
+        }
+        else{
+            hacerXmlIndice1Aux(pNode.getHijoIzq(), cfup, key, UrlsProcesadas);
+            hacerXmlIndice1Aux(pNode.getHijoDer(), cfup, key, UrlsProcesadas);
+            key.add(" ");
+            UrlsProcesadas.add(((urlProcesado)pNode.getData()).getDireccion());
+            cfup.generate("indice1", key,UrlsProcesadas);
+        }
+    }
     /**
      * Metodo para generar el indice2 (keywords procesados)
      * @param KeywordList, lista doble de keywords procesados
      * @throws Exception 
      */
-    /*private void hacerXmlIndice2(avlTree arbol) throws Exception{
+    private void hacerXmlIndice2(avlTree arbol) throws Exception{
         createXmlForKeywords cfkw=new createXmlForKeywords();
-        node tmp= KeywordList.getHead();
-        nodeKey tmp2= ((palabra)(KeywordList.getHead().getData())).getListaReferencia().getHead();
+        nodeTree tmp= arbol.getRoot();
+        nodeTree tmp2= (nodeTree)((palabra)tmp.getData()).getListaReferencia().getHead().getData();
         ArrayList links = new ArrayList();
         ArrayList palabras = new ArrayList();
-        node tmp3=tmp;
-        nodeKey tmp4=tmp2;
-        while (tmp3!=null){
-            while (tmp4!=null){
-                palabras.add(((palabra)tmp3.getData()).getName()); 
-                links.add(((urlProcesado)(((node)(tmp4.getData())).getData())).getDireccion()+" , "+tmp4.getNumNode().getData());
-                cfkw.generate("indice2",palabras,links);
-                tmp4=tmp4.getNextNode();
-            }
-            tmp3=tmp3.getNextNode();
-            if(tmp3!=null)
-                tmp4=((palabra)tmp3.getData()).getListaReferencia().getHead();
+        ArrayList apariciones = new ArrayList();
+        if (arbol.getRoot()==null)
+            return;
+        else{
+            hacerXmlIndice2Aux(tmp, tmp2, cfkw, links, palabras, apariciones);
         }
-    }*/
+    }
+    private void hacerXmlIndice2Aux(nodeTree tmp,nodeTree tmp2,createXmlForKeywords cfkw,
+            ArrayList links, ArrayList palabras, ArrayList apariciones) throws Exception{
+        if(tmp.getHijoDer()==null && tmp.getHijoIzq()==null){
+            palabras.add(((palabra)tmp.getData()).getName());
+            links.add(((urlProcesado)tmp2.getData()).getDireccion());
+            apariciones.add(String.valueOf(((palabra)tmp.getData()).getApariciones()));
+            cfkw.generate("indice2",palabras,links, apariciones);
+        }
+        if(tmp.getHijoDer()==null){
+            hacerXmlIndice2Aux(tmp.getHijoIzq(),(nodeTree)((palabra)tmp.getHijoIzq().getData()).getListaReferencia().getHead().getData(),
+                    cfkw, links, palabras, apariciones);
+            palabras.add(((palabra)tmp.getData()).getName());
+            links.add(((urlProcesado)tmp2.getData()).getDireccion());
+            apariciones.add(String.valueOf(((palabra)tmp.getData()).getApariciones()));
+            cfkw.generate("indice2",palabras,links, apariciones);
+        }
+        if(tmp.getHijoIzq()==null){
+            hacerXmlIndice2Aux(tmp.getHijoDer(),(nodeTree)((palabra)tmp.getHijoDer().getData()).getListaReferencia().getHead().getData(),
+                    cfkw, links, palabras, apariciones);
+            palabras.add(((palabra)tmp.getData()).getName());
+            links.add(((urlProcesado)tmp2.getData()).getDireccion());
+            apariciones.add(String.valueOf(((palabra)tmp.getData()).getApariciones()));
+            cfkw.generate("indice2",palabras,links, apariciones);
+        }
+        else{
+            hacerXmlIndice2Aux(tmp.getHijoIzq(),(nodeTree)((palabra)tmp.getHijoIzq().getData()).getListaReferencia().getHead().getData(),
+                    cfkw, links, palabras, apariciones);
+            hacerXmlIndice2Aux(tmp.getHijoDer(),(nodeTree)((palabra)tmp.getHijoDer().getData()).getListaReferencia().getHead().getData(),
+                    cfkw, links, palabras, apariciones);
+            palabras.add(((palabra)tmp.getData()).getName());
+            links.add(((urlProcesado)tmp2.getData()).getDireccion());
+            apariciones.add(String.valueOf(((palabra)tmp.getData()).getApariciones()));
+            cfkw.generate("indice2",palabras,links, apariciones);
+        }
+    }
     /**
      * Metodo obtener la condicion de entrafa
      * @return condicion de entrada
