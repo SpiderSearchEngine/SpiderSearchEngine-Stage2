@@ -72,7 +72,8 @@ public class indice1Reader {
             NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
             for (int i = 0; i < nodes.getLength(); i++){
                 //System.out.println(nodes.item(i).getNodeValue());
-                RyN.insert(nodes.item(i).getNodeValue());
+                //RyN.insert(nodes.item(i).getNodeValue());
+                RyN.insert(new urlProcesado((nodes.item(i).getNodeValue()),654));
             }
         }
         catch (XPathExpressionException e) { 

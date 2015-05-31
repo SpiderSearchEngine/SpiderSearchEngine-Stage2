@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import Logic.spiderEngine;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.net.URI;
@@ -17,6 +18,8 @@ import javax.swing.JLabel;
  */
 public class Buscador extends javax.swing.JFrame {
     private String _ingresadoPorUsuario;
+    private boolean Bandera=false;
+    private spiderEngine SE;
     /**
      * Creates new form Buscador
      */
@@ -26,6 +29,8 @@ public class Buscador extends javax.swing.JFrame {
         setTitle("SpiderSearch Engine");
         initComponents();
         jPanel1.setVisible(false);
+        this.SE= new spiderEngine();
+        SE.optimizarEstructuras();
     }
 
     /**
@@ -133,6 +138,8 @@ public class Buscador extends javax.swing.JFrame {
     
     public void obtenertexto(){
         setIngresadoPorUsuario(TxtBuscador.getText());
+        SE.buscarAVL(TxtBuscador.getText());
+        //SE.getNT();
     }
     
     public String getTexto(){
@@ -199,7 +206,7 @@ public class Buscador extends javax.swing.JFrame {
             Desktop desktop = Desktop.getDesktop();
                 System.out.println(Desktop.getDesktop());
             if (desktop.isSupported(Desktop.Action.OPEN)) {
-            desktop.browse(new URI("smb://gerald-tec/carpeta/re.pdf"));
+            desktop.browse(new URI("http://www.ncfireprotectiondistrict.org/pdf/holiday_winter/Holiday_Safety_espaniol.pdf"));
             }
         }
         } catch (Exception e) {
@@ -212,7 +219,7 @@ public class Buscador extends javax.swing.JFrame {
             Desktop desktop2 = Desktop.getDesktop();
             System.out.println(Desktop.getDesktop());
             if (desktop2.isSupported(Desktop.Action.BROWSE)) {
-            desktop2.browse(new URI("http://www.ncfireprotectiondistrict.org/pdf/holiday_winter/Holiday_Safety_espaniol.pdf"));
+            desktop2.browse(new URI("file:/home/gerald/Documentos/SearsZemanskyFisicaUniversitaria12va.Ed.Solucionario.pdf"));
             }
         }
         } catch (Exception e) {
@@ -293,4 +300,5 @@ public class Buscador extends javax.swing.JFrame {
     public void setIngresadoPorUsuario(String _ingresadoPorUsuario) {
         this._ingresadoPorUsuario = _ingresadoPorUsuario;
     }
+
 }

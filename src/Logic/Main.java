@@ -2,6 +2,7 @@
 package Logic;
 
 import java.io.IOException;
+import GUI.*;
 
 /**
  *
@@ -16,7 +17,8 @@ public class Main {
         
         spiderBot sb = new spiderBot();
         productor p = new productor (sb, "indicePrincipal.xml");
-                
+       
+        
         consumidor c1 = new consumidor(sb);
         consumidor c2 = new consumidor(sb);
         consumidor c3 = new consumidor(sb);

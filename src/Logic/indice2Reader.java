@@ -141,7 +141,7 @@ public class indice2Reader {
                         e.printStackTrace();}
                     avl.insert(new nodeTree(palabron,null,null,null,null));
                 } 
-            }avl.postOrden(avl.getRoot());
+            }//avl.postOrden(avl.getRoot());
         }
         catch (XPathExpressionException e) { 
             e.printStackTrace();

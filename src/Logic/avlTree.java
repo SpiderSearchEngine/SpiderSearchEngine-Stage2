@@ -673,5 +673,5 @@ public class avlTree <G>{
     }
     public nodeTree getResultado(){
         return _nT;
-    }
+    }    
 }
