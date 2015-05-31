@@ -76,7 +76,7 @@ public class list <G>{
         }
     }
     /**
-     * Metodo para eliminar un dato de la lista.
+     * Metodo para eliminar un dato de la lista.. 
      * @param pData. Dato a eliminar.
      * @return nodo eliminado.
      */
