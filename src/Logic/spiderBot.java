@@ -140,16 +140,15 @@ public class spiderBot {
     }
         
     private void procesarPalabras(String pal, nodeTree pNodeUrl){
-        
         if(arbolPalabras.getRoot()!=null){
             arbolPalabras.findSpecial(pal);
             if(arbolPalabras.getCondicion()==false){
                 arbolPalabras.insert(new nodeTree(new palabra(pal, 1, new list(null, null)),null,null,null,null));
                 arbolPalabras.insertardireccion(pal, arbolPalabras.getRoot(), pNodeUrl);
             }
-            else{
+            /*else{
                 arbolPalabras.actualizarArbol(arbolPalabras.getRoot(), pal);
-            }
+            }*/
             
         }
         else{
@@ -162,19 +161,18 @@ public class spiderBot {
      * @throws Exception 
      */
     public void generarIndice() throws Exception{
-      
-      arbolDirecciones.postOrden(arbolDirecciones.getRoot());
-      System.out.println("-----------------------------------------------------");
-      arbolPalabras.postOrden(arbolPalabras.getRoot());
-        //hacerXmlIndice1(cl);
-        //hacerXmlIndice2(l);
+        arbolDirecciones.postOrden(arbolDirecciones.getRoot());
+        System.out.println("-----------------------------------------------------");
+        arbolPalabras.postOrden(arbolPalabras.getRoot());
+        //hacerXmlIndice1(arbolDirecciones);
+        //hacerXmlIndice2(arbolPalabras);
     }
     /**
      * Metodo para generar el indice1 (urls procesados)
      * @param urlList, lista circulas de urls
      * @throws Exception 
      */
-    /*private void hacerXmlIndice1(circularList urlList) throws Exception{
+    /*private void hacerXmlIndice1(redBlackTree arbol) throws Exception{
         createXmlForUrlProcess cfup=new createXmlForUrlProcess();
         node tmp= urlList.getHead();
         ArrayList key = new ArrayList();
@@ -199,7 +197,7 @@ public class spiderBot {
      * @param KeywordList, lista doble de keywords procesados
      * @throws Exception 
      */
-    /*private void hacerXmlIndice2(list KeywordList) throws Exception{
+    /*private void hacerXmlIndice2(avlTree arbol) throws Exception{
         createXmlForKeywords cfkw=new createXmlForKeywords();
         node tmp= KeywordList.getHead();
         nodeKey tmp2= ((palabra)(KeywordList.getHead().getData())).getListaReferencia().getHead();
