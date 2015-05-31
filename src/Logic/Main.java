@@ -20,6 +20,7 @@ public class Main {
         consumidor c1 = new consumidor(sb);
         consumidor c2 = new consumidor(sb);
         consumidor c3 = new consumidor(sb);
+       
         
         p.start();
         c1.start();
